@@ -1,0 +1,93 @@
+\documentclass[aps, prc, reprint, amsmath, groupedaddress, nofootinbib]{revtex4-1}
+%\usepackage[compat=1.1.0]{tikz-feynman}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{multirow}
+\usepackage{verbatim}
+\usepackage[inline]{enumitem}
+\graphicspath{{fig/}}
+\definecolor{theblue}{RGB}{0,50,230}
+\usepackage{appendix}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=theblue,
+  citecolor=theblue,
+  urlcolor=theblue
+} 
+
+
+\begin{abstract}
+A Monte-Carlo simulation is a useful tool in the phenomenology study of the interactions between hard partons and the quark-gluon plasma.
+However the medium induced gluon radiation process--import at high energy--cannot be factorized into independent processes due to the coherence effect and is hard to implement in a Monte-Carlo way.
+Many existing implementations capture qualitatively behaviors or only work in certain limits, but it is important to study if they quantitatively agree with the current knowledge from theory.
+In this work, we compared several approaches with different physical motivations.
+In the case of fixed coupling and static medium, we found that a particular implementation can be tuned to reproduce very well the semi-analytic calculations of the parton radiative energy loss.
+The impacts of an expanding medium are also discussed.
+This implementation is not only a good surrogate model of the existing theory, but also a practical one that can be coupled to realistic QGP medium evolution and tuned to experimental data. 
+This way, we can reduce the modeling uncertainty in the Monte Carlo simulations and extract the transport properties of energetic partons inside a quark-gluon plasma in a more meaningful way in the future.
+
+
+\end{abstract}
+
+
+\begin{document}
+\title{Compare Monte-Carlo implementations of parton radiative energy loss to theoretical limits.}
+\author{Weiyao Ke}
+\author{Steffen A.\ Bass}
+\affiliation{Department of Physics, Duke University, Durham, NC 27708-0305}
+\date{\today}
+\maketitle
+
+\section{Introduction}
+In a perturbative picture, high energy partons lose energy to a quark-gluon plasma (QGP) medium mainly through the medium induced gluon radiation process.
+For such partons, the Landau-Pomeranchuk-Migdal (LPM) effect significantly suppresses gluon radiation rate for those whose formation times ($\tau_f$) become comparable to or even larger than to their mean-free-path ($\lambda_g$).
+For a gluon to be decoherent from its mother parton, the time it takes is of order,
+\begin{eqnarray}
+\tau_f = \frac{2\omega}{k_\perp^2+(1-x)m_g^2},
+\end{eqnarray}
+where $m_g^2=m_D^2/2 \sim \alpha_s T$ is gluon asymptotic mass squared.
+For a collinear gluon the formation time looks like $\omega/(\alpha_s T^2)$.
+Meanwhile, the gluon can undergoes multiple scatterings with the medium.
+In a perturbative picture, this collision rate $R_{g} = 1/\lambda_g$ scales like $\alpha_s T$. 
+Therefore, an estimate of the number of rescatterings within the formation time $N \sim \tau_f R_g \sim \omega/T$ may not be a small number for gluon with energy comparable or larger than the medium temperature.
+What is more complicated is that each rescattering can change the transverse momentum of the gluon relative to the mother parton.
+Therefore we need a self-consistent estimation of the formation time.
+Given that on average, each rescattering broadens the gluon transverse momentum square $k_t^2$ by the amount $\hat{q}_g\lambda_g$ where $\hat{q}_g = d\langle k_t^2\rangle/dt$ is the gluon transport parameter, the self consistent relation reads,
+\begin{eqnarray}
+\tau_f &=& \frac{\omega}{\hat{q}_g\tau_f},\\
+\tau_f &=& \sqrt{\frac{\omega}{\hat{q}_g}}
+\end{eqnarray}
+The physical picture of how the in-medium transport of gluon modify the energy differential rate of medium induced gluon radiation is nicely summarized as follows,
+\begin{eqnarray}
+\frac{dP}{dt d\omega} \sim \begin{cases}
+ \frac{\alpha_s C_R}{\omega} \frac{1}{\lambda_g} \sim \alpha_s^2 C_R \frac{T}{\omega}, \hfill \tau_f < \lambda_g\\
+ \frac{\alpha_s C_R}{\omega} \frac{1}{\tau_f}\sim \alpha_s C_R \sqrt{\frac{\hat{q}_g}{T^3}} \left(\frac{T}{\omega}\right)^{3/2}, \hfill \lambda_g < \tau_f
+\end{cases}
+\end{eqnarray}
+This is understand as a gluon with energy $\omega$ first being split from the mother parton with the probability given by the vacuum splitting function ($\sim \alpha_s C_R/\omega$), and then be put on shell with the rate $1/\lambda_g$ if its formation time is smaller than the mean-free-path, otherwise multiple rescattering works coherently to put it onshell with a rate $1/\tau_f$. 
+We note first that, it is a modification of single gluon emission rate, and second, on average, it suppresses the amount of radiation.
+
+and also leads to a non-linear path-length dependence of the energy loss.
+Though this effect has been studied extensively at the leading order, whether the various Monte-Carlo implementations results in quantitatively the same suppression is not clear. 
+Moreover, one often implements the formula calculated for a static medium with a constant temperature, but the realistic medium in a heavy-ion collision undergoes fast expansion where temperature changes significantly within a time scale comparable to the LPM effect.
+In this work, we studied three different Monte-Carlo implementations and systematically compare them to the semi-analytic theoretical limits.
+We showed that by fine-tuning the parameters of one of the methods, the theoretical calculations are well reproduced at different coupling constants, parton energies, temperatures and path-lengths and this method generalizes to expanding medium. 
+By showing that a Monte-Carlo implementation reduces to known theoretical calculation, a more meaning full theory-to-data comparison can be performed where the Monte-Carlo model works as a bridge between certain theory and experimental measurements.
+
+
+
+\begin{acknowledgments}
+SAB and WK  are supported by the U.S. Department of Energy Grant no. DE-FG02-05ER41367. WK is also supported by NSF grant OAC-1550225.
+\end{acknowledgments}
+
+\begin{appendices}
+\end{appendices}
+\bibliography{mclpm} 
+\end{document}
