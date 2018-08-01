@@ -46,11 +46,12 @@ This way, we can reduce the modeling uncertainty in the Monte Carlo simulations 
 \maketitle
 
 \section{Introduction}
+\section{Qualitative features of the suppression}
 In a perturbative picture, high energy partons lose energy to a quark-gluon plasma (QGP) medium mainly through the medium induced gluon radiation process.
 For such partons, the Landau-Pomeranchuk-Migdal (LPM) effect significantly suppresses gluon radiation rate for those whose formation times ($\tau_f$) become comparable to or even larger than to their mean-free-path ($\lambda_g$).
 For a gluon to be decoherent from its mother parton, the time it takes is of order,
-\begin{eqnarray}
-\tau_f = \frac{2\omega}{k_\perp^2+(1-x)m_g^2},
+\begin{eqnarray}\label{eq:tau_1}
+\tau_f = \frac{2(1-x)\omega}{k_\perp^2+(1-x)m_g^2},
 \end{eqnarray}
 where $m_g^2=m_D^2/2 \sim \alpha_s T$ is gluon asymptotic mass squared.
 For a collinear gluon the formation time looks like $\omega/(\alpha_s T^2)$.
@@ -60,9 +61,8 @@ Therefore, an estimate of the number of rescatterings within the formation time 
 What is more complicated is that each rescattering can change the transverse momentum of the gluon relative to the mother parton.
 Therefore we need a self-consistent estimation of the formation time.
 Given that on average, each rescattering broadens the gluon transverse momentum square $k_t^2$ by the amount $\hat{q}_g\lambda_g$ where $\hat{q}_g = d\langle k_t^2\rangle/dt$ is the gluon transport parameter, the self consistent relation reads,
-\begin{eqnarray}
-\tau_f &=& \frac{\omega}{\hat{q}_g\tau_f},\\
-\tau_f &=& \sqrt{\frac{\omega}{\hat{q}_g}}
+\begin{eqnarray}\label{eq:tau_n}
+\tau_f \sim \frac{2(1-x)\omega}{\hat{q}_g\tau_f} \longrightarrow \tau_f \sim \sqrt{\frac{2(1-x)\omega}{\hat{q}_g}}
 \end{eqnarray}
 The physical picture of how the in-medium transport of gluon modify the energy differential rate of medium induced gluon radiation is nicely summarized as follows,
 \begin{eqnarray}\label{eq:LPM}
@@ -89,15 +89,111 @@ This leads to the non-linear path length $L$ dependence of the energy loss if on
 \end{eqnarray}
 When the path length exceed the critical one $L_c = \sqrt{E/\hat{q}_g}$, $\Delta E$ should smoothly transit to the behavior given by Equation \ref{eq:dE-Linf}.
 
+\section{Semi-analytic formula for radiative energy loss}
+The above section discuss the qualitative nature of parton energy loss in the infinite and thin medium limit. These results are already very useful to gauge the scaling behavior of different Monte Carlo implementations.
+But this not enough to made a quantitative comparison the Monte Carlo approaches and theoretical predictions.
+For this purposes, we uses the (semi-) analytic results from two theoretical works where the problem of medium induced gluon radiation is solved in a infinitely large medium (to next-to-leading-log accuracy) and in a thin medium limit (to leading-log accuracy).
+For later conveniences, we briefly summary their results here.
+In a infinite thermal bath, the author of [] calculated the medium induced gluon radiation spectrum in [],
+\begin{eqnarray}\label{eq:AMY-1}
+\nonumber
+\frac{dP_{q\rightarrow qg}}{dt dx} &=& \frac{1}{2E\nu_q} \frac{\alpha_s d_F P_{q\rightarrow qg}(x)}{2x^2(1-x)^2}\int\frac{d^2\vec{h}}{(2\pi)^2}2\vec{h}\cdot \mathfrak{Re} \vec{F} \\
+&\times& [1+f_g(xp)][1-f_q((1-x)p)],
+\end{eqnarray}
+by solving the equation for $\vec{F}(\vec{h}; p, x)$,
+\begin{eqnarray}\label{eq:AMY-2}
+\nonumber
+2\vec{h} &=& i\frac{h^2 \vec{F}(\vec{h})}{p^3 2x(1-x)} \\
+\nonumber
+&+& g^2\int \frac{dq_\perp^2 \mathcal{A}(q_\perp^2)}{(2\pi)^2}\left\{\frac{C_A}{2}\left[\vec{F}(\vec{h}) - \vec{F}(\vec{h}+p\vec{q}_\perp)\right]\right. \\
+\nonumber
+&& \phantom{ssss} + \left(C_F - \frac{C_A}{2}\right)\left[\vec{F}(\vec{h}) - \vec{F}(\vec{h}-xp\vec{q}_\perp)\right] \\
+&& \phantom{sssssss} + \left. \frac{C_A}{2}\left[\vec{F}(\vec{h}) - \vec{F}(\vec{h}-(1-x)p\vec{q}_\perp)\right] \right\}
+\end{eqnarray}
+to next-to-leading-log ($[\ln(E/T)]^{-1}$) accuracy.
+And
+\begin{eqnarray}
+\mathcal{A}(q_\perp^2) = \frac{T m_D^2}{q_\perp^2(q_\perp^2+m_D^2)}
+\end{eqnarray}
+is the collision kernel of a gluon in a thermalized quark-gluon plasma.
+The approximated solution of Equations \ref{eq:AMY-1} and \ref{eq:AMY-2} which we will use to calibrate the Monte Carlo implementations is,
+\begin{eqnarray}\label{eq:AMY-NLL}
+\frac{dP_{q\rightarrow qg}}{dt dx} &=& \frac{\alpha_s}{2\pi}\frac{ d_F P_{q\rightarrow qg}(x)}{\sqrt{2}\nu_q E} m_D^2 \hat{\mu}_\perp^2(x),
+\end{eqnarray}
+where $\hat{\mu}_\perp^2(x)$ is determined by the following self-consistent equation,
+\begin{eqnarray}\label{eq:AMY-sf}
+\nonumber
+\hat{\mu}_\perp^2 && = \frac{gT}{m_D} \sqrt{\frac{2x(1-x)E}{\pi T}}\left\{\frac{C_A}{2}\ln(\xi\hat{\mu}_\perp^2) + \right. \\
+&&\left.\left(C_F-\frac{C_A}{2}\right)\ln\left(\frac{\xi\hat{\mu}_\perp^2}{x^2}\right) + \frac{C_A}{2}\ln\left[\frac{\xi\hat{\mu}_\perp^2}{(1-x)^2}\right]\right\}
+\end{eqnarray}
+with $\xi\approx9.09916$. Since we do not include quantum statistic effect in the Monte Carlo implementations, we dropped the Bose enhancement factor and the Pauli blocking factor in the second line of Equation \ref{eq:AMY-1}.
+This approximated results are very close to the numerical solutions when $\ln(xE/T)$ is large. 
+When $\ln(xE/T)$ is small, the results shoot above the numerical solutions with some universal behavior.
+We estimate the effect of this deviation by including an artificial multiplicative correcting factor to Equation \ref{eq:AMY-NLL}, 
+\begin{eqnarray}
+R_{\textrm{corr}} = \frac{1}{1+0.8\left(xE/T\right)^{-0.7}}
+\end{eqnarray}
+to mimic this systematic deviation from the numerical results. 
+Later, we will see for the relevant temperatures and for parton energy larger than $10$ GeV, this is not a big effect for the energy loss.
+The energy loss per unit length is calculated by multiplying $xE$ to Equation \ref{eq:AMY-NLL} followed by an integration over $x$.
 
-and also leads to a non-linear path-length dependence of the energy loss.
-Though this effect has been studied extensively at the leading order, whether the various Monte-Carlo implementations results in quantitatively the same suppression is not clear. 
+For the case of a thin medium, we make use of another analytic result derived in [], where contributions from one single hard scattering and multiple soft scatterings are combined. The formula for the energy loss reads,
+\begin{eqnarray}\label{eq:dE-thin}
+\Delta E = \pi C_F C_A N_0 \alpha_s^3 T^3 L^2 \ln\left(\frac{E}{m_D^2 L}\right).
+\end{eqnarray}
+Although the pre-factor $N_0 = 6\zeta(3)(1+N_f/4)/\pi^2 \approx 1.28$ 
+are obtained using quantum statistics, it is very close to the value calculated using classical statistics ($12/\pi^2 \approx 1.22$) when $N_f=3$.
+Therefore, we will not correct this formula in the comparison with the Monte Carlo results.
+
+\section{Different Monte-Carlo implementations}
+There are already many existing implementations of LPM effects and many of them are designed to match certain theoretical calculations. 
+But in this work, We are going to compare only those approaches that treat this effect non-locally and has a non-linear path length dependence.
+The framework we worked in is the {\tt Lido} model, which is original designed for heavy quark transport inside a quark-gluon plasma. 
+In this work, to avoid the complication of a quark mass, we turn off all quark mass effects (phase-space, matrix-elements) in the model to study massless quark.
+The {\tt Lido} model is based on elementary elastic and inelastic pQCD scatterings. 
+The inelastic processes include both gluon radiation processes ($2\rightarrow 3$) and gluon absorption process ($3\rightarrow 2$) using a Gunion-Bertsch approximation of the matrix-element.
+For the comparison to theory calculations, we only turn on the $2\rightarrow 3$ channel for the high energy quark.
+
+This first implementations of LPM effect was the also the default one in the {\tt Lido} model. 
+This approach is inherent from early works using a radiation improved Langevin equation [] and is also implemented in the Linearized-Boltzmann-Transport-Model []. 
+One can show that the formula used in {\tt Lido} reduces to the one used in [] when the momentum transfer from the medium is much smaller than the transverse momentum of the radiated gluon.
+In the {\tt Lido} model, the key feature of this approach is to modify the incoherent gluon radiation rate,
+\begin{eqnarray}
+\Gamma = \frac{1}{2E_1}\int\frac{f_i(p_2)d\vec{p_2}^3}{(2\pi)^3 2p_2}2\hat{s}\int d\hat{t}\frac{d\vec{k}^3}{(2\pi)^3 2k}\frac{d\sigma_{\textrm{GB}}}{d\hat{t}d\vec{k}^3}
+\end{eqnarray}
+by introduce a time-dependent coherence factor in the final state gluon phase space integration,
+\begin{eqnarray}
+\frac{d\vec{k}^3}{(2\pi)^3 2k} \rightarrow \frac{d\vec{k}^3}{(2\pi)^3 2k} 2\left[1-\cos\left(\frac{t-t_0}{\tau_f}\right)\right]
+\end{eqnarray}
+with $\tau_f$ is the formation time from single scattering, calculated from Equation \ref{eq:tau_1}. 
+The rate now dependents on the time separation $\Delta t = t-t_0$, which is the time elapse from the last gluon emission.
+Therefore, it suppresses the emission rate for those gluon whose formation time is large compared to $\Delta t$, 
+Although the value of $\Delta t$ is only determined at run-time,
+its order of magnitude can be estimated from the following condition:
+\begin{eqnarray}
+1 \sim \int_0^{\Delta t}\Gamma(t) dt,
+\end{eqnarray}
+which means that the probability of one radiation happens within $\Delta t$ should be of order $1$.
+By dimensional analysis, this gives $\Delta t \sim 1/\alpha_s T$ on average.
+We see that this prescription indeed suppress the spectrum when the formation time is much greater than the mean-free-path.
+However, gluon does not reinteract with the medium in this approach and it also introduces anti-correlation between the locations of vertices of subsequent emissions.
+
 Moreover, one often implements the formula calculated for a static medium with a constant temperature, but the realistic medium in a heavy-ion collision undergoes fast expansion where temperature changes significantly within a time scale comparable to the LPM effect.
 In this work, we studied three different Monte-Carlo implementations and systematically compare them to the semi-analytic theoretical limits.
 We showed that by fine-tuning the parameters of one of the methods, the theoretical calculations are well reproduced at different coupling constants, parton energies, temperatures and path-lengths and this method generalizes to expanding medium. 
 By showing that a Monte-Carlo implementation reduces to known theoretical calculation, a more meaning full theory-to-data comparison can be performed where the Monte-Carlo model works as a bridge between certain theory and experimental measurements.
 
+\begin{figure*}
+\includegraphics[width=\textwidth]{Eloss_infinite.pdf}
+\caption{A}
+\label{fig:eloss-inf}
+\end{figure*}
 
+\begin{figure*}
+\includegraphics[width=\textwidth]{Eloss_Ldep.pdf}
+\caption{A}
+\label{fig:eloss-ldep}
+\end{figure*}
 
 \begin{acknowledgments}
 SAB and WK  are supported by the U.S. Department of Energy Grant no. DE-FG02-05ER41367. WK is also supported by NSF grant OAC-1550225.
