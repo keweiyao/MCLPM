@@ -65,14 +65,30 @@ Given that on average, each rescattering broadens the gluon transverse momentum 
 \tau_f &=& \sqrt{\frac{\omega}{\hat{q}_g}}
 \end{eqnarray}
 The physical picture of how the in-medium transport of gluon modify the energy differential rate of medium induced gluon radiation is nicely summarized as follows,
-\begin{eqnarray}
+\begin{eqnarray}\label{eq:LPM}
 \frac{dP}{dt d\omega} \sim \begin{cases}
  \frac{\alpha_s C_R}{\omega} \frac{1}{\lambda_g} \sim \alpha_s^2 C_R \frac{T}{\omega}, \hfill \tau_f < \lambda_g\\
  \frac{\alpha_s C_R}{\omega} \frac{1}{\tau_f}\sim \alpha_s C_R \sqrt{\frac{\hat{q}_g}{T^3}} \left(\frac{T}{\omega}\right)^{3/2}, \hfill \lambda_g < \tau_f
 \end{cases}
 \end{eqnarray}
 This is understand as a gluon with energy $\omega$ first being split from the mother parton with the probability given by the vacuum splitting function ($\sim \alpha_s C_R/\omega$), and then be put on shell with the rate $1/\lambda_g$ if its formation time is smaller than the mean-free-path, otherwise multiple rescattering works coherently to put it onshell with a rate $1/\tau_f$. 
-We note first that, it is a modification of single gluon emission rate, and second, on average, it suppresses the amount of radiation.
+We note first the LPM effect modifies the single gluon emission rate and does not introduces correlation between subsequent emission which is a higher order effect shown in [P. Arnold].
+And second, the emission rate at a certain time receives coherent contributions from the collision kernels within extend $\tau_f$ into the past.
+Integrating the spectra weighted by gluon energy, the energy loss per unit length is,
+\begin{eqnarray}\label{eq:dE-Linf}
+\Delta E \sim \alpha_s^2 \sqrt{ET^3} L
+\end{eqnarray}
+Therefore, in a finite medium of size $\lambda_g < L< \tau_{f,\textrm{max}} \sim \sqrt{E/\hat{q}_g}$ where the number of sources in the past are limited, the second line of Equation \ref{eq:LPM} is replaced by,
+\begin{eqnarray}
+\frac{dP}{dt d\omega} \sim 
+ \frac{\alpha_s C_R}{\omega} \frac{1}{\min\{\tau_f,L\}}, \hfill \lambda_g < \tau_f
+\end{eqnarray}
+This leads to the non-linear path length $L$ dependence of the energy loss if one integrates over gluon energy $\omega$ and time $t$,
+\begin{eqnarray}\label{eq:dE-Lfinite}
+\Delta E \sim \alpha_s \hat{q} L^2
+\end{eqnarray}
+When the path length exceed the critical one $L_c = \sqrt{E/\hat{q}_g}$, $\Delta E$ should smoothly transit to the behavior given by Equation \ref{eq:dE-Linf}.
+
 
 and also leads to a non-linear path-length dependence of the energy loss.
 Though this effect has been studied extensively at the leading order, whether the various Monte-Carlo implementations results in quantitatively the same suppression is not clear. 
