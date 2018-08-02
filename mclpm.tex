@@ -178,6 +178,31 @@ By dimensional analysis, this gives $\Delta t \sim 1/\alpha_s T$ on average.
 We see that this prescription indeed suppress the spectrum when the formation time is much greater than the mean-free-path.
 However, gluon does not reinteract with the medium in this approach and it also introduces anti-correlation between the locations of vertices of subsequent emissions.
 
+Another approach that takes into account the gluon multiple scattering is effect proposed in [] and it is later also implemented in a Paron-Cascade model.
+Motivated by these works, we also tested the following routine in {\tt Lido}. 
+A gluon is first sampled from an inelastic scattering at time $t=t_0$ but it is not regarded as ``formed" immediately. 
+This gluon keeps interacting with the medium via elastic processes which changes the gluon transverse momentum $k_\perp$ and also its formation time $\tau_{f,n}$, where the subscript $n$ means this is the formation time calculated after $n$-th rescattering.
+This continues until the time elapse since $t_0$ just exceed the gluon formation time,
+\begin{eqnarray}
+\tau_{f, n} < t-t_0 < \tau_{f, n-1}.
+\end{eqnarray}
+After this amount of time, the gluon is considered lose coherence with the mother parton.
+The formation time determined in this way reproduces the self-consistent condition of Equation \ref{eq:tau_n}.
+The suppression is introduced by requiring that no other radiation is allowed within the formation time, which is also a kind of anti-correlation between subsequent emission vertices.
+On average, this suppression requirement reduces $N$ possible inelastic scatterings to a single one, with
+\begin{eqnarray}
+N \sim \frac{\sqrt{\omega/\hat{q}} }{ \lambda_{\textrm{inel}}} \sim \sqrt{\frac{\omega}{\hat{q}}}\alpha_s^2 T
+\end{eqnarray}
+And the single gluon radiation rate are suppressed as,
+\begin{eqnarray}\label{eq:PCM-spectra}
+\frac{dP}{dt d\omega} \sim
+ \frac{\alpha_s C_R}{\omega} \frac{1}{\lambda_g}\frac{1}{N} \sim C_R \sqrt{\frac{\hat{q}}{T^3}}\left(\frac{T}{\omega}\right)^{3/2}
+\end{eqnarray}
+We found that although this yield the desired spectrum of the radiated gluon, but the magnitude is different from the expectation by one power of $\alpha_s$. 
+This problem does not manifest if one stick to one coupling constant, because we can always tune a pre-factor before the formation time to absorb it, however for the case of using running coupling we want to fix this problem.
+
+ 
+
 Moreover, one often implements the formula calculated for a static medium with a constant temperature, but the realistic medium in a heavy-ion collision undergoes fast expansion where temperature changes significantly within a time scale comparable to the LPM effect.
 In this work, we studied three different Monte-Carlo implementations and systematically compare them to the semi-analytic theoretical limits.
 We showed that by fine-tuning the parameters of one of the methods, the theoretical calculations are well reproduced at different coupling constants, parton energies, temperatures and path-lengths and this method generalizes to expanding medium. 
