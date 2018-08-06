@@ -154,11 +154,11 @@ The {\tt Lido} model is based on elementary elastic and inelastic pQCD scatterin
 The inelastic processes include both gluon radiation processes ($2\rightarrow 3$) and gluon absorption process ($3\rightarrow 2$) using a Gunion-Bertsch approximation of the matrix-element.
 For the comparison to theory calculations, we only turn on the $2\rightarrow 3$ channel for the high energy quark.
 
-This first implementations of LPM effect was the also the default one in the {\tt Lido} model. 
+\paragraph*{Implementation A.} This first implementations of LPM effect was the also the default one in the {\tt Lido} model. 
 This approach is inherent from early works using a radiation improved Langevin equation [] and is also implemented in the Linearized-Boltzmann-Transport-Model []. 
 One can show that the formula used in {\tt Lido} reduces to the one used in [] when the momentum transfer from the medium is much smaller than the transverse momentum of the radiated gluon.
 In the {\tt Lido} model, the key feature of this approach is to modify the incoherent gluon radiation rate,
-\begin{eqnarray}
+\begin{eqnarray}\label{eq:GB-rate}
 \Gamma = \frac{1}{2E_1}\int\frac{f_i(p_2)d\vec{p_2}^3}{(2\pi)^3 2p_2}2\hat{s}\int d\hat{t}\frac{d\vec{k}^3}{(2\pi)^3 2k}\frac{d\sigma_{\textrm{GB}}}{d\hat{t}d\vec{k}^3}
 \end{eqnarray}
 by introduce a time-dependent coherence factor in the final state gluon phase space integration,
@@ -178,7 +178,7 @@ By dimensional analysis, this gives $\Delta t \sim 1/\alpha_s T$ on average.
 We see that this prescription indeed suppress the spectrum when the formation time is much greater than the mean-free-path.
 However, gluon does not reinteract with the medium in this approach and it also introduces anti-correlation between the locations of vertices of subsequent emissions.
 
-Another approach that takes into account the gluon multiple scattering is effect proposed in [] and it is later also implemented in a Paron-Cascade model.
+\paragraph*{Implementation B.} Another approach that takes into account the gluon multiple scattering is effect proposed in [] and it is later also implemented in a Paron-Cascade model.
 Motivated by these works, we also tested the following routine in {\tt Lido}. 
 A gluon is first sampled from an inelastic scattering at time $t=t_0$ but it is not regarded as ``formed" immediately. 
 This gluon keeps interacting with the medium via elastic processes which changes the gluon transverse momentum $k_\perp$ and also its formation time $\tau_{f,n}$, where the subscript $n$ means this is the formation time calculated after $n$-th rescattering.
@@ -201,8 +201,31 @@ And the single gluon radiation rate are suppressed as,
 We found that although this yield the desired spectrum of the radiated gluon, but the magnitude is different from the expectation by one power of $\alpha_s$. 
 This problem does not manifest if one stick to one coupling constant, because we can always tune a pre-factor before the formation time to absorb it, however for the case of using running coupling we want to fix this problem.
 
- 
+\paragraph*{Implementation C.} Finally, we propose a modified approach that is based on the previous one.
+It is designed to reproduce the qualitative spectrum of Equation \ref{eq:LPM} and does not introducing correlation between different emission vertices. 
+It also avoids a direct use of the mean-free-path $\lambda$, since it is very sensitive to the regularization of the matrix-elements. 
+The substitutes of $\lambda$ is an effective mean-free-path $\tilde{\lambda}$ which is defined as,
+\begin{eqnarray}
+\tilde{\lambda} = \frac{\hat{q}}{m_D^2}
+\end{eqnarray}
+The advantages are not only that $\tilde{\lambda}$ is less sensitive to regularization compared to $\lambda$, but also that it can be applied to other approaches that are not based on individual scattering picture, for example the radiation-imporved Langevion Equation.
+This is particular useful when we absorb small angle scatterings into a diffusion part of the model. The workflow looks like,
+\begin{itemize}
+\item[1.] In a time step $\Delta t$, the mother parton undergoes inelastic scatterings with probability $\Gamma\Delta t$. $\Gamma$ is given by Equation \ref{eq:GB-rate} (without any suppression).
+\item[2.] If a gluon $i$ is sampled at $t_{i,0}$, it is appended to a ``pre-gluons" list associated to the mother parton. But the energy is not carried away from the mother.
+\item[3.] Loop over the ``pre-gluons". 
+\begin{itemize}
+\item[3.1] If $\tau_f > t-t_{i,0}$, evolve this gluon by elastic scattering, diffusion or both.
+\item[3.2] If $\tau_f < t-t_{i,0}$, accept this gluon as with probability $p = \min\{1, \tilde{\lambda}/\tau_f\}$. Accepted gluons are formed and its energy is subtracted from the mother. Otherwise, it is removed from the list without causing energy loss.
+\end{itemize} 
+\item[4.] Repeat for the next time step.
+\end{itemize}
 
+\section{Major results}
+
+\section{Running coupling effect and expanding medium}
+
+\section{Summary}
 Moreover, one often implements the formula calculated for a static medium with a constant temperature, but the realistic medium in a heavy-ion collision undergoes fast expansion where temperature changes significantly within a time scale comparable to the LPM effect.
 In this work, we studied three different Monte-Carlo implementations and systematically compare them to the semi-analytic theoretical limits.
 We showed that by fine-tuning the parameters of one of the methods, the theoretical calculations are well reproduced at different coupling constants, parton energies, temperatures and path-lengths and this method generalizes to expanding medium. 
