@@ -247,19 +247,25 @@ At smaller energies, the simulated results decreases faster than the semi-analyt
 For the ``Coherence factor" approach (blue-dash-dotted lines), although it does not include multiple rescatterings of the gluon. The energy dependence and temperature dependence are similar to the theoretical limits; however, it systematically deviates from the theory calculation for different coupling constant.
 For the ``Blocking radiation" approaches, this $\alpha_s$-dependence deviation are even bigger, since we have seen in the previous section that suppression introduced by blocking other inelastic collisions within the formation of the current inelastic collision does not result in the correct power of $\alpha_s$ in the suppressed spectra.
 
-Second we tested the path-length $L$ dependence of the energy loss $\Delta E$ of a quark with $E = 200$ GeV in a finite medium.
-The comparison is showed in Figure \ref{fig:eloss-ldep}.
-Again, each columns and each rows use different coupling constants and temperatures respectively and within each subplots the path length is varied up to a few times of $L_c^0$.
-Here $L_c^0 = \sqrt{E/\hat{q}_0}$ is an estimate of the critical path length below which the non-linear $L$-dependence of $\Delta E$ should be prominent.
-
-
 \begin{figure*}
 \includegraphics[width=\textwidth]{Eloss_Ldep.pdf}
 \caption{Energy loss $\Delta E$ as a function of path length $L$, temperature $T$ and coupling constant $\alpha_s$. Each column corresponds to $\alpha_s = 0.075, 0.15, 0.3$, and $0.6$ (from left to right). Each column corresponds to $T = 0.2, 0.4$, and $0.6$ GeV (from top to bottom). $\Delta E$ is scaled by $\alpha_s E$ and $L$ is scaled by an estimated critical path length $L_c^0 = \sqrt{E/\hat{q}_0}$, $\hat{q}_0\sim 4\pi C_A\alpha_s^2 \times 1.28 T^3$. The calculations from ``Modified rescattering", ``Coherence factor", and ``Block radiation" approaches are the red-dashed lines, blue-dash-dotted lines, and green-dotted lines respectively. The analytic results for thin medium are denoted as black solid lines.}
 \label{fig:eloss-ldep}
 \end{figure*}
 
-\section{Running coupling effect and expanding medium}
+Second we tested the path-length $L$ dependence of the energy loss $\Delta E$ of a quark with $E = 200$ GeV in a finite medium.
+The comparison is showed in Figure \ref{fig:eloss-ldep}.
+Again, each columns and each rows use different coupling constants and temperatures respectively and within each subplots the path length is varied up to a few times of $L_c^0$.
+Here $L_c^0 = \sqrt{E/\hat{q}_0}$ is an estimate of the critical path length below which the non-linear $L$-dependence of $\Delta E$ should be prominent.
+All three implementations show the non-linear path length dependence.
+The ``Modified rescattering" approach stays close to the thin-medium theory calculation for $L<L_c^0$, while the other two approaches deviates systematically as one changes $\alpha_s$.
+
+Concluding this section, we found that the ``Multiple rescattering" approach reproduce nicely the theory calculation of $dE/dx$ in an infinite medium and also has the desired energy loss scaling for a thin medium.
+It grants a better theoretical control on the parton energy loss Monte Carlo which will benefit the results interpretation of a systematic model-to-data comparison.
+
+\section{Expanding medium and running coupling effect}
+We have shown that the ``Multiple rescattering" closely reproduce theory calculation in a static medium for different couplings.
+For the application to realistic heavy-ion collisions, we want to examine another two features of the this implementation.
 
 \section{Summary}
 Moreover, one often implements the formula calculated for a static medium with a constant temperature, but the realistic medium in a heavy-ion collision undergoes fast expansion where temperature changes significantly within a time scale comparable to the LPM effect.
