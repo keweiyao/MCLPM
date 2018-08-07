@@ -89,7 +89,7 @@ This leads to the non-linear path length $L$ dependence of the energy loss if on
 \end{eqnarray}
 When the path length exceed the critical one $L_c = \sqrt{E/\hat{q}_g}$, $\Delta E$ should smoothly transit to the behavior given by Equation \ref{eq:dE-Linf}.
 
-\section{Semi-analytic formula for radiative energy loss}
+\section{Semi-analytic formula for radiative energy loss}\label{section:Theo}
 The above section discuss the qualitative nature of parton energy loss in the infinite and thin medium limit. These results are already very useful to gauge the scaling behavior of different Monte Carlo implementations.
 But this not enough to made a quantitative comparison the Monte Carlo approaches and theoretical predictions.
 For this purposes, we uses the (semi-) analytic results from two theoretical works where the problem of medium induced gluon radiation is solved in a infinitely large medium (to next-to-leading-log accuracy) and in a thin medium limit (to leading-log accuracy).
@@ -145,7 +145,7 @@ Although the pre-factor $N_0 = 6\zeta(3)(1+N_f/4)/\pi^2 \approx 1.28$
 are obtained using quantum statistics, it is very close to the value calculated using classical statistics ($12/\pi^2 \approx 1.22$) when $N_f=3$.
 Therefore, we will not correct this formula in the comparison with the Monte Carlo results.
 
-\section{Different Monte-Carlo implementations}
+\section{Different Monte-Carlo implementations}\label{section:MC}
 There are already many existing implementations of LPM effects and many of them are designed to match certain theoretical calculations. 
 But in this work, We are going to compare only those approaches that treat this effect non-locally and has a non-linear path length dependence.
 The framework we worked in is the {\tt Lido} model, which is original designed for heavy quark transport inside a quark-gluon plasma. 
@@ -154,10 +154,10 @@ The {\tt Lido} model is based on elementary elastic and inelastic pQCD scatterin
 The inelastic processes include both gluon radiation processes ($2\rightarrow 3$) and gluon absorption process ($3\rightarrow 2$) using a Gunion-Bertsch approximation of the matrix-element.
 For the comparison to theory calculations, we only turn on the $2\rightarrow 3$ channel for the high energy quark.
 
-\paragraph*{Implementation A.} This first implementations of LPM effect was the also the default one in the {\tt Lido} model. 
+\paragraph*{``Coherence factor" approach} This first implementations of LPM effect was the also the old one in the {\tt Lido} model. 
 This approach is inherent from early works using a radiation improved Langevin equation [] and is also implemented in the Linearized-Boltzmann-Transport-Model []. 
 One can show that the formula used in {\tt Lido} reduces to the one used in [] when the momentum transfer from the medium is much smaller than the transverse momentum of the radiated gluon.
-In the {\tt Lido} model, the key feature of this approach is to modify the incoherent gluon radiation rate,
+In the {\tt Lido} model, its key feature is modifying the incoherent gluon radiation rate,
 \begin{eqnarray}\label{eq:GB-rate}
 \Gamma = \frac{1}{2E_1}\int\frac{f_i(p_2)d\vec{p_2}^3}{(2\pi)^3 2p_2}2\hat{s}\int d\hat{t}\frac{d\vec{k}^3}{(2\pi)^3 2k}\frac{d\sigma_{\textrm{GB}}}{d\hat{t}d\vec{k}^3}
 \end{eqnarray}
@@ -178,8 +178,8 @@ By dimensional analysis, this gives $\Delta t \sim 1/\alpha_s T$ on average.
 We see that this prescription indeed suppress the spectrum when the formation time is much greater than the mean-free-path.
 However, gluon does not reinteract with the medium in this approach and it also introduces anti-correlation between the locations of vertices of subsequent emissions.
 
-\paragraph*{Implementation B.} Another approach that takes into account the gluon multiple scattering is effect proposed in [] and it is later also implemented in a Paron-Cascade model.
-Motivated by these works, we also tested the following routine in {\tt Lido}. 
+\paragraph*{``Blocking radiation" approach} Another approach that takes into account the gluon multiple scattering is effect proposed in [] and it is later also implemented in a Paron-Cascade model [].
+Motivated by these works, we tested the following routine in {\tt Lido}. 
 A gluon is first sampled from an inelastic scattering at time $t=t_0$ but it is not regarded as ``formed" immediately. 
 This gluon keeps interacting with the medium via elastic processes which changes the gluon transverse momentum $k_\perp$ and also its formation time $\tau_{f,n}$, where the subscript $n$ means this is the formation time calculated after $n$-th rescattering.
 This continues until the time elapse since $t_0$ just exceed the gluon formation time,
@@ -188,10 +188,11 @@ This continues until the time elapse since $t_0$ just exceed the gluon formation
 \end{eqnarray}
 After this amount of time, the gluon is considered lose coherence with the mother parton.
 The formation time determined in this way reproduces the self-consistent condition of Equation \ref{eq:tau_n}.
-The suppression is introduced by requiring that no other radiation is allowed within the formation time, which is also a kind of anti-correlation between subsequent emission vertices.
-On average, this suppression requirement reduces $N$ possible inelastic scatterings to a single one, with
+The suppression is introduced by requiring that no other radiation is allowed within the formation time and therefore we shall call it a ``blocking radiation" approach in this paper.
+We notice that this procedure also introduce correlations between subsequent emission vertices.
+On average, the ``blocking" reduces $N$ possible inelastic scatterings to a single one, with
 \begin{eqnarray}
-N \sim \frac{\sqrt{\omega/\hat{q}} }{ \lambda_{\textrm{inel}}} \sim \sqrt{\frac{\omega}{\hat{q}}}\alpha_s^2 T
+N \sim \frac{\tau_f}{ \lambda_{\textrm{inel}}} \sim \sqrt{\frac{\omega}{\hat{q}}}\alpha_s^2 T
 \end{eqnarray}
 And the single gluon radiation rate are suppressed as,
 \begin{eqnarray}\label{eq:PCM-spectra}
@@ -199,29 +200,64 @@ And the single gluon radiation rate are suppressed as,
  \frac{\alpha_s C_R}{\omega} \frac{1}{\lambda_g}\frac{1}{N} \sim C_R \sqrt{\frac{\hat{q}}{T^3}}\left(\frac{T}{\omega}\right)^{3/2}
 \end{eqnarray}
 We found that although this yield the desired spectrum of the radiated gluon, but the magnitude is different from the expectation by one power of $\alpha_s$. 
-This problem does not manifest if one stick to one coupling constant, because we can always tune a pre-factor before the formation time to absorb it, however for the case of using running coupling we want to fix this problem.
+If one stick to one coupling constant, this problem can be absorbed into a pre-factor in the definition of the formation time; however for running coupling, we do need to improve it.
 
-\paragraph*{Implementation C.} Finally, we propose a modified approach that is based on the previous one.
-It is designed to reproduce the qualitative spectrum of Equation \ref{eq:LPM} and does not introducing correlation between different emission vertices. 
-It also avoids a direct use of the mean-free-path $\lambda$, since it is very sensitive to the regularization of the matrix-elements. 
-The substitutes of $\lambda$ is an effective mean-free-path $\tilde{\lambda}$ which is defined as,
+\paragraph*{``Modified rescattering" approach} Finally, we propose a modified approach that is based on the previous one.
+It is designed to reproduce the qualitative spectrum of Equation \ref{eq:LPM} and does not introduce extra correlations between different emission vertices. 
+In this routine, we also avoid the use of mean-free-path $\lambda$, since it is very sensitive to the regularization of the matrix-elements. 
+The substitutes of $\lambda$ is an effective mean-free-path $\tilde{\lambda}$ defined by,
 \begin{eqnarray}
 \tilde{\lambda} = \frac{\hat{q}}{m_D^2}
 \end{eqnarray}
-The advantages are not only that $\tilde{\lambda}$ is less sensitive to regularization compared to $\lambda$, but also that it can be applied to other approaches that are not based on individual scattering picture, for example the radiation-imporved Langevion Equation.
-This is particular useful when we absorb small angle scatterings into a diffusion part of the model. The workflow looks like,
+The advantages are not only that $\tilde{\lambda}$ is less sensitive to regularization compared to $\lambda$, but also that it can be applied to other approaches that are not based on individual scattering picture, e.g., the radiation-imporved Langevion Equation.
+This is particular useful if one would like to absorb small angle scatterings into a diffusion equation. 
+The workflow of this implementation is as follows,
 \begin{itemize}
-\item[1.] In a time step $\Delta t$, the mother parton undergoes inelastic scatterings with probability $\Gamma\Delta t$. $\Gamma$ is given by Equation \ref{eq:GB-rate} (without any suppression).
-\item[2.] If a gluon $i$ is sampled at $t_{i,0}$, it is appended to a ``pre-gluons" list associated to the mother parton. But the energy is not carried away from the mother.
-\item[3.] Loop over the ``pre-gluons". 
+\item[1.] In a time step $\Delta t$, the mother parton undergoes inelastic scatterings with probability $\Gamma\Delta t$. $\Gamma$ is given by Equation \ref{eq:GB-rate} (without LPM effect).
+\item[2.] If a gluon $i$ is sampled at $t_{i,0}$, it is appended to a ``pre-gluons" list associated to the mother parton. But its energy is not carried away from the mother.
+\item[3.] Loop over the ``pre-gluons" list. 
 \begin{itemize}
-\item[3.1] If $\tau_f > t-t_{i,0}$, evolve this gluon by elastic scattering, diffusion or both.
-\item[3.2] If $\tau_f < t-t_{i,0}$, accept this gluon as with probability $p = \min\{1, \tilde{\lambda}/\tau_f\}$. Accepted gluons are formed and its energy is subtracted from the mother. Otherwise, it is removed from the list without causing energy loss.
+\item[3.1] If $\tau_f > t-t_{i,0}$, evolve this gluon (elastic scattering, diffusion or both). Recalculate its formation time.
+\item[3.2] If $\tau_f < t-t_{i,0}$, accept it with probability $p = \min\{1, \tilde{\lambda}/\tau_f\}$. Accepted gluons are formed and its energy is subtracted from the mother. Otherwise, they are removed from the list without causing energy loss.
 \end{itemize} 
 \item[4.] Repeat for the next time step.
 \end{itemize}
 
+Finally, we remark a few extra cares for the comparison the generator results to the semi-analytic results.
+Since the analytic formulas are derived in eikonal limit, in the present calculations we reset mother parton's four momenta back to the initial momentum after each time step of evolution.
+For radiated gluon, after each rescattering the four momenta is rescaled so that the energy is unchanged.
+
+\begin{figure*}
+\includegraphics[width=\textwidth]{Eloss_infinite.pdf}
+\caption{Energy loss per unit path lengh $dE/dx$ as a function of energy $E$, temperature $T$ and coupling constant $\alpha_s$. Each column corresponds to $\alpha_s = 0.075, 0.15, 0.3$, and $0.6$ (from left to right). Each column corresponds to $T = 0.2, 0.4$, and $0.6$ GeV (from top to bottom). $dE/dx$ is divided by the expected scaling $\alpha_s^2 \sqrt{ET^3}$. The calculations from ``Modified rescattering", ``Coherence factor", and ``Block radiation" approaches are the red-dashed lines, blue-dash-dotted lines, and green-dotted lines respectively. The AMY NLL results are denoted as black boxes.}
+\label{fig:eloss-inf}
+\end{figure*}
+
 \section{Major results}
+In this section, we compare the calculations of the three different implementations described in Section \ref{section:MC} to the theoretical limits quoted and described in Section \ref{section:Theo}. 
+
+In Figure \ref{fig:eloss-inf}. We showed the calculation of energy loss per unit path length $dE/dx$ of a quark in an ``infinitely large" medium. 
+Technically, we do a time evolution long enough so that any finite medium effect have faded away and then measure $dE/dx$.
+The results presented are further divided by the anticipated scaling behavior $dE/dx \propto \alpha_s^2 \sqrt{ET^3}$.
+For each column, we double the $\alpha_s$ value and for each row, temperature is increased by $0.2$ GeV. 
+Within each subplot, the parton energy is varied from $10$ GeV to $200$ GeV.
+Different Monte Carlo calculations are shown in colored lines, AMY NLL results are shown as black boxes. 
+It is found that the ``Modified rescattering" approach (red-dashed lines) very well reproduces the energy, temperature, and coupling constant dependence of AMY NLL energy loss for relatively a high energy parton $E>20$ GeV.
+At smaller energies, the simulated results decreases faster than the semi-analytic results.
+For the ``Coherence factor" approach (blue-dash-dotted lines), although it does not include multiple rescatterings of the gluon. The energy dependence and temperature dependence are similar to the theoretical limits; however, it systematically deviates from the theory calculation for different coupling constant.
+For the ``Blocking radiation" approaches, this $\alpha_s$-dependence deviation are even bigger, since we have seen in the previous section that suppression introduced by blocking other inelastic collisions within the formation of the current inelastic collision does not result in the correct power of $\alpha_s$ in the suppressed spectra.
+
+Second we tested the path-length $L$ dependence of the energy loss $\Delta E$ of a quark with $E = 200$ GeV in a finite medium.
+The comparison is showed in Figure \ref{fig:eloss-ldep}.
+Again, each columns and each rows use different coupling constants and temperatures respectively and within each subplots the path length is varied up to a few times of $L_c^0$.
+Here $L_c^0 = \sqrt{E/\hat{q}_0}$ is an estimate of the critical path length below which the non-linear $L$-dependence of $\Delta E$ should be prominent.
+
+
+\begin{figure*}
+\includegraphics[width=\textwidth]{Eloss_Ldep.pdf}
+\caption{Energy loss $\Delta E$ as a function of path length $L$, temperature $T$ and coupling constant $\alpha_s$. Each column corresponds to $\alpha_s = 0.075, 0.15, 0.3$, and $0.6$ (from left to right). Each column corresponds to $T = 0.2, 0.4$, and $0.6$ GeV (from top to bottom). $\Delta E$ is scaled by $\alpha_s E$ and $L$ is scaled by an estimated critical path length $L_c^0 = \sqrt{E/\hat{q}_0}$, $\hat{q}_0\sim 4\pi C_A\alpha_s^2 \times 1.28 T^3$. The calculations from ``Modified rescattering", ``Coherence factor", and ``Block radiation" approaches are the red-dashed lines, blue-dash-dotted lines, and green-dotted lines respectively. The analytic results for thin medium are denoted as black solid lines.}
+\label{fig:eloss-ldep}
+\end{figure*}
 
 \section{Running coupling effect and expanding medium}
 
@@ -231,17 +267,7 @@ In this work, we studied three different Monte-Carlo implementations and systema
 We showed that by fine-tuning the parameters of one of the methods, the theoretical calculations are well reproduced at different coupling constants, parton energies, temperatures and path-lengths and this method generalizes to expanding medium. 
 By showing that a Monte-Carlo implementation reduces to known theoretical calculation, a more meaning full theory-to-data comparison can be performed where the Monte-Carlo model works as a bridge between certain theory and experimental measurements.
 
-\begin{figure*}
-\includegraphics[width=\textwidth]{Eloss_infinite.pdf}
-\caption{A}
-\label{fig:eloss-inf}
-\end{figure*}
 
-\begin{figure*}
-\includegraphics[width=\textwidth]{Eloss_Ldep.pdf}
-\caption{A}
-\label{fig:eloss-ldep}
-\end{figure*}
 
 \begin{acknowledgments}
 SAB and WK  are supported by the U.S. Department of Energy Grant no. DE-FG02-05ER41367. WK is also supported by NSF grant OAC-1550225.
