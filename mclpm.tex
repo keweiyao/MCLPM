@@ -178,7 +178,7 @@ By dimensional analysis, this gives $\Delta t \sim 1/\alpha_s T$ on average.
 We see that this prescription indeed suppress the spectrum when the formation time is much greater than the mean-free-path.
 However, gluon does not reinteract with the medium in this approach and it also introduces anti-correlation between the locations of vertices of subsequent emissions.
 
-\paragraph*{``Blocking radiation" approach} Another approach that takes into account the gluon multiple scattering is effect proposed in [] and it is later also implemented in a Paron-Cascade model [].
+\paragraph*{``Blocking radiation" approach} Another approach that takes into account the gluon multiple scattering effect is proposed in [] and it is later also implemented in a Paron-Cascade model [].
 Motivated by these works, we tested the following routine in {\tt Lido}. 
 A gluon is first sampled from an inelastic scattering at time $t=t_0$ but it is not regarded as ``formed" immediately. 
 This gluon keeps interacting with the medium via elastic processes which changes the gluon transverse momentum $k_\perp$ and also its formation time $\tau_{f,n}$, where the subscript $n$ means this is the formation time calculated after $n$-th rescattering.
@@ -205,12 +205,12 @@ If one stick to one coupling constant, this problem can be absorbed into a pre-f
 \paragraph*{``Modified rescattering" approach} Finally, we propose a modified approach that is based on the previous one.
 It is designed to reproduce the qualitative spectrum of Equation \ref{eq:LPM} and does not introduce extra correlations between different emission vertices. 
 In this routine, we also avoid the use of mean-free-path $\lambda$, since it is very sensitive to the regularization of the matrix-elements. 
-The substitutes of $\lambda$ is an effective mean-free-path $\tilde{\lambda}$ defined by,
+The substitute of $\lambda$ is an effective mean-free-path $\tilde{\lambda}$ defined by,
 \begin{eqnarray}
 \tilde{\lambda} = \frac{\hat{q}}{m_D^2}
 \end{eqnarray}
 The advantages are not only that $\tilde{\lambda}$ is less sensitive to regularization compared to $\lambda$, but also that it can be applied to other approaches that are not based on individual scattering picture, e.g., the radiation-imporved Langevion Equation.
-This is particular useful if one would like to absorb small angle scatterings into a diffusion equation. 
+This is particular useful if one would like to absorb small angle scatterings into a diffusion equation, then $\hat{q}$ will be the sum of the $\hat{q}$ of scatterings and the $\hat{q}$ of the diffusion part.
 The workflow of this implementation is as follows,
 \begin{itemize}
 \item[1.] In a time step $\Delta t$, the mother parton undergoes inelastic scatterings with probability $\Gamma\Delta t$. $\Gamma$ is given by Equation \ref{eq:GB-rate} (without LPM effect).
@@ -263,9 +263,67 @@ The ``Modified rescattering" approach stays close to the thin-medium theory calc
 Concluding this section, we found that the ``Multiple rescattering" approach reproduce nicely the theory calculation of $dE/dx$ in an infinite medium and also has the desired energy loss scaling for a thin medium.
 It grants a better theoretical control on the parton energy loss Monte Carlo which will benefit the results interpretation of a systematic model-to-data comparison.
 
-\section{Expanding medium and running coupling effect}
-We have shown that the ``Multiple rescattering" closely reproduce theory calculation in a static medium for different couplings.
-For the application to realistic heavy-ion collisions, we want to examine another two features of the this implementation.
+\section{Expanding medium, running coupling and mass effect}
+Before applying this new implementation to describe energetic parton transport in heavy ion collisions, there are still a few issues we need to study and address.
+The first one is the study of LPM effect in an expanding medium. 
+The QGP produced in colliders only exists for a short amount of time and it undergoes violent expansion, i.e, the medium temperature may have notably changed within the formation time.
+Therefore, we expect different amount of energy loss observed in the following two scenarios.
+\begin{itemize}
+\item[1.]  {\it A non-local (direct) calculation}: radiated gluons precept the changing medium within the formation times.
+\item[2.] {\it A local approximation}: calculate with rates obtained in the infinite medium defined by the local temperature at the radiation vertex.
+\end{itemize} 
+Although non-local scenario is closer to the realistic situation, we would like to see how big an effect the local approximation is.
+
+We set-up our simulation in a Bjorken expansion background at mid-rapidity, and the temperature decreases with proper time,
+\begin{eqnarray}
+T(\Delta\tau) = T_0 \left(\frac{\tau_0}{\tau_0+\Delta\tau}\right)^{\frac{1}{3}}.
+\end{eqnarray}
+Here, we choose $T_0=0.6$ GeV, $\tau_0=0.6$ fm/c and use a fixed coupling constant $\alpha_s = 0.3$.
+Since the ``Modified rescattering" approach preforms gluon rescatterings at different space-time during the evolution, it is already a non-local calculation.
+To mimic the local approximation, we let each pre-gluon remember the temperature where it is first created and use this local temperature to perform rescatterings.
+The results are shown in Figure \ref{fig:Bjorken}. 
+For low energy partons, the difference between the two scenario are negligible. The different is only moderate for a 200 GeV quark.
+This is because for $\alpha_s = 0.3$ and the range of energy we considered, the maximum formation time $\sqrt{E/\hat{q}}$ is still small compared to the inverse of temperature changing rate $d\ln(T)/dt$.
+\begin{figure}
+\includegraphics[width=\columnwidth]{Bjorken.pdf}
+\caption{Energy loss fraction $\Delta E /E$ as function of path length $L$ at three different energies. Reddashed lines are direct simulations (the non-local case) and blue-dash-dotted lines are results using local approximation.}
+\label{fig:Bjorken}
+\end{figure}
+
+
+\begin{figure}
+\includegraphics[width=\columnwidth]{Eloss_infinite_run.pdf}
+\caption{Testing running coupling effect }
+\label{fig:run}
+\end{figure}
+The second to address is the running coupling constant. We follow the prescription described in []. 
+For each gluon elastic rescatterings, we evaluate $\alpha_s$ at the momentum transfer of $t$-channel, this is already a feature of the {\tt Lido} model.
+For the coupling constant associated to the splitting vertex, because the transverse momentum adds up coherently, a more natural choice of the scale is the total momentum transfer to the gluon ${k_T^n}^2 = \left(\vec{k}_T^0+\vec{q}_1+\cdots+\vec{q}_n\right)^2$.
+In the {\tt Lido} model, the original scale for this vertex is the gluon transverse momentum square in the $2\rightarrow 3$ process ${k_T^0}^2$.
+Therefore, for the running version of this implementation, we change the acceptance probability $p$ in Step 3.2 of the workflow to,
+\begin{eqnarray}
+p' = \min\left\{1, \frac{\tilde{\lambda}}{\tau_n}\times\frac{\alpha_s({k_T^n}^2)}{\alpha_s({k_T^0}^2)}\right\}
+\end{eqnarray}
+Because on average ${k_T^n}^2$ is larger than ${k_T^0}^2$, this additional factor of $\alpha_s({k_T^n}^2)/\alpha_s({k_T^0}^2)$ further suppresses the radiation of high energy gluon.
+In Figure. \ref{fig:run}, we showed three calculations in a static medium. The dotted lines uses a fixed coupling constant evaluated at a thermal scale $\pi T$ and this scale is also the lowest scale cut-off the two other running coupling calculations.
+The dash-dotted lines are running coupling calculations where the $\alpha_s(Q)$ of elastic process evaluated $t$-channel momentum transfer and the $\alpha_s(Q)$ of the radiation vertex evaluated at the gluon transverse momentum before rescatterings $k_T^0$.
+The dashed lines are also running coupling calculations but evaluate radiation $\alpha_s(Q)$ at $k_T^n$ through the modified acceptance probability $p'$.
+Because the typical momenta transfer in the elastic and inelastic processes is comparable to the current minimum $Q$ cut-off $Q_{\min} = \pi T$, the results with only the replacement $\alpha_s\rightarrow\alpha_s(q_\perp)$ and $\alpha_s\rightarrow\alpha_s(k_\perp^0)$ does not differ much from the fixed coupling ones.
+However, the further replacement of $\alpha_s(k_\perp^0)\rightarrow\alpha_s(k_\perp^n)$ significantly reduces the amount of radiation at high energy.
+We can estimated the order of magnitude of $\left(k_\perp^n\right)^2$ to be $\hat{q}\tau_{f,n} \sim \sqrt{\hat{q}\omega}$ and it is $\sqrt{\omega/T}$ times larger than the order of magnitude of $\left(k_\perp^0\right)^2$ which leads to the running coupling suppression in the expression of $p'$.
+
+Finally, to apply this approach to the heavy quark sector, we put back to mass effect. 
+These include the massive particle kinetics and the formation time for gluon separated from a heavy quark is modified to
+\begin{eqnarray}
+\tau_{f} = \frac{2x(1-x)E}{k_\perp^2 + x^2M^2 + (1-x)m_g^2}.
+\end{eqnarray}
+Moreover, matrix-elements also need to be changed to include the so-called ``dead-cone" effect, where the collinear radiations with angles $\theta \sim k_\perp/k < M/E$ are suppressed. 
+Although the $2\rightarrow3$ Gunion-Bertsch cross-section with mass effect has been derived [], its radiation angle $k_\perp/k$ is determined in a single scatterings.
+We have seen that rescatterings during the coherence time $\tau_{f,n}$, increases the average $k_{\perp}^2$. Therefore, a direct use of massive version of $2\rightarrow3$ matrix-element results in a mass effect that is too strong.
+The solution is to use the $2\rightarrow3$ matrix-element without mass effect to generate initial gluon, while including the dead cone suppression as another factor in the acceptance probability,
+\begin{eqnarray}
+p'' = \min\left\{1, \frac{\tilde{\lambda}}{\tau_n}\times\frac{\alpha_s({k_{\perp,n}}^2)}{\alpha_s({k_{\perp,0}}^2)} \times \frac{{k_{\perp,n}}^2}{{k_{\perp,n}}^2+x^2 M^2}\right\}
+\end{eqnarray}
 
 \section{Summary}
 Moreover, one often implements the formula calculated for a static medium with a constant temperature, but the realistic medium in a heavy-ion collision undergoes fast expansion where temperature changes significantly within a time scale comparable to the LPM effect.
