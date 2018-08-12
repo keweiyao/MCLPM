@@ -46,6 +46,21 @@ This way, we can reduce the modeling uncertainty in the Monte Carlo simulations 
 \maketitle
 
 \section{Introduction}
+The study of hard probes in relativistic heavy-ion collisions is moving towards the precision era thanks to the future experiment upgrades.
+It is also a good opportunity to test our theories and extract important properties of the quark-gluon plasma via hard probes.
+
+Theories based on perturbative QCD, strong coupling theory have been developed over the years to describe the transport of hard particles inside a quark-gluon plasma.
+How ever, due to the complexity of the dynamical and finite size medium produced in realistic collisions, a direct use of the above theoretical formula is difficult. 
+Instead, one often implement these physics in a Monte Carlo event generator that coupled the partonic evolution of hard particles to the medium evolution.
+For perturbative calculation based theory, this implementation is non-trivial even at leading order.
+Calculation show that gluon radiation dominates the energy loss at high energy, while the coherence effect make this process a non-local one, i.e.  the multiple scatterings during the radiating gluon formation time cannot be factorized into independent scatterings.
+This features is particular difficult for a Monte-Carlo implementation, where the elementary process becomes a $n\rightarrow n+1$ body process and its phase space is too large to be handled efficiently.
+There are different implementations in use that try to simplifies this picture while still keep the essential physics.
+However, it is important to check if they quantitatively agrees with our best knowledge from the theory side in certain limits.
+This way, a more sound connection can be founded between Monte-Carlo generators and theory approximations and one also get controls of the theory uncertainty introduced in the certain implementation.
+
+
+
 \section{Qualitative features of the suppression}
 In a perturbative picture, high energy partons lose energy to a quark-gluon plasma (QGP) medium mainly through the medium induced gluon radiation process.
 For such partons, the Landau-Pomeranchuk-Migdal (LPM) effect significantly suppresses gluon radiation rate for those whose formation times ($\tau_f$) become comparable to or even larger than to their mean-free-path ($\lambda_g$).
