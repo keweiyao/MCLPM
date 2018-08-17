@@ -80,115 +80,117 @@ Finally, we discuss in Section \ref{section:disscuss} the running coupling effec
 
 
 \section{Qualitative features of the suppression}\label{section:qual}
-In a perturbative picture, high energy partons lose energy to a quark-gluon plasma (QGP) medium mainly through the medium induced gluon radiation process.
-For such partons, the Landau-Pomeranchuk-Migdal (LPM) effect significantly suppresses gluon radiation rate for those whose formation times ($\tau_f$) become comparable to or even larger than to their mean-free-path ($\lambda_g$).
-For a gluon to be decoherent from its mother parton, the time it takes is of order,
+In this section, we briefly review what are the expected qualitative features of medium induced radiation follow the discussion in.
+A radiated gluon stays in coherence with the mother partons for a finite amount of time determined by the uncertainty principle $\Delta t \sim 1/\Delta E$. 
+$\Delta E$ is the different between the initial mother patron energy $E$ and the energy of the final state daughter partons.
+Then the formation time is,
 \begin{eqnarray}\label{eq:tau_1}
 \tau_f = \frac{2(1-x)\omega}{k_\perp^2+(1-x)m_g^2},
 \end{eqnarray}
-where $m_g^2=m_D^2/2 \sim \alpha_s T$ is gluon asymptotic mass squared.
+where $x = \omega/E$, $m_g^2=m_D^2/2 \sim \alpha_s T$ is the gluon thermal mass squared.
 For a collinear gluon the formation time looks like $\omega/(\alpha_s T^2)$.
-Meanwhile, the gluon can undergoes multiple scatterings with the medium.
-In a perturbative picture, this collision rate $R_{g} = 1/\lambda_g$ scales like $\alpha_s T$. 
-Therefore, an estimate of the number of rescatterings within the formation time $N \sim \tau_f R_g \sim \omega/T$ may not be a small number for gluon with energy comparable or larger than the medium temperature.
-What is more complicated is that each rescattering can change the transverse momentum of the gluon relative to the mother parton.
-Therefore we need a self-consistent estimation of the formation time.
-Given that on average, each rescattering broadens the gluon transverse momentum square $k_t^2$ by the amount $\hat{q}_g\lambda_g$ where $\hat{q}_g = d\langle k_t^2\rangle/dt$ is the gluon transport parameter, the self consistent relation reads,
+Meanwhile, the gluon can keep interacting with the dense medium and the elastic collision rate $R_{g} = 1/\lambda_g$ scales like $\alpha_s T$. 
+Therefore, the number of rescatterings within the formation time $N \sim \tau_f R_g \sim \omega/T$ may not be a small number for gluon with energy comparable or larger than the medium temperature.
+Because each rescattering also change the transverse momentum of the gluon relative to the mother parton, a self-consistent estimation of the formation time is required.
+Given that elastic scattering increases the variance of the gluon transverse momentum relative to the mother parton $k_t^2$ by an amount $\hat{q}_g\tau_f$ where $\hat{q}_g = d\langle k_t^2\rangle/dt$ is the gluon transport parameter, the self-consistent condition is
 \begin{eqnarray}\label{eq:tau_n}
 \tau_f \sim \frac{2(1-x)\omega}{\hat{q}_g\tau_f} \longrightarrow \tau_f \sim \sqrt{\frac{2(1-x)\omega}{\hat{q}_g}}
 \end{eqnarray}
-The physical picture of how the in-medium transport of gluon modify the energy differential rate of medium induced gluon radiation is nicely summarized as follows,
+With a finite formation time, the medium induced gluon radiation is understand as follows. 
+A virtual gluon with energy $\omega$ and transverse momentum $k_t$ splits from the mother parton with the probability given by the vacuum splitting function ($P(x) \sim \alpha_s C_R/x$).
+If its formation time is smaller than the mean-free-path of elastic scattering, it is put on shell with the rate $1/\lambda_g$; otherwise multiple rescattering works coherently to put it onshell with a rate $1/\tau_f$.
+Then, the radiation rate is,
 \begin{eqnarray}\label{eq:LPM}
 \frac{dP}{dt d\omega} \sim \begin{cases}
  \frac{\alpha_s C_R}{\omega} \frac{1}{\lambda_g} \sim \alpha_s^2 C_R \frac{T}{\omega}, \hfill \tau_f < \lambda_g\\
  \frac{\alpha_s C_R}{\omega} \frac{1}{\tau_f}\sim \alpha_s C_R \sqrt{\frac{\hat{q}_g}{T^3}} \left(\frac{T}{\omega}\right)^{3/2}, \hfill \lambda_g < \tau_f
 \end{cases}
 \end{eqnarray}
-This is understand as a gluon with energy $\omega$ first being split from the mother parton with the probability given by the vacuum splitting function ($\sim \alpha_s C_R/\omega$), and then be put on shell with the rate $1/\lambda_g$ if its formation time is smaller than the mean-free-path, otherwise multiple rescattering works coherently to put it onshell with a rate $1/\tau_f$. 
-We note first the LPM effect modifies the single gluon emission rate and does not introduces correlation between subsequent emission which is a higher order effect shown in [P. Arnold].
+We note first that the LPM effect modifies the single gluon emission rate and does not introduces correlation between subsequent emission which is a higher order effect [P. Arnold].
 And second, the emission rate at a certain time receives coherent contributions from the collision kernels within extend $\tau_f$ into the past.
-Integrating the spectra weighted by gluon energy, the energy loss per unit length is,
-\begin{eqnarray}\label{eq:dE-Linf}
-\Delta E \sim \alpha_s^2 \sqrt{ET^3} L
-\end{eqnarray}
-Therefore, in a finite medium of size $\lambda_g < L< \tau_{f,\textrm{max}} \sim \sqrt{E/\hat{q}_g}$ where the number of sources in the past are limited, the second line of Equation \ref{eq:LPM} is replaced by,
+Therefore, in a thin medium of size $\lambda_g < L< \tau_{f,\textrm{max}} \sim \sqrt{E/\hat{q}_g}$, the number of sources in the past are limited, the second line of Equation \ref{eq:LPM} is should be replaced by,
 \begin{eqnarray}
 \frac{dP}{dt d\omega} \sim 
  \frac{\alpha_s C_R}{\omega} \frac{1}{\min\{\tau_f,L\}}, \hfill \lambda_g < \tau_f
 \end{eqnarray}
-This leads to the non-linear path length $L$ dependence of the energy loss if one integrates over gluon energy $\omega$ and time $t$,
+The radiative energy loss is obtained by integrating over the differential rate times the gluon energy. 
+For the case of an infinite medium, this is
+\begin{eqnarray}\label{eq:dE-Linf}
+\Delta E/\Delta L \sim \alpha_s^2 \sqrt{ET^3}
+\end{eqnarray}
+For a thin medium, the LPM effect leads to the non-linear path length $L$ dependence of the energy loss
 \begin{eqnarray}\label{eq:dE-Lfinite}
 \Delta E \sim \alpha_s \hat{q} L^2
 \end{eqnarray}
-When the path length exceed the critical one $L_c = \sqrt{E/\hat{q}_g}$, $\Delta E$ should smoothly transit to the behavior given by Equation \ref{eq:dE-Linf}.
+When the path length exceed the $\tau_{f,\textrm{max}}$, $\Delta E$ should smoothly transit to the behavior given by Equation \ref{eq:dE-Linf}.
 
 \section{Different Monte-Carlo implementations}\label{section:MC}
 There are already many existing implementations of LPM effects and many of them are designed to match certain theoretical calculations. 
 But in this work, We are going to compare only those approaches that treat this effect non-locally and has a non-linear path length dependence.
 The framework we worked in is the {\tt Lido} model, which is original designed for heavy quark transport inside a quark-gluon plasma. 
-In this work, to avoid the complication of a quark mass, we turn off all quark mass effects (phase-space, matrix-elements) in the model to study massless quark.
+In this section, we turn off all quark mass effects (phase-space, matrix-elements) in the model to study light quark.
 The {\tt Lido} model is based on elementary elastic and inelastic pQCD scatterings. 
-The inelastic processes include both gluon radiation processes ($2\rightarrow 3$) and gluon absorption process ($3\rightarrow 2$) using a Gunion-Bertsch approximation of the matrix-element.
+The inelastic processes include both gluon radiation processes ($2\rightarrow 3$) and gluon absorption process ($3\rightarrow 2$) using a Gunion-Bertsch approximated matrix-element.
 For the comparison to theory calculations, we only turn on the $2\rightarrow 3$ channel for the high energy quark.
+Next, we introduce three different LPM effect implementations in detail,
 
-\paragraph*{``Coherence factor" approach} This first implementations of LPM effect was the also the old one in the {\tt Lido} model. 
-This approach is inherent from early works using a radiation improved Langevin equation [] and is also implemented in the Linearized-Boltzmann-Transport-Model []. 
+\paragraph*{``Coherence factor" approach} This first approach LPM is the old one in the {\tt Lido} model. 
+It inherits the approach of early works using a radiation improved Langevin equation [] and is also implemented in the Linearized-Boltzmann-Transport-Model []. 
 One can show that the formula used in {\tt Lido} reduces to the one used in [] when the momentum transfer from the medium is much smaller than the transverse momentum of the radiated gluon.
-In the {\tt Lido} model, its key feature is modifying the incoherent gluon radiation rate,
+The incoherent limit of the rate is calculated using $2\rightarrow 3$ Gunion-Bertsch cross-section $\sigma_\textrm{GB}$,
 \begin{eqnarray}\label{eq:GB-rate}
 \Gamma = \frac{1}{2E_1}\int\frac{f_i(p_2)d\vec{p_2}^3}{(2\pi)^3 2p_2}2\hat{s}\int d\hat{t}\frac{d\vec{k}^3}{(2\pi)^3 2k}\frac{d\sigma_{\textrm{GB}}}{d\hat{t}d\vec{k}^3}
 \end{eqnarray}
-by introduce a time-dependent coherence factor in the final state gluon phase space integration,
+Th key feature of the ``Coherence factor" approach is to introduce a time-dependent coherence factor in the final state gluon phase space integration of Equation \ref{eq:GB-rate},
 \begin{eqnarray}
 \frac{d\vec{k}^3}{(2\pi)^3 2k} \rightarrow \frac{d\vec{k}^3}{(2\pi)^3 2k} 2\left[1-\cos\left(\frac{t-t_0}{\tau_f}\right)\right]
 \end{eqnarray}
-with $\tau_f$ is the formation time from single scattering, calculated from Equation \ref{eq:tau_1}. 
 The rate now dependents on the time separation $\Delta t = t-t_0$, which is the time elapse from the last gluon emission.
-Therefore, it suppresses the emission rate for those gluon whose formation time is large compared to $\Delta t$, 
-Although the value of $\Delta t$ is only determined at run-time,
-its order of magnitude can be estimated from the following condition:
+The value of $\Delta t$ is only determined at run-time for each radiation,
+but we can still estimate its order of magnitude from the following condition:
 \begin{eqnarray}
 1 \sim \int_0^{\Delta t}\Gamma(t) dt,
 \end{eqnarray}
-which means that the probability of one radiation happens within $\Delta t$ should be of order $1$.
+which means that the probability to have one radiation within $\Delta t$ should be of order $1$, as required by the definition of $\Delta t$.
 By dimensional analysis, this gives $\Delta t \sim 1/\alpha_s T$ on average.
 We see that this prescription indeed suppress the spectrum when the formation time is much greater than the mean-free-path.
-However, gluon does not reinteract with the medium in this approach and it also introduces anti-correlation between the locations of vertices of subsequent emissions.
+However, gluon does not reinteract with the medium after it is produced in the $2\rightarrow3$ process.
+Moreover, it also introduces correlation between the locations of vertices of subsequent emissions;
+especially, no matter how soft the previous radiation is, it affects the next radiation in the same way through $\Delta t$.
 
-\paragraph*{``Blocking radiation" approach} Another approach that takes into account the gluon multiple scattering effect is proposed in [] and it is later also implemented in a Paron-Cascade model [].
-Motivated by these works, we tested the following routine in {\tt Lido}. 
+The next two approaches both taken into account the gluon multiple scattering effect motivated by the work .
 A gluon is first sampled from an inelastic scattering at time $t=t_0$ but it is not regarded as ``formed" immediately. 
 This gluon keeps interacting with the medium via elastic processes which changes the gluon transverse momentum $k_\perp$ and also its formation time $\tau_{f,n}$, where the subscript $n$ means this is the formation time calculated after $n$-th rescattering.
 This continues until the time elapse since $t_0$ just exceed the gluon formation time,
-\begin{eqnarray}
+\begin{eqnarray}\label{eq:self-consisten-condition}
 \tau_{f, n} < t-t_0 < \tau_{f, n-1}.
 \end{eqnarray}
 After this amount of time, the gluon is considered lose coherence with the mother parton.
 The formation time determined in this way reproduces the self-consistent condition of Equation \ref{eq:tau_n}.
-The suppression is introduced by requiring that no other radiation is allowed within the formation time and therefore we shall call it a ``blocking radiation" approach in this paper.
-We notice that this procedure also introduce correlations between subsequent emission vertices.
-On average, the ``blocking" reduces $N$ possible inelastic scatterings to a single one, with
-\begin{eqnarray}
-N \sim \frac{\tau_f}{ \lambda_{\textrm{inel}}} \sim \sqrt{\frac{\omega}{\hat{q}}}\alpha_s^2 T
-\end{eqnarray}
-And the single gluon radiation rate are suppressed as,
-\begin{eqnarray}\label{eq:PCM-spectra}
-\frac{dP}{dt d\omega} \sim
- \frac{\alpha_s C_R}{\omega} \frac{1}{\lambda_g}\frac{1}{N} \sim C_R \sqrt{\frac{\hat{q}}{T^3}}\left(\frac{T}{\omega}\right)^{3/2}
-\end{eqnarray}
-We found that although this yield the desired spectrum of the radiated gluon, but the magnitude is different from the expectation by one power of $\alpha_s$. 
-If one stick to one coupling constant, this problem can be absorbed into a pre-factor in the definition of the formation time; however for running coupling, we do need to improve it.
+How to introduce the correct suppression is trick.
 
-\paragraph*{``Modified rescattering" approach} Finally, we propose a modified approach that is based on the previous one.
+\paragraph*{``Blocking radiation" approach}
+An attempt to introduce suppression is by requiring that no other radiation is allowed within the formation time, referred to as the ``blocking radiation" approach in this paper.
+It certainly suppresses the radiation rate and also results in a non-linear path length dependence of energy loss, however, a closer examination reveals its problem.
+First of all, it introduces correlations between subsequent emission vertices.
+But the biggest problem is that although each formation is delayed by the amount of time determined in \ref{eq:self-consisten-condition},
+it does not change the shape of the spectrum.
+It only suppresses the $2\rightarrow 3$ spectrum by an overall factor $1/N$ that reduces $N$ possible inelastic collision to a single one,
+\begin{eqnarray}
+N \sim \frac{\left\langle\tau_f\right\rangle}{ \lambda_{\textrm{inel}}}.
+\end{eqnarray}
+This approach is certainly not so ideal, but we still keep it as an example for comparison.
+
+\paragraph*{``Modified rescattering" approach} Finally, we implement another approach modified from the one studied in.
 It is designed to reproduce the qualitative spectrum of Equation \ref{eq:LPM} and does not introduce extra correlations between different emission vertices. 
-In this routine, we also avoid the use of mean-free-path $\lambda$, since it is very sensitive to the regularization of the matrix-elements. 
-The substitute of $\lambda$ is an effective mean-free-path $\tilde{\lambda}$ defined by,
+Compare to [], we try to avoid the use of mean-free-path $\lambda$ and the number of scattering centers $L/\lambda$, since these quantities are very sensitive to the regularization of the matrix-elements. 
+The substitute of $\lambda$ is an ``effective" mean-free-path $\tilde{\lambda}$ defined by,
 \begin{eqnarray}
 \tilde{\lambda} = \frac{\hat{q}_g(\omega, T)}{m_D^2}
 \end{eqnarray}
-The advantages are not only that $\tilde{\lambda}$ is less sensitive to regularization compared to $\lambda$, but also that it can be applied to other approaches that are not based on individual scattering picture, e.g., the radiation-imporved Langevion Equation.
-This is particular useful if one would like to absorb small angle scatterings into a diffusion equation, then $\hat{q}$ will be the sum of the $\hat{q}$ of scatterings and the $\hat{q}$ of the diffusion part.
-The workflow of this implementation is as follows,
+The advantages are not only that $\tilde{\lambda}$ is less sensitive to regularization compared to $\lambda$, but also that it can be applied to other approaches that are not based on individual scattering picture, such as the Radiation-imporved Langevion Equation.
+This is particular useful if one would like to absorb small angle scatterings into a diffusion equation [], then $\hat{q}$ will be the sum of the $\hat{q}$ of scatterings and the $\hat{q}$ of the diffusion part.
+Here are the detailed steps of this workflow of this implementation,
 \begin{itemize}
 \item[1.] In a time step $\Delta t$, the mother parton undergoes inelastic scatterings with probability $\Gamma\Delta t$. $\Gamma$ is given by Equation \ref{eq:GB-rate} (without LPM effect).
 \item[2.] If a gluon $i$ is sampled at $t_{i,0}$, it is appended to a ``pre-gluons" list associated to the mother parton. But its energy is not carried away from the mother.
