@@ -35,7 +35,7 @@ By controlling the modeling uncertainty between the Monte Carlo implementations 
 \end{abstract}
 
 \begin{document}
-\title{An systematic comparisons of Monte-Carlo implementations of parton radiative energy loss to theoretical limits.}
+\title{Calibrating Monte-Carlo implementations of parton radiative energy loss to theoretical limits.}
 \author{Weiyao Ke}
 \author{Steffen A.\ Bass}
 \affiliation{Department of Physics, Duke University, Durham, NC 27708-0305}
@@ -272,17 +272,17 @@ The collision kernel of a gluon in a thermalized QGP is,
 \end{eqnarray}
 The exact solution can be obtained numerically, but the author of \cite{Arnold:2008zu} obtained a semi-analytic solution to the next-to-leading-log ($[\ln(E/T)]^{-1}$) accuracy, which comes handy to calibrate the Monte Carlo generators,
 \begin{eqnarray}\label{eq:AMY-NLL}
-\frac{dP_{q\rightarrow qg}^{\textrm{NLL}}}{dt dx} &=& \frac{\alpha_s}{2\pi}\frac{ d_F P_{q\rightarrow qg}(x)}{\sqrt{2}\nu_q E} m_D^2 \hat{\mu}_\perp^2(x),
+\frac{dP_{q\rightarrow qg}^{\textrm{NLL}}}{dt dx} &=& \frac{\alpha_s}{2\pi}\frac{ d_F P_{q\rightarrow qg}(x)}{\sqrt{2}\nu_q x(1-x)E} m_D^2 \hat{\mu}_\perp^2(x),
 \end{eqnarray}
 with $\hat{\mu}_\perp^2(x)$ determined by the self-consistent condition,
 \begin{eqnarray}\label{eq:AMY-sf}
 \nonumber
 \hat{\mu}_\perp^2 && = \frac{gT}{m_D} \sqrt{\frac{2x(1-x)E}{\pi T}}\left\{
 \frac{C_A}{2}(1-x)^2\ln\left[\frac{\xi\hat{\mu}_\perp^2}{(1-x)^2}\right] + \right. \\
-&&\left.\left(C_F-\frac{C_A}{2}\right)x^2\ln\left(\frac{\xi\hat{\mu}_\perp^2}{x^2}\right) + \frac{C_A}{2}\ln(\xi\hat{\mu}_\perp^2)\right\}.
+&&\left.\left(C_F-\frac{C_A}{2}\right)x^2\ln\left(\frac{\xi\hat{\mu}_\perp^2}{x^2}\right) + \frac{C_A}{2}\ln(\xi\hat{\mu}_\perp^2)\right\}^{\frac{1}{2}}.
 \end{eqnarray}
 And $\xi\approx9.09916$ is a constant. Since we do not use quantum statistics in the Monte Carlo generators, we have dropped the Bose enhancement and the Pauli blocking factors in Equation \ref{eq:AMY-NLL}.
-The NLL results are good approximations when $\ln(xE/T)$ is large. 
+The NLL result is a good approximation when $\ln(xE/T)$ is large. 
 It shoots above the numerical solutions with some universal behaviors when $\ln(xE/T)$ is small.
 We estimate this uncertainty by including an artificial multiplicative correction factor to Equation \ref{eq:AMY-NLL}, 
 \begin{eqnarray}\label{eq:correction}
@@ -290,6 +290,19 @@ R_{\textrm{corr}} = \frac{1}{1+0.8\left(xE/T\right)^{-0.7}}.
 \end{eqnarray}
 It mimic the systematic deviation of Equation \ref{eq:AMY-NLL} from the numerical solution. 
 Later we will see that for the relevant temperatures and parton energy larger than $10$ GeV, this is not a big effect for the energy loss.
+To better see the physical interpretation of this formula, we also quote the lead-log result for $\hat{\mu}_\perp^2(x)$ from \cite{Arnold:2008zu},
+\begin{eqnarray}\label{eq:AMY-LL}
+\nonumber
+\hat{\mu}_{\perp, \textrm{LL}}^2 = \frac{gT}{m_D} \sqrt{\frac{2x(1-x)E}{\pi T}}\left\{
+\frac{C_A}{2}(1-x)^2 + \right.\\
+\left. + \left(C_F - \frac{C_A}{2}\right)x^2 + \frac{C_A}{2}\right\}^{\frac{1}{2}}\ln^{\frac{1}{2}}\left(\frac{Q_0^2}{m_D^2}\right)
+\end{eqnarray}
+where the $\log$ term comes from the integration of $q_\perp^2 A(q_\perp^2)dq_\perp^2$ which gives $\hat{q}$ and $Q_0^2$ is the estimated upper limits of the integration. 
+When combined with the pre-factors in Equation \ref{eq:AMY-NLL}, one can show that the spectrum is proportional to $\tau_f^{-1}$ with $\tau_f$ given by the one self-consistently determined in Equation \ref{eq:tau_n}, corroborating the previous qualitative argument.
+At NLL order, the value of $Q_0^2$ or equivalently $\hat{\mu}_\perp^2$ is determined self-consistently from Equation \ref{eq:AMY-sf}.
+However in a Monte-Carlo calculation, the $t$-channel momentum transfer has a maximum of $Q_{0,\textrm{max}}^2 = s+m_g^2$, which is approximately $6\omega T+m_g^2$.
+For relatively small gluon energy, the effect of a maximum $Q_{0,\textrm{max}}$  appears in the Monte-Carlo simulation. 
+As a result, to do a meaningful comparison in the next section, we choose to limit the value of $\mu_\perp^2$ determined in Equation \ref{eq:AMY-sf} by the maximum value given by $\hat{\mu}_{\perp, \textrm{LL}}^2$ using $Q_0^2 = Q_{0,\textrm{max}}^2$.
 
 For the case of a thin medium, we make use of another analytic result derived in \cite{Arnold:2009mr}. 
 Contributions from one single hard scattering and multiple soft scatterings are combined. The final formula for the energy loss reads,
@@ -300,7 +313,7 @@ The pre-factor $N_0 = 6\zeta(3)(1+N_f/4)/\pi^2 \approx 1.28$
 are obtained using quantum statistics for $N_f=3$, but it is very close to the value calculated using classical statistics ($12/\pi^2 \approx 1.22$) when $N_f=3$.
 Therefore, we will not correct this formula in the comparison of the next Section.
 
-Finally, we notice that these analytic formulas are derived in the eikonal limit. 
+Finally, we notice that these analytic formulas are derived in the eikonal limit.
 Correspondingly in the Monte-Carlo simulations, we reset mother parton's four momenta back to the initial momentum after each time step. 
 For the radiated gluon, after each rescattering the four momenta is rescaled so that the energy is unchanged.
 
@@ -313,12 +326,14 @@ Technically, $dE/dx$ is measured after a time evolution long enough ($L\gg L_c$)
 The results presented are further divided by the anticipated scaling behavior $dE/dx \propto \alpha_s^2 \sqrt{ET^3}$.
 For each column, we double the $\alpha_s$ value and for each row, temperature is increased by $0.2$ GeV. 
 Within each subplot, the parton energy varies from $10$ GeV to $200$ GeV.
-Different Monte Carlo calculations are shown in colored lines, AMY NLL results are shown as black boxes. The lower and upper bounds of the box correspond to the results with or without the correction factor \ref{eq:correction}.
+Different Monte Carlo calculations are shown in colored lines, AMY NLL results are shown as black boxes. 
+Because the AMY NLL results did not use a gluon thermal mass, we only integrate the gluon energy above the thermal mass to calculate the AMY energy loss. 
+The lower- and upper-bounds of the black boxes correspond to the results with or without the correction factor \ref{eq:correction}.
 We found that the ``Modified rescattering" approach (red-dashed lines) well reproduces the energy, temperature, and coupling constant dependence of AMY NLL energy loss for relatively high energy parton $E>20$ GeV.
 The ``Coherence factor" approach (blue-dash-dotted lines) has a similar energy and temperature dependence to those of the theoretical calculations; however, it systematically deviates from the theory calculation for different coupling constant.
 For the ``Blocking radiation" approaches, this $\alpha_s$-dependence deviation are even bigger and the energy dependence also gets worse, which are not surprised as we have discussed that suppression introduced in this way does not modified the shape of the spectrum.
 
-Next we tested the path-length $L$ dependence of the energy loss $\Delta E$ of a quark with $E = 200$ GeV in a finite medium.
+Next we tested the path-length $L$ dependence of the energy loss $\Delta E$ of a quark with $E = 100$ GeV in a finite medium.
 The comparison is showed in Figure \ref{fig:eloss-ldep}.
 Again, each columns and each rows use different coupling constants and temperatures respectively and within each subplots the path length is varied up to four times of $L_c^0$.
 Here $L_c^0 = \sqrt{E/\hat{q}_0}$ is an estimate of the critical path length below which one expects a non-linear $L$-dependence.
@@ -343,7 +358,7 @@ Concluding this section, we found that the ``Modified Rescattering" approach rep
 It grants a better theoretical control on the parton energy loss Monte-Carlo. 
 We hope it will benefit the interpretation of the results from future model-to-data comparisons.
 
-\section{Expanding medium, running coupling, mass effect and caveats}\label{section:disscuss}
+\section{Expanding medium, running coupling, mass effect}\label{section:disscuss}
 \begin{figure}
 \includegraphics[width=\columnwidth]{Bjorken.pdf}
 \caption{Energy loss fraction $\Delta E /E$ as function of path length $L$ at three different energies. Reddashed lines are direct simulations (the non-local case) and blue-dash-dotted lines are results using local approximation.}
@@ -431,11 +446,18 @@ SAB and WK  are supported by the U.S. Department of Energy Grant no. DE-FG02-05E
 
 \begin{appendices}
 \section{Gunion-Bertsch rate in the small momentum transfer limit}\label{app:consistency}
-\section{Monte-Carlo tuned to theory}\label{app:tune-spectrum}
+\section{A mored detailed comparison of radiation spectra}\label{app:tune-spectrum}
+In Figure \ref{fig:spectrum} we examine the spectrum for at a single coupling and a single energy in an infinite medium. To evaluate the full performance of the Monte-Carlo, this appendix section provides detailed comparison at different energy, couplings and medium size.
 \begin{figure}
-\includegraphics[width=\columnwidth]{spectrum_E.pdf}
-\caption{}
-\label{fig:tuned-spectrum}
+\includegraphics[width=\columnwidth]{spectrum_E_alphas0d1.pdf}
+\caption{The ratios of Monte-Carlo simulated spectra to the AMY NLL spectra (gray bands) and to the Gunion-Bertsch incoherent spectra (blue lines) are plotted, using $\alpha_s = 0.1$. The quark energy $E$ is 10, 50, 100, and 500 GeV as indicated by the rightmost vertical dashed lines in each subplots. The horizontal dashed lines denote $\pm 20\%$ deviation from unity.}
+\label{fig:spectra-alphas=0.1}
+\end{figure}
+
+\begin{figure}
+\includegraphics[width=\columnwidth]{spectrum_E_alphas0d3.pdf}
+\caption{The same as Figure \ref{fig:spectra-alphas=0.1}, but for $\alpha_s = 0.3$.}
+\label{fig:spectra-alphas=0.3}
 \end{figure}
 
 \label{app:tune}
