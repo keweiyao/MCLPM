@@ -48,26 +48,26 @@ Systematic calibration of medium evolution models on soft-observables have shown
 Applying this model calibration to the extraction of jets and heavy quark transport parameters, we encountered new difficulties. 
 First, the transport coefficients have both temperature and momentum dependences, increasing the complexity of uncertainty parametrization \cite{Xu:2017obm}.
 Second, the model (theory) uncertainties are large. 
-Model uncertainties not only originate from different assumptions that define different theories \cite{CaronHuot:2010bp, Rapp:2018qla}, but also hide in the numerical approximations of the theory.
-Because theory uncertainty can obscure the physical statement of the extracted parameters, we need to put it under control or at least estimate its impact before future model-to-data comparisons.
+Model uncertainties originate not only from different assumptions that define different theories \cite{CaronHuot:2010bp, Rapp:2018qla} but also from numerical approximations of the theory.
+Because they obscure the interpretation of the extracted physical quantities, we want to keep model uncertainties under control.
 For studying the impacts of using different theory assumptions, such as whether the nature of the interaction is perturbative or non-perturbative or even both, there are on-going efforts from the JETSCAPE collaboration to interface different theories in a unified way \cite{Cao:2017zih, Kauder:2018cdt}.
-In this work, we aim to reduce and control the uncertainty that comes from the numerical implementation of a specific type of theory, which is the transport theory based on perturbative QCD.
+In this work, we aim to reduce the uncertainty that comes from the numerical implementation of a specific type of theory, which is the perturbative QCD (pQCD) based transport theory.
 
-The application of perturbative QCD to partonic transport in heavy-ion collisions has been developed over the years \cite{Arnold:2002zm}.
-In a near equilibrium medium, energetic partons interact with medium through both elastic (collisional) and inelastic (medium induced gluon radiation) processes at leading order \cite{Ghiglieri:2015ala}.
+The theory of applying pQCD to partonic transport has been developed over the years \cite{Arnold:2002zm, Ghiglieri:2015ala}.
+In a near equilibrium medium, energetic partons interact with medium through both elastic (collisional) and inelastic (medium induced gluon radiation) processes at leading order.
 Because of the complexity of the medium dynamics in realistic collisions, Monte Carlo implementations of the pertubative physics are developed for phenomenology.
 At high energy, the largest uncertainty that is introduced in these Monte Carlo generators comes from different treatments of the gluon radiation since it is the dominant source of energy loss at high energy.
 For such radiation in a dense medium, the QCD Landau-Pomeranchuk-Migdal (LPM) effect is important, where multiple scatterings during the radiating gluon formation time act coherently to suppress the radiation spectrum \cite{PhysRev.103.1811,Wang:1994fx,Zakharov:1996fv,Baier:1996kr}.
 Therefore, a medium induced radiation becomes an effectively $n$-body to $(n+1)$-body process that extends in space-time.
 This feature is particularly difficult to be accurately implemented in a Monte-Carlo way, where interactions are usually treated as local.
 To simplify the problem while still keep the essential qualitative natures such as path-length dependence and spectrum shape, different methods are used in numerical studies \cite{Djordjevic:2008iz,Cao:2013ita,ColemanSmith:2012vr,Xu:2004mz, Zapp:2011ya, Gossiaux:2012cv,Park:thesis}.
-In this work we compare quantitatively three implementations with different physical motivations to the knowledge from the perturbative calculations in idealized limits \cite{Arnold:2008zu,Arnold:2009mr}.
-Among them, a slightly modified approach based the method that takes into account gluon multiple scatterings works remarkably well \cite{Zapp:2011ya}.
-This method, referred to as the ``Modified Rescattering" approach, well reproduces the analytic calculations of energy loss as function of coupling constants, temperatures, parton energies and path lengths.
-It also reasonably explains the radiation spectrum.
+In this work we compare quantitatively three implementations with different physical motivations to the knowledge from the perturbative calculations in idealized limits.
+Among them, a modified approach based the method of \cite{Zapp:2011ya} that takes into account gluon multiple scatterings works remarkably well.
+This method, referred to as the ``Modified Rescattering" approach, reproduces the analytic calculations of energy loss as function of coupling constants, temperatures, parton energies and path lengths.
+It also reasonably explains the gluon radiation spectrum.
 We introduce parameters to control its finite- and infinite-size behaviors separately.
-This way the parameters can be fine-tuned to match the theory on the one hand; on the other hand, they can also be calibrated to experimental data.
-The performance of the theory can therefore be measured quantitatively on the landscape of this parameter space in future statistical analysis.
+The parameters can be fine-tuned to match the theory or be calibrated to experimental data;
+therefore, the performance of the theory can be measured quantitatively on the landscape of this parameter space in future statistical analysis.
 
 This paper is organized as follows. Section \ref{section:qual} reviews the qualitative spectrum of the medium induced radiation.
 In Section \ref{section:MC}, three Monte Carlo implementations of the radiative processes are discussed. 
@@ -75,22 +75,20 @@ Semi-analytic results to which the Monte Carlo simulations are compared are brie
 The major results are discussed in Section \ref{section:results}.
 Finally, we discuss in Section \ref{section:disscuss} the running coupling effect, expanding medium effect and the mass (dead-cone) effect in the ``Modified Rescattering" implementation. Section \ref{section:summary} is a brief summary.
 
-
-
 \section{Qualitative features of the suppression}\label{section:qual}
 In this section, we introduce the qualitative features of the medium induced radiation following the discussion in \cite{Baier:1996kr}.
 A radiated gluon stays in coherence with the mother partons for a finite amount of time determined by the uncertainty principle $\Delta t \sim 1/\Delta E$. 
-$\Delta E$ is the different between the initial mother patron energy $E$ and the energies of the final state daughter partons.
+$\Delta E$ is the difference in light-cone energy between the initial mother patron energy $E$ and the final state of daughter partons.
 The formation time is then,
 \begin{eqnarray}\label{eq:tau_1}
 \tau_f \sim \frac{2(1-x)\omega}{k_\perp^2+(1-x)m_g^2},
 \end{eqnarray}
-where $x = \omega/E$, $m_g^2=m_D^2/2 \sim \alpha_s T$ is the gluon thermal mass squared.
+where $x = \omega/E$, $m_g^2$ is the gluon thermal mass squared is related to the Debye screening mass by $m_g^2 = m_D^2/2 \sim \alpha_s T^2$.
 The formation time looks like $\omega/(\alpha_s T^2)$ for a collinear splitting.
-Meanwhile, the gluon can keep interacting with the dense medium via elastic collisions with a rate $R_{g} = 1/\lambda_g$ that scales like $\alpha_s T$. 
+Meanwhile, the gluon can keep interacting with the dense medium via elastic collisions with a rate $R_{g}$ that scales like $\alpha_s T$. 
 Therefore, the number of rescatterings within the formation time $N \sim \tau_f R_g \sim \omega/T$ may not be a small number for gluon with energy comparable or larger than the medium temperature.
-Since rescatterings also change the transverse momentum $k_\perp$ of the gluon relative to the mother parton, a self-consistent formation time estimation is required.
-Given that elastic scattering increases the average $k_\perp^2$ by an amount $\hat{q}_g\tau_f$ where $\hat{q}_g = d\langle k_\perp^2\rangle/dt$ is the gluon transport coefficient, the self-consistent condition is
+Because rescatterings also change the transverse momentum $k_\perp$ of the gluon relative to the mother parton, a self-consistent formation time estimation is required.
+Given that on average elastic scattering increases $k_\perp^2$ by an amount $\hat{q}_g\tau_f$ where $\hat{q}_g = d\langle k_\perp^2\rangle/dt$ is the gluon transport coefficient, the self-consistent relation for an averaged formation time is,
 \begin{eqnarray}\label{eq:tau_n}
 \tau_f \sim \frac{2(1-x)\omega}{\hat{q}_g\tau_f} \longrightarrow \tau_f \sim \sqrt{\frac{2(1-x)\omega}{\hat{q}_g}}
 \end{eqnarray}
@@ -98,12 +96,12 @@ The inverse of the formation time measures the rate of a gluon being separated f
 
 The radiation spectrum is understand as follows. 
 A virtual gluon with energy $\omega$ and transverse momentum $k_\perp$ splits from the mother parton with the probability given by the vacuum splitting function ($P(x) \sim \alpha_s/x$).
-If its formation time is smaller than the mean-free-path of elastic scattering (the Bethe-Heitler region), it is put on shell with the rate $1/\lambda_g$; otherwise multiple rescatterings put it on-shell with a rate $1/\tau_f$ (the LPM region).
+If its formation time is smaller than the mean-free-path of elastic scattering $\lambda_g = 1/R_g$, it is put on shell with the rate $1/\lambda_g$ (the Bethe-Heitler region); otherwise multiple rescatterings put it on-shell with a rate $1/\tau_f$ (the LPM region).
 As a result, the differential radiation rate is,
 \begin{eqnarray}\label{eq:LPM}
 \frac{dP}{dt d\omega} \sim \begin{cases}
  \frac{\alpha_s}{\omega} \frac{1}{\lambda_g} \sim \alpha_s^2  \frac{T}{\omega}, \hfill \tau_f \lesssim \lambda_g\\
- \frac{\alpha_s}{\omega} \frac{1}{\tau_f}\sim \alpha_s \sqrt{\frac{\hat{q}_g}{T^3}} \left(\frac{T}{\omega}\right)^{3/2}, \hfill \lambda_g \lesssim \tau_f
+ \frac{\alpha_s}{\omega} \frac{1}{\tau_f}\sim \alpha_s \sqrt{\hat{q}_g/T^3} \left(\frac{T}{\omega}\right)^{3/2}, \hfill \lambda_g \lesssim \tau_f
 \end{cases}
 \end{eqnarray}
 We note first that in the leading order picture, the LPM effect modifies the single gluon emission rate. 
@@ -112,7 +110,7 @@ Second, the emission rate at a certain time receives coherent contributions from
 Therefore if the number of scattering centers in a thin medium of size $\lambda_g < L< \tau_{f,\textrm{max}} \sim \sqrt{E/\hat{q}_g}$ are limited, the second line of Equation \ref{eq:LPM} is replaced by,
 \begin{eqnarray}
 \frac{dP}{dt d\omega} \sim 
- \frac{\alpha_s C_R}{\omega} \frac{1}{\min\{\tau_f,L\}}, \hfill \lambda_g < \tau_f
+ \frac{\alpha_s}{\omega} \frac{1}{\min\{\tau_f,L\}}, \hfill \lambda_g < \tau_f
 \end{eqnarray}
 The radiative energy loss is obtained by integrating over the differential rate times the gluon energy. 
 For the case of an infinite medium, this is
@@ -138,7 +136,6 @@ Next, we introduce three different LPM effect implementations in detail.
 
 \paragraph*{``Coherence factor" approach} This first approach is the old one used in the {\tt Lido} model. 
 It inherits from early works using a radiation improved Langevin equation \cite{Cao:2013ita} and is also implemented in the Linearized-Boltzmann-Transport-Model \cite{Cao:2016gvr,Cao:2017hhk}. 
-One can refer to Appendix \ref{app:consistency} that the formula used in {\tt Lido} reduces to the one used in \cite{Cao:2013ita} when the momentum transfer from the medium is much smaller than the transverse momentum of the radiated gluon.
 The incoherent limit of the rate is calculated using $2\rightarrow 3$ Gunion-Bertsch cross-section $\sigma_\textrm{GB}$,
 \begin{eqnarray}\label{eq:GB-rate}
 \Gamma = \frac{1}{2E_1}\int\frac{f_i(p_2)d\vec{p_2}^3}{(2\pi)^3 2p_2}2\hat{s}\int d\hat{t}\frac{d\vec{k}^3}{(2\pi)^3 2k}\frac{d\sigma_{\textrm{GB}}}{d\hat{t}d\vec{k}^3}
@@ -148,20 +145,21 @@ The ``Coherence factor" appraoch implements LPM suppression by multiplying a tim
 \frac{d\vec{k}^3}{(2\pi)^3 2k} \rightarrow \frac{d\vec{k}^3}{(2\pi)^3 2k} 2\left[1-\cos\left(\frac{t-t_0}{\tau_f}\right)\right]
 \end{eqnarray}
 The modified rate dependents on the time separation $\Delta t = t-t_0$ which is the time elapse from the last gluon emission.
+One can refer to Appendix \ref{app:consistency} that the formula used in {\tt Lido} reduces to the one used in \cite{Cao:2013ita} when the momentum transfer from the medium is much smaller than the transverse momentum of the radiated gluon.
 The value of $\Delta t$ is only determined at run-time,
 but we can still estimate its order-of-magnitude from the following condition:
 \begin{eqnarray}
 1 \sim \int_0^{\Delta t}\Gamma(t) dt,
 \end{eqnarray}
-which means that the probability to have one radiation within $\Delta t$ should be of order $1$, as required by the definition of $\Delta t$.
+which means that the probability to have one radiation within $\Delta t$ should be of order $1$ required by the definition of $\Delta t$.
 By dimensional analysis, this gives $\Delta t \sim 1/\alpha_s T$.
 We see that this prescription indeed suppresses the spectrum when the formation time is much greater than the mean-free-path. 
 However, multiple scatterings are not included since gluons are always produced in $2\rightarrow3$ processes.
 Moreover, it introduces correlation between the locations of vertices of subsequent emissions;
-especially, no matter how soft the previous radiation is, it affects the next radiation in the same way through $\Delta t$.
+especially, no matter how soft the previous radiation is, it affects the next radiation in the same way.
 
 The next two approaches both taken into account the gluon multiple scattering effect motivated by the implementation \cite{Zapp:2011ya}.
-A gluon is first sampled from an $2\rightarrow3$ inelastic scattering at time $t=t_0$, but it is not regarded as ``formed" immediately. 
+A gluon is first sampled from an $2\rightarrow3$ inelastic scattering at time $t=t_0$, but it is not immediately regarded as ``formed". 
 This gluon keeps interacting with the medium via elastic processes that change the gluon transverse momentum $k_{\perp,n}$ and formation time $\tau_{f,n}$ via Equation \ref{eq:tau_1}.
 Here, the subscripts $n$ denote the quantities calculated after the $n$-th rescattering.
 This continues until the time elapse since $t_0$ just exceeds the gluon formation time,
@@ -169,8 +167,7 @@ This continues until the time elapse since $t_0$ just exceeds the gluon formatio
 \tau_{f, n} < t-t_0 < \tau_{f, n-1}.
 \end{eqnarray}
 After this amount of time, the gluon is considered to have lost coherence with the mother parton.
-The formation time determined in this way reproduces the self-consistent condition of Equation \ref{eq:tau_n}.
-Even with this self-consistent formation time, it is still tricky to introduce the correct suppression, so we discussed and compared the following two approaches. 
+The formation time determined in this way already fulfills the self-consistent condition of Equation \ref{eq:tau_n}, but it is still tricky to introduce the correct suppression, so we compared the following two approaches. 
 
 \paragraph*{``Blocking radiation" approach}
 An attempt to introduce suppression is by requiring that no other radiation is allowed within $t-t_0$ showed in Equation \ref{eq:self-consisten-condition}, referred to as the ``blocking radiation" approach in this paper.
@@ -195,43 +192,56 @@ The advantages are not only that $\tilde{\lambda}$ is less sensitive to regulari
 This is particular useful if one would like to absorb small angle scatterings into a diffusion equation \cite{Ghiglieri:2015ala}, then $\hat{q}$ will be the sum of a large-angle scattering contribution and a diffusion contribution.
 Another change is that we redefine the formation time of a gluon from a quark to be,
 \begin{eqnarray}\label{eq:formation-time-def}
-\tau_f = \frac{2(1-x)\omega}{k_\perp^2 + (1-x)m_g^2}\frac{1}{1-x+C_F/C_A x^2}.
+\tau_f = \frac{2(1-x)\omega}{\left(1-x+C_F/C_A x^2\right)k_\perp^2 + (1-x)m_g^2}.
 \end{eqnarray}
-The additional factor is motivated by the theory formula to be discussed in the next Section.
+The additional factor in front of $k_\perp$ is motivated by the theory formula to be discussed in the next Section.
 It means that the system under consideration is not a only a gluon but a system consists of both the mother quark and daughter partons. 
 This factor goes back to one in the soft limit $x\ll 1$, but it increases the formation time for harder splitting. 
 
-Here we explain this implementation step-by-step,
+Here is the step-by-step description,
 \begin{itemize}
-\item[1.] In a time step $\Delta t$, the mother parton undergoes inelastic scatterings with probability $\Gamma\Delta t$. $\Gamma$ is the incoherent rate from Equation \ref{eq:GB-rate}.
+\item[1.] Within a time step $\Delta t$, the mother parton undergoes inelastic scatterings with probability $\Gamma\Delta t$. $\Gamma$ is the incoherent rate from Equation \ref{eq:GB-rate}.
 \item[2.] If a gluon $i$ is sampled at $t_{i,0}$, it is appended to a ``pre-gluons" list associated to the mother parton. But its energy is not carried away from the mother.
 \item[3.] Loop over the ``pre-gluons" list. 
 \begin{itemize}
 \item[3.1] If $\tau_f > t-t_{i,0}$, evolve this gluon (elastic scatterings, diffusion, or both). Recalculate its formation time.
-\item[3.2] If $\tau_f < t-t_{i,0}$, accept it with probability $p = \min\{1, \tilde{\lambda}/\tau_f\}$. Accepted gluons are formed and its energy is subtracted from the mother. Otherwise, they are removed from the list without causing energy loss.
+\item[3.2] If $\tau_f < t-t_{i,0}$, accept it with probability $p = \min\{1, u\tilde{\lambda}/\tau_f\}$. Accepted gluons are formed and its energy is subtracted from the mother. Otherwise, they are removed from the list without causing energy loss.
 \end{itemize} 
 \item[4.] Repeat for the next time step.
 \end{itemize}
 Here, we use the term ``pre-gluons" to denote those gluons that are not fully formed.
 One mother parton can carry an arbitrary number of ``pre-gluons" and there are no correlations among them.
-The formation time calculated after multiple scatterings scales like $\sqrt{\omega/\hat{q}}$, so the acceptance $\tilde{\lambda}/\tau_f$ guarantees that the radiation spectra in the LPM region scales like the one given in Equation \ref{eq:LPM}.
-More generally, these ``pre-gluons" do not have to be originally induced by a medium. 
-Gluons from the vaccum shower of a hard parton generated by, {\tt Pythia} e.g., can also be initialized as ``pre-gluons" associated to the hard parton to study the interplay between the vacuum shower and the medium effect.
-This is out of the scope of this paper.
+The formation time calculated after multiple scatterings scales like $\sqrt{\omega/\hat{q}}$ on average, so the factor $\tilde{\lambda}/\tau_f$ guarantees that the radiation spectra in the LPM region scales like the qualitative one in Equation \ref{eq:LPM}.
+Now we explain the meaning of the other factor $u$.
+We first point out that the formation time determined in this way is only valid to leading-log level.
+It determines the transverse momenta of the gluon to be $k_\perp^2 \sim \tau_f \hat{q} \sim \tau_f \alpha_s^2 T^3 \ln(Q_0^2/m_D^2)$.
+In a Monte-Carlo simulation, $Q_0^2\sim 6\omega T$ is the maximum possible momenta transfer squared of the $t$-channel elastic scattering.
+However from a total coherent point of view, these re-scatterings acts like a single scattering except that the maximum $Q_0^2$ should be of the order of $k_\perp^2 = \tau_f \hat{q}$.
+Therefore we have an mismatch in the argument of the logarithm.
+The $u$ term is introduced to correct for this mismatch,
+\begin{eqnarray}
+\nonumber
+u &=& \left\{\frac{\ln\left(1+\tau_f\hat{q}/m_D^2\right)}{\ln\left(1+\hat{s}/m_D^2\right)}\right\}^{\frac{1}{2}}\\
+&\approx& \left\{\frac{\ln\left(1+\tau_f/\tilde{\lambda}\right)}{\ln\left(1+6\omega T/m_D^2\right)}\right\}^{\frac{1}{2}}.
+\end{eqnarray} 
+This is also motivated by the next-to-lead-log approximation of AMY equation quoted in the next section.
 
-Finally, it worth mention that the formation time in Equation \ref{eq:formation-time-def} and the effective mean-free-path in Equation \ref{eq:effmpf} are only an order of magnitude measure of the coherence effects. 
-For this purpose, we introduces the following tunable relations,
+In principal, Equations \ref{eq:effmpf} and \ref{eq:formation-time-def} only encodes the scaling of these quantities, so in practice we introduce the following tunable relations,
 \begin{eqnarray}\label{eq:tune}
 \nonumber
-\tau_f' &=& C_1 \tau_f, \\
-p &=& \min\left\{1, C_2\sqrt{C_1} \frac{\tilde{\lambda}}{\tau_f}\right\}
+\tau_f & \rightarrow & C_1 \tau_f, \\
+\tilde{\lambda} & \rightarrow & C_2 \tilde{\lambda}.
 \end{eqnarray}
-The parameters $C_1$ and $C_2$ by are ones default and are designed such that $C_1$ and $C_2$ controls the finite- and infinite-size behaviors separately. 
-This is possible by realizing that the comparison between medium length and the formation time solely determines the finite size effect; while the acceptance condition alone controls the strength of the suppression in an infinite medium.
-Though it is possible to fine tuning these parameters systematically to increase the similarity between the Monte Carlo simulation and the theory, we simply uses a hand-tuned fit $C_1 = 1, C_2 = 1.15$ in this work.
-These parameters are also handles to deform the behavior of the Monte-Carlo away from the underlying theory in a controllable way.
+The parameters $C_1$ and $C_2$ are ones by default and controls the finite- and infinite-size behaviors. 
+This is possible by realizing that the comparison between medium length and the formation time solely determines the finite size effect; while the acceptance condition alone controls the suppression in an infinite medium.
+Though it is possible to fine tuning these parameters systematically, we simply use the hand-tuned values $C_1 = 1, C_2 = 1.8$ in this work.
+These parameters are also handles to deform the simulations away from the underlying theory in a controllable way.
 Their values fine tuned to experiments are not necessarily the same as those tuned to theory. 
-The parameter space $(C_1, C_2)$ is the map showing the distance from the theory to the phenomenology model required by data.
+The parameter space $(C_1, C_2)$ can be the map showing the distance from the theory to the phenomenology model required by data.
+
+Finally, we point out that those ``pre-gluons" in this approach do not have to be medium induced from the very beginning. 
+Gluons from the vaccum shower of a hard parton generated by, {\tt Pythia} e.g., can also be initialized as ``pre-gluons" associated to the hard parton to study the interplay between the vacuum shower and the medium effect.
+Of course this is already out of the scope of the current paper.
 
 \begin{figure*}
 \includegraphics[width=\textwidth]{Eloss_infinite.pdf}
@@ -310,7 +320,7 @@ The logarithmic term comes from the integration of $q_\perp^2 A(q_\perp^2)dq_\pe
 $Q_0^2$ is an estimated upper limits of the integration.
 When combined with the pre-factors in Equation \ref{eq:AMY-NLL}, one can show that the spectrum is proportional to $\tau_f^{-1} \propto \sqrt{\hat{q}/\omega}$, corroborating the previous qualitative arguments.
 The terms in the curly brackets reduce to $(1-x+C_F/C_Ax^2)$ and we included it in the redefinition of the formation time in Equation \ref{eq:formation-time-def}.
-At NLL order the value of $Q_0^2$ or equivalently $\hat{\mu}_\perp^2$ are improved by self-consistent Equation \ref{eq:AMY-sf}.
+At NLL order the value of $Q_0^2$ or equivalently $\hat{\mu}_\perp^2$ are improved by self-consistent Equation \ref{eq:AMY-sf}, this is corrected in the ``Modified Rescattering" approach by the $u$ factor in the acceptance.
 
 For the case of a thin medium, we make use of another analytic result derived in \cite{Arnold:2009mr}. 
 Contributions from one single hard scattering and multiple soft scatterings are combined.
@@ -364,7 +374,7 @@ In the LPM region $2\pi T < \omega < E$, the spectrum is dominated by coherent p
 The power-law fits in each domain are very close to the expected scaling.
 In the middle plot, we compare the above Monte-Carlo simulation to a simulation using incoherent rate and to the AMY NLL approximation. 
 Their ratios are shown in the bottom plot.
-The ``Modified Rescattering" approach with $C_1 = 1$ and $C_2 = 1.15$ reproduces the incoherent limit with gluon thermal mass for $\omega < 2\pi T$ and the LPM suppression for $\omega > 2\pi T$ within about 20\% accuracy.
+The ``Modified Rescattering" approach with $C_1 = 1$ and $C_2 = 1.8$ reproduces the incoherent limit with gluon thermal mass for $\omega < 2\pi T$ and the LPM suppression for $\omega > 2\pi T$ within about 20\% accuracy.
 In Figure \ref{fig:spectra-L-alphas=0.3}, the spectrum in a finite medium is compared to theory calculations from \cite{CaronHuot:2008uh}.
 Using $\alpha_s = 0.3$, we calculated the $L$-dependent gluon radiation rate of a 16 GeV quark.
 Medium temperature of the left and the right columns are 0.2 GeV and 0.4 GeV respectively.
@@ -412,7 +422,7 @@ This is because for $\alpha_s = 0.3$ and the range of energy we considered, the 
 
 \begin{figure}
 \includegraphics[width=\columnwidth]{Eloss_infinite_run.pdf}
-\caption{Testing running coupling effect }
+\caption{Impact of running coupling constant on the radiative energy loss. The dotted lines are calculated using fixed coupling $\alpha_s(2\pi T)$ for reference. The dashed-dotted lines uses the prescription $\alpha_s^{\textrm{el}}(q_\perp)$ and $\alpha_s^{\textrm{rad}}(k_{\perp,0})$. The dashed lines further modify the radiation vertex with $\alpha_s^{\textrm{rad}}(k_{\perp,n})$.}
 \label{fig:run}
 \end{figure}
 Second, we improve the previous calculation with a running coupling constant, following the prescription described in \cite{Arnold:2008zu}.
@@ -426,7 +436,7 @@ k_{\perp,n}^2 = \left(\vec{k}_T^0+\vec{q}_1+\cdots+\vec{q}_n\right)^2.
 In the {\tt Lido} model, the original scale used for $\alpha_{s, \textrm{rad}}$ is $k_{\perp,0}^2$ of the $2\rightarrow 3$ process.
 Therefore, we change the acceptance probability $p$ for the running coupling version from the one in Step 3.2 to,
 \begin{eqnarray}
-p' = \min\left\{1, \frac{\tilde{\lambda}}{\tau_f}\frac{\alpha_s(k_{\perp,n})}{\alpha_s(k_{\perp,0})}\right\}
+p' = \min\left\{1, u\frac{\tilde{\lambda}}{\tau_f}\frac{\alpha_s(k_{\perp,n})}{\alpha_s(k_{\perp,0})}\right\}
 \end{eqnarray}
 to include the running of the splitting vertices.
 We can estimated the order of magnitude of $k_{\perp,n}^2$ to be $\sqrt{\hat{q}\omega}$ and it is about $\sqrt{\omega/T}$ times larger than the $k_{\perp,0}^2$ for gluons in the LPM region, therefore the running coupling effect suppress the spectrum by another factor of $\alpha_s(k_{\perp,n})/\alpha_s(k_{\perp,0})$.
@@ -438,22 +448,22 @@ The running coupling effect results in a reduction of the radiative energy loss.
 
 \begin{figure}
 \includegraphics[width=\columnwidth]{Eloss_mass.pdf}
-\caption{A demonstration of mass effect. Left plot: the scaled energy loss rate in an infinite medium for light quark, charm quark and bottom quark. Right plot: energy loss fraction of light quark, charm quark and bottom quark at path length $L=4$ fm, $\alpha_s(2\pi T) \approx 0.28$. }
+\caption{A demonstration of mass effect with $\alpha_s=0.3$, . Left plot: the scaled energy loss rate in an infinite medium for light quark, charm quark and bottom quark. Right plot: energy loss fraction of light quark, charm quark and bottom quark at path length $L=4$ fm.  }
 \label{fig:mass}
 \end{figure}
 
 Finally, we put back the mass effects to study the heavy quark sector, including the massive particle kinematics, the formation time of gluon from a massive quark,
 \begin{eqnarray}
-\tau_{f}'' = \tau_f \frac{k_\perp^2 + (1-x)m_g^2}{k_\perp^2 + x^2M^2 + (1-x)m_g^2},
+(1-x)m_g^2 \rightarrow x^2M^2 + (1-x)m_g^2
 \end{eqnarray}
-and the so-called ``dead-cone" effect where collinear radiations with angles $\theta \sim k_\perp/k < M/E$ are suppressed. 
-The massive version of the $2\rightarrow3$ improved Gunion-Bertsch matrix-element has been derived in \cite{Uphoff:2014hza}; however, we have shown that on average rescatterings increases $k_{\perp}^2$, so a direct use of this massive $2\rightarrow3$ matrix-element in the ``Modified rescattering" approach leads to an unduly strong dead-cone effect.
+and the so-called ``dead-cone" effect that suppresses collinear radiations with angles $\theta \sim k_\perp/k < M/E$. 
+The massive version of the $2\rightarrow3$ improved Gunion-Bertsch matrix-element has been derived in \cite{Uphoff:2014hza}; however, since rescatterings increases the average $k_{\perp}^2$, a direct use of the massive $2\rightarrow3$ matrix-element in the ``Modified rescattering" approach leads to an unduly strong dead-cone effect.
 The solution is to use the $2\rightarrow3$ matrix-element without mass effect to generate initial gluons, while implementing the dead-cone suppression in another factor of the gluon acceptance probability,
 \begin{eqnarray}
-p'' = \min\left\{1, \frac{\tilde{\lambda}}{\tau_f''}\frac{\alpha_s(k_{\perp,n}^2)}{\alpha_s(k_{\perp,0}^2)} \left[\frac{k_{\perp,n}^2}{k_{\perp,n}^2+x^2 M^2}\right]^2\right\}.
+p'' = \min\left\{1, u\frac{\tilde{\lambda}}{\tau_f'}\frac{\alpha_s(k_{\perp,n}^2)}{\alpha_s(k_{\perp,0}^2)} \left[\frac{k_{\perp,n}^2}{k_{\perp,n}^2+x^2 M^2}\right]^2\right\}.
 \end{eqnarray}
 On the left of Figure \ref{fig:mass}, the scaled energy loss rate in an infinite medium is extracted from simulations for light (massless), charm ($M=1.3$ GeV) and bottom ($M=4.2$ GeV) quarks. 
-On the right, it is the energy loss fraction at a finite path-length $L=4$ fm.
+On the right, it is the energy loss fraction at a finite path-length $L=5$ fm.
 In both cases, the mass introduces the energy loss ordering, $\Delta E_{\textrm{light}} > \Delta E_c > \Delta E_b$ and the differences decrease at higher energy.
 
 \section{Summary and outlook}\label{section:summary}
@@ -464,6 +474,7 @@ The expanding medium effect and running coupling effect are studied. For the app
 This approach is not restricted to scattering rate based model, it also applies to a diffusion modeling of the elastic processes. 
 For future studies, controlling the uncertainties between Monte-Carlo implementation and theory can help us to perform a more unambiguous examination of theory assumptions and a more meaningful phenomenology extraction of jet, heavy quark transport properties in model-to-data comparisons.
 Moreover, a Monte-Carlo generator that is tuned to match leading order theory calculation could be a good starting point to implement next-to-leading-order effects in the phenomenology models.
+
 
 \begin{acknowledgments}
 SAB and WK  are supported by the U.S. Department of Energy Grant no. DE-FG02-05ER41367. WK is also supported by NSF grant OAC-1550225.
