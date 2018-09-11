@@ -1,0 +1,78 @@
+\RequirePackage{luatex85}
+\documentclass[preview]{standalone}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[compat=1.1.0]{tikz-feynman}
+%\usepackage{geometry,contour}
+%\geometry{legalpaper, landscape, margin=0.05in}
+%\paperheight 2.2in
+%\paperwidth 4.5in
+
+
+
+\begin{document}
+\begin{center}
+\begin{eqnarray}
+\nonumber
+\frac{df_Q}{dt} &=& \mathcal{C}^{2\leftrightarrow 2}_{>}[f_Q] +  \partial_p\left(A_Q p + \partial_p B_{Q}\right)_{<}f_Q  + \underbrace{\mathcal{C}^{2\rightarrow 3}_{>}[f]
+ - R^{1\rightarrow 2}(x, k_\perp; \hat{q}_{<})f_Q}_{\color{orange}\textrm{Accept these processes with $p$}}\\
+ \nonumber
+\color{orange} \frac{df_g}{dt} &\color{orange}=& \color{orange}\mathcal{C}^{2\leftrightarrow 2}_{>}[f_g] +  \partial_p\left(A_{g} p + \partial_p B_{g}\right)_{<}f_g
+\end{eqnarray}
+\begin{tikzpicture}
+    \begin{feynman}
+      \vertex (gb) at (.5,-1) {$g$};
+      \vertex[blob,scale=0.7] (gb0) at (-2,-1) {};
+      \vertex (gb4) at (-.75,-1);
+      \vertex[crossed dot]  (gb3) at (-.75,0) {};
+
+
+      \vertex (Gb) at (-1,-3) {$g$};
+      \vertex(Gb0) at (-5,-3) ;
+      \vertex[crossed dot] (Gb1) at (-5,-4) {};
+      \vertex[blob,scale=0.7] (Gb2) at (-3.75,-3) {};
+      \vertex (Gb4) at (-2.5,-3) ;
+      \vertex[crossed dot]  (Gb3) at (-2.5,-4) {};
+
+
+      \vertex (Qb) at (-7.5, -2);
+      \vertex (Qc) at (-6, -2);
+      \vertex[blob,scale=0.7] (Qcc) at (-4.5, -2) {};
+      \vertex (Qd) at (-3, -2);
+      \vertex[blob,scale=0.7] (Qdd) at (-1.5, -2) {};
+      \vertex (Qe) at ( 0, -2);
+      \vertex[blob,scale=0.7] (Qf) at ( 1.5, -2) {};
+      \vertex (Qg) at ( 3, -2) {$Q$};
+      \vertex[] () at (1.9, -1.1) {Diffusion};
+      \vertex[] () at (1.9, -1.45) {$q<m_D$};
+      \vertex[] () at (0.8, -3.4) {Large-$q$};
+      \vertex[] () at (1., -3.75) {scattering};
+      \vertex[] () at (1., -4.1) {$q>m_D$};
+      \vertex[] () at (-6.4, -3.1) {Scattering};
+      \vertex[] () at (-6.2, -3.45) {induced rad.};
+      \vertex[] () at (-3.8, -.6) {Diffusion};
+      \vertex[] () at (-3.5, -.95) {induced rad.};
+	  \vertex[crossed dot] (S1) at (0,-4) {};     
+      \vertex[] () at (-3.15, -5){\color{orange} LPM suppression $p \sim m_D^2/\hat{q}\tau_f$};
+      \diagram* {
+       (Qb) -- [fermion] (Qc) -- [fermion] (Qcc) -- [fermion] (Qd) -- [fermion] (Qdd) -- [fermion] (Qe) -- [fermion] (Qf) -- [fermion] (Qg),
+
+        (Qd) -- [gluon] (gb0) -- [gluon] (gb4)  -- [gluon] (gb)
+        (gb3) -- [gluon] (gb4)
+        
+        (Qc) -- [gluon] (Gb0) -- [gluon] (Gb2) -- [gluon] (Gb4)  -- [gluon] (Gb)
+        (Gb1) -- [gluon] (Gb0)
+        (Gb3) -- [gluon] (Gb4)
+        (S1) -- [gluon] (Qe)
+      };
+      \draw[decoration={brace,mirror,raise=4pt}, decorate] (Gb1.south west)-- (Gb3.south east) node [black,midway,yshift=-0.5cm] { \color{orange}Multiple scattering};
+    \end{feynman}
+\end{tikzpicture}
+\end{center}
+\end{document}
+
+
+
+
+
+

@@ -1,0 +1,43 @@
+\RequirePackage{luatex85}
+\documentclass[preview]{standalone}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[compat=1.1.0]{tikz-feynman}
+%\usepackage{geometry,contour}
+%\geometry{legalpaper, landscape, margin=0.05in}
+%\paperheight 2.2in
+%\paperwidth 4.5in
+
+
+
+\begin{document}
+\begin{center}
+\begin{eqnarray}
+\nonumber
+\frac{df_Q}{dt} &=& {\color{blue}\mathcal{C}^{2\leftrightarrow 2}_{>}[f_Q] }
+\end{eqnarray}
+\begin{tikzpicture}
+    \begin{feynman}
+      \vertex (Qb) at (-7.5, -2);
+      \vertex (Qc) at (-6, -2);
+      \vertex (Qd) at (-3, -2);
+      \vertex (Qe) at ( 0, -2);
+      \vertex (Qg) at ( 3, -2) {$Q$};
+      \vertex[] () at (0.8, -3.4) {\color{blue}Large-$q$};
+      \vertex[] () at (1., -3.75) {\color{blue}scattering};
+      \vertex[] () at (1., -4.1) {\color{blue}$q>m_D$};
+	  \vertex[crossed dot] (S1) at (0,-4) {};
+      \diagram* {
+       (Qb) -- [fermion] (Qc)-- [fermion] (Qd) -- [fermion] (Qe) -- [fermion] (Qg),
+        (S1) -- [gluon] (Qe)
+      };
+    \end{feynman}
+\end{tikzpicture}
+\end{center}
+\end{document}
+
+
+
+
+
+
