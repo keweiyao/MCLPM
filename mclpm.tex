@@ -497,7 +497,7 @@ For elastic scattering vertices, $\alpha_s^{\textrm{el}}$ is evaluated at the $t
 This is already the feature of {\tt Lido}.
 For splitting vertices,  $\alpha_s^{\textrm{rad}}$ should be evaluated at the final gluon transverse momenta squared,
 \begin{eqnarray}\label{eq:kTn}
-k_{\perp,n}^2 = \left(\vec{k}_T^0+\vec{q}_1+\cdots+\vec{q}_n\right)^2.
+k_{\perp,n}^2 = \left(\vec{k}_{\perp,0}+\vec{q}_1+\cdots+\vec{q}_n\right)^2.
 \end{eqnarray} 
 In the {\tt Lido} model, the original scale used for $\alpha_s^{\textrm{rad}}$ is $k_{\perp,0}^2$ of the $2\rightarrow 3$ process.
 Therefore, we modify the acceptance probability $p$ for the running coupling version from the one in Step 3.2 to
@@ -522,8 +522,16 @@ Second, we put back the mass effects to treat the heavy quarks. These include th
 (1-x)m_g^2 \rightarrow x^2M^2 + (1-x)m_g^2
 \end{eqnarray}
 and the so-called ``dead-cone" effect that suppresses collinear radiations with angles $\theta \sim k_\perp/k < M/E$. 
-The massive version of the $2\rightarrow3$ improved Gunion-Bertsch matrix-element has been derived in \cite{Uphoff:2014hza}; however, since rescatterings increase the average $k_{\perp}^2$, a direct use of the massive $2\rightarrow3$ matrix-element in the ``Modified rescattering" approach leads to an unduly strong ``dead-cone" effect.
-The solution is to use the $2\rightarrow3$ matrix-element without mass effect to generate initial gluons, while implementing the dead-cone suppression in another factor of the gluon acceptance probability,
+The massive version of the $2\rightarrow3$ improved Gunion-Bertsch matrix-element has been derived in \cite{Uphoff:2014hza}.
+If we simply replace the matrix-element with the massive one, the dead cone suppression involves the factor,
+\begin{eqnarray}
+\frac{k_{\perp,0}^2}{k_{\perp,0}^2+x^2M^2}
+\end{eqnarray}
+However, because rescatterings continue to increase the average $k_{\perp}^2$ , the factor is different by the time the gluon is formed,
+\begin{eqnarray}
+\frac{k_{\perp,n}^2}{k_{\perp,n}^2+x^2M^2}.
+\end{eqnarray}
+The solution is to use the $2\rightarrow3$ matrix-element without mass effect to generate pre-gluons, while implementing the dead-cone suppression by adding another factor to the acceptance,
 \begin{eqnarray}
 p'' = \min\left\{1, u\frac{\tilde{\lambda}}{\tau_f'}\frac{\alpha_s(k_{\perp,n})}{\alpha_s(k_{\perp,0})} \left[\frac{k_{\perp,n}^2}{k_{\perp,n}^2+x^2 M^2}\right]^4\right\}.
 \end{eqnarray}
@@ -531,10 +539,10 @@ On the left of Figure \ref{fig:mass}, the scaled energy loss rate in an infinite
 On the right, it is the energy loss fraction at a finite path-length $L=5$ fm.
 In both cases, the mass introduces the energy loss ordering, $\Delta E_{\textrm{light}} > \Delta E_c > \Delta E_b$ and the differences decrease at higher energy.
 
-\begin{figure*}
-\includegraphics[width=\textwidth]{raa_mclpm.pdf}
-\caption{This figure shows what is predicted for D-meson observables at the leading order level considering running coupling and mass effect. The only parameter is the minimum scale in the running $\alpha_s(\max\{Q,\mu\})$. The solid lines use $\mu = 2\pi T$ and the dashed lines use $\mu=\pi T$}
-\end{figure*}
+%\begin{figure*}
+%\includegraphics[width=\textwidth]{raa_mclpm.pdf}
+%\caption{This figure shows what is predicted for D-meson observables at the leading order level considering running coupling and mass effect. The only parameter is the minimum scale in the running $\alpha_s(\max\{Q,\mu\})$. The solid lines use $\mu = 2\pi T$ and the dashed lines use $\mu=\pi T$}
+%\end{figure*}
 
 
 \section{Summary and outlook}\label{section:summary}
@@ -548,7 +556,7 @@ Moreover, a Monte-Carlo generator that is tuned to match leading order theory ca
 
 
 \begin{acknowledgments}
-SAB and WK are supported by the U.S. Department of Energy Grant no. DE-FG02-05ER41367. WK is also supported by NSF grant OAC-1550225.
+SAB, WK and YX are supported by the U.S. Department of Energy Grant no. DE-FG02-05ER41367. WK is also supported by NSF grant OAC-1550225.
 \end{acknowledgments}
 
 \begin{appendices}
@@ -571,12 +579,12 @@ In the vacuum, this is,
 \begin{eqnarray}
 |M_{\textrm{GB}}|^2 &=& |M_{2\rightarrow 2}|^2 16 C_A \pi \alpha_s \frac{(1-\bar{x})^2q_\perp^2}{k_\perp^2\left(\vec{q}_\perp-\vec{k}_\perp\right)^2}.
 \end{eqnarray}
-In medium, a gluon thermal mass is used to regulate the divergence. 
-For relatively hard splitting where $k_\perp \gg q_\perp \sim m_D$, 
+In medium, a gluon thermal mass regulates the divergence. 
+For hard splitting where $k_\perp \gg q_\perp \sim m_D$, 
 \begin{eqnarray}
 |M_{\textrm{GB}}|^2 &\approx & q_\perp^2 |M_{2\rightarrow 2}|^2 16 C_A \pi \alpha_s \frac{(1-\bar{x})^2}{k_\perp^4}.
 \end{eqnarray}
-Using this approximated from of $|M_{\textrm{GB}}|^2$ in the scattering rate Equation \ref{eq:GB-rate} and factorize the integration involving $q_\perp$ and $k_\perp$,
+Plug in this approximation in the scattering rate Equation \ref{eq:GB-rate} and factorize the $q_\perp$ and $k_\perp$ integrations,
 \begin{eqnarray}
 \Gamma &=& \frac{1}{2E_1}\int\frac{f_i(p_2)d\vec{p_2}^3}{(2\pi)^3 2p_2}2\hat{s}\int d\hat{t}\frac{d\sigma_{2\rightarrow 2}}{d\hat{t}}q_\perp^2
 \nonumber \\
