@@ -24,19 +24,14 @@
 
 
 \begin{abstract}
-A Monte-Carlo simulation is a useful tool in the phenomenological study of the jets in the heavy-ion collisions.
-However, the medium induced gluon radiation--important at high energy--
-is hard to be accurately implemented in a Monte-Carlo way,
-because the multiple scatterings cannot be factorized into independent processes due to the coherence effect.
-Many existing implementations work in certain limits or capture qualitatively behaviors, but it is important to develop an approach that quantitatively agrees with the current knowledge from theory.
-In this work, we discussed the ingredients of three specific implementations and compared them to the perturbative calculation.
-The ``Modified rescattering" approach reproduces the semi-analytic calculations of the parton radiative energy loss and reasonably explains the gluon spectra in a static medium.
-The impacts of an expanding medium, running coupling and mass effect are also discussed. 
-With a controlled modeling uncertainty between the Monte Carlo model and the theory, a more meaningful extraction of the jet transport property in a quark-gluon plasma can be performed in the future.
+Modeling of the space-time evolution of highly energetic partons  created in perturbative processes at the onset of relativistic heavy-ion collisions  has become a valuable tool for the study of hot and dense deconfined QCD matter. This is accomplished by relating the energy-loss of these partons to the properties of the medium they traverse.
+Monte-Carlo event generators, that allow for the realistic description of fluctuating initial conditions and medium properties, have become a powerful tool in this endeavor. However, the implementation of quantum coherence effects, such as the Landau-Pomeranchuk-Migdal (LPM) effect, poses a serious challenge to this class of models, since multiple parton interactions cannot be factorized into independent processes. 
+In this work, we discuss several common implementations of the LPM effect in Monte-Carlo event generators and compare them to limiting cases in jet energy-loss theory for which semi-analytic calculations exist. We propose an approach, dubbed
+``modified rescattering", that reproduces the limiting semi-analytic calculations of  radiative parton  energy loss for infinite and thin media  and reasonably describes gluon emission spectra in a static medium. We study the impact of an expanding medium, a running coupling and heavy quark masses in this approach. 
 \end{abstract}
 
 \begin{document}
-\title{Calibrating Monte-Carlo implementations of parton radiative energy loss to theoretical calculations}
+\title{Modeling of quantum-coherence effects in heavy-ion induced parton energy loss}
 \author{Weiyao Ke}
 \author{Yingru Xu}
 \author{Steffen A.\ Bass}
@@ -45,29 +40,19 @@ With a controlled modeling uncertainty between the Monte Carlo model and the the
 \maketitle 
 
 \section{Introduction}
-The study of hard probes in relativistic heavy-ion collisions is moving towards the precision era thanks to the future experimental upgrades \cite{ATLAS-Collaboration:2012iwa,Abelevetal:2014dna,STAR:upgrade-hf,Adare:2015kwa,CMS:2017dec}.
-On the phenomenology side, it is imperative to revisit our assumptions and approximations to do a more precise model-to-data comparison to extract interested properties of the quark-gluon plasma (QGP) via hard probes.
-Statistical analysis of medium evolution models by comparing to soft-observables have shown success in extracting the temperature dependent shear and bulk viscosity, benefiting from both high accuracy data and models with well controlled uncertainties that allow parameter fine-tuning \cite{Bernhard:2016tnd, Bernhard:2018hnz}.
-Applying this analysis to the extraction of jets and heavy quark transport coefficients, we encountered new difficulties. 
-First, the transport coefficients have both temperature and momentum dependences, increasing the complexity of uncertainty parametrization \cite{Xu:2017obm}.
-Second, the model (theory) uncertainties are large. 
-Model uncertainties originate not only from different assumptions that define different theories \cite{CaronHuot:2010bp, Rapp:2018qla} but also from numerical approximations used in practical implementations.
-Because model uncertainties obscure the interpretation of the extracted physical quantities, we want to keep them under control.
-For the examination of different theory assumptions, such as whether the nature of the interaction is perturbative or non-perturbative or even both, there are ongoing efforts from the JETSCAPE collaboration to interface different theories in a unified way \cite{Cao:2017zih, Kauder:2018cdt}.
-In this work, we aim to reduce the uncertainty that comes from the numerical implementations of a specific type of theory, which is the perturbative QCD (pQCD) based transport theory.
+The study of hard probes in relativistic heavy-ion collisions is moving towards the precision era thanks to upcoming experimental upgrades \cite{ATLAS-Collaboration:2012iwa,Abelevetal:2014dna,STAR:upgrade-hf,Adare:2015kwa,CMS:2017dec} as well as theoretical and computational advances that allow for the execution of jet energy-loss calculations in a realistic Quark-Gluon-Plasma (QGP) medium (including event-by-event fluctuating initial conditions and temperature-dependent transport coefficients). Among the goals for this research is the characterization of the QGP medium in terms of its jet energy-loss transport coefficients.
 
-The theory of applying pQCD to partonic transport has been developed over the years \cite{Arnold:2002zm, Ghiglieri:2015ala}.
-In a near equilibrium medium, energetic partons interact with medium through both elastic (collisional) and inelastic (medium induced gluon radiation) processes at leading order.
-Because of the complexity of an evolving and fluctuating medium in realistic collisions, Monte Carlo implementations of the pertubative physics are developed for phenomenology study.
-At high energy, the largest uncertainty that is introduced in these Monte Carlo generators comes from different treatments of the gluon radiation since it is the dominant source of energy loss at high energy.
-In a dense medium, the QCD Landau-Pomeranchuk-Migdal (LPM) effect is important for such radiations, where multiple scatterings during the gluon formation time act coherently to suppress the radiation spectrum \cite{PhysRev.103.1811,Wang:1994fx,Zakharov:1996fv,Baier:1996kr}.
+Monte-Carlo event generators that allow for the realistic description of fluctuating initial conditions and medium properties, have become a powerful tool in this endeavor. 
+However, the implementation of quantum coherence effects, such as the Landau-Pomeranchuk-Migdal (LPM) effect, poses a serious challenge to this class of models, since multiple parton interactions cannot be factorized into independent processes. 
+In a dense medium, the LPM effect is important for the treatment of radiative energy-loss, which is the dominant contribution to energy-loss of partons traversing the QGP at high momentum.
+Here, multiple scatterings during the gluon formation time act coherently to suppress the radiation spectrum \cite{PhysRev.103.1811,Wang:1994fx,Zakharov:1996fv,Baier:1996kr}.
 Therefore, a medium induced radiation becomes effectively an $n$-body to $(n+1)$-body process that extends in space-time.
-This feature is particularly difficult to be accurately implemented in a Monte-Carlo way, where interactions are usually built from few-body processes that are local.
-To simplify the problem while still keep the essential qualitative features such as the characteristic spectrum and path-length dependent energy loss, different methods are used for numerical simulations \cite{Djordjevic:2008iz,Cao:2013ita,ColemanSmith:2012vr,Xu:2004mz,Zapp:2011ya,Gossiaux:2012cv,Park:thesis}.
-In this work we compare quantitatively three implementations with different physical motivations to the knowledge from the perturbative calculations in idealized limits.
-Among them, a modified approach based the method of \cite{Zapp:2011ya} works remarkably well.
-This method, referred to as the ``Modified rescattering" approach, reproduces the analytic calculations of energy loss as function of coupling constants, temperatures, parton energies and path lengths.
-It also reasonably explains the gluon radiation spectrum.
+This feature is particularly difficult to be accurately implemented in a Monte-Carlo way, where interactions are usually based on few-body processes that are local.
+To simplify the problem while still keep the essential qualitative features such as the characteristic emission spectrum and path-length dependent energy loss, different methods have been used in numerical simulations \cite{Djordjevic:2008iz,Cao:2013ita,ColemanSmith:2012vr,Xu:2004mz,Zapp:2011ya,Gossiaux:2012cv,Park:thesis}.
+In this work we compare three of the most common implementations based on different approximations of radiative energy-loss in idealized limits.
+As we shall see, a modified approach based the method of \cite{Zapp:2011ya} works remarkably well.
+This method, referred to as the ``Modified rescattering" approach, reproduces  analytic calculations of energy loss as a function of coupling constant, temperature, parton energy and path lengths.
+It also reasonably well describes the gluon radiation spectrum.
 We introduce parameters to control its finite- and infinite-size behaviors separately.
 The parameters can be fine-tuned to match the theory or be calibrated to experimental data;
 therefore, the performance of the theory can be measured quantitatively on the landscape of this parameter space in future statistical analysis.
@@ -218,7 +203,7 @@ This factor goes back to one in the soft limit $x\ll 1$, but it increases the fo
 With these building blocks, we present the following step-by-step implementation,
 \begin{itemize}
 \item[1.] Within $\Delta t$, a mother parton undergoes both large-angle inelastic scattering and diffusion induced radiation with rates from Equations \ref{eq:GB-rate} and \ref{eq:GB-small-angle-rate}.
-\item[2.] If a gluon $i$ is sampled at $t_{i,0}$, it is appended to a ``pre-gluons" list associated to the mother parton. But its energy is not carried away from the mother.
+\item[2.] If a gluon $i$ is sampled at $t_{i,0}$, it is appended to a ``pre-gluons" list associated to the mother parton. But its energy is not carried away.
 \item[3.] Loop over the ``pre-gluons" list. 
 \begin{itemize}
 \item[3.1] If $\tau_f > t-t_{i,0}$, evolve this gluon by both large-angle elastic scatterings and small-angle diffusion. Recalculate its formation time.
@@ -231,9 +216,9 @@ A parton may carry an arbitrary number of ``pre-gluons" and there are no correla
 The formation time calculated after multiple scatterings scales like $\sqrt{\omega/\hat{q}}$ on average, so the factor $\tilde{\lambda}/\tau_f$ guarantees that the radiation spectra in the LPM region scales like the qualitative one in Equation \ref{eq:LPM}.
 Now we explain the meaning of the other factor $u$.
 We first point out that the formation time from the above procedure is only valid to leading-log level.
-In the Monte-Carlo simulation, the final transverse momenta $k_\perp^2\sim \tau_f \hat{q} \sim \tau_f \alpha_s^2 T^3 \ln(Q_0^2/m_D^2)$, 
+In the Monte-Carlo simulatin, the final transverse momenta $k_\perp^2\sim \tau_f \hat{q} \sim \tau_f \alpha_s^2 T^3 \ln(Q_0^2/m_D^2)$, 
 and $Q_0^2\sim \hat{s}$ is the maximum momentum transfer squared in each elastic scattering.
-However, from a total coherent point of view, these re-scatterings acts like a single one except that the maximum $Q_0^2$ should be of the order of $k_\perp^2 = \tau_f \hat{q}$.
+However, from a total coherent point of view, these re-scatterings act like a single one except that the maximum $Q_0^2$ should be of the order of $k_\perp^2 = \tau_f \hat{q}$.
 Therefore, there is a mismatch in the argument of the logarithm.
 The $u$ term is introduced to correct for this mismatch,
 \begin{eqnarray}
@@ -380,13 +365,14 @@ In an expanding medium, e.g. $\nu=1$, the transverse momentum broadening is,
 So if the formation time is very short compared to the typical expansion time scale $d\ln(T)/d\tau \sim t_1$, the transverse broadening becomes $\left\langle k_\perp^2\right\rangle \sim \hat{q}(t_1)\tau_f$, same as the one obtained in a static medium defined by the local temperature at $t_1$.
 But for large formation time, $\left\langle k_\perp^2\right\rangle$ becomes significantly smaller than the one determined using a local static medium.
 We will come back to the impact of a local approximation in the next section. 
-The BDMPS calculation takes the multiple-soft approximation of the interaction, so we only use it in a large enough medium such that,
+The BDMPS calculation takes the multiple-soft approximation, so we only use it in a thick enough medium such that,
 \begin{eqnarray}\label{eq:BDMPS-requrement}
 \omega_c \sim \left\langle k_\perp^2 \right\rangle L > E.
 \end{eqnarray}
 
 
-A final remark is that all these analytic formulas are derived in the eikonal limit, so correspondingly in the Monte-Carlo simulations, we reset mother parton's four momentum back to the initial momentum after each time step and the gluon four-momentum is rescaled such that the energy is unchanged.
+
+A final remark is that all these analytic formulas are derived in the eikonal limit, so correspondingly in the Monte-Carlo simulations, we reset mother parton's four momentum back to the initial one after each time step and the gluon four-momentum is rescaled such that the energy is unchanged.
 
 
 
@@ -402,8 +388,7 @@ Technically, $dE/dx$ is measured after a time evolution long enough ($L\gg L_c$)
 The results presented are further divided by the anticipated scaling $dE/dx \propto \alpha_s^2 \sqrt{ET^3}$.
 For each column, we double the $\alpha_s$ value and for each row, temperature is increased by $0.2$ GeV. 
 Within each subplot, the parton energy varies from $10$ GeV to $200$ GeV.
-Different Monte Carlo calculations are shown in colored lines, AMY NLL results are shown as black boxes. 
-Because the semi-analytic spectrum does not use a gluon thermal mass, we only integrate $\omega$ above the thermal mass to calculate the AMY energy loss. 
+Different Monte Carlo calculations are shown in colored lines, AMY NLL results are shown as black boxes (we only integrate $\omega$ above the the Debye mass to calculate the AMY energy loss). 
 The lower- and upper-bounds of the black boxes correspond to the results with or without the correction factor \ref{eq:correction}.
 We found that the ``Modified rescattering" approach (red-dashed lines) well reproduces the energy, temperature, and coupling constant dependence of AMY NLL energy loss.
 The ``Coherence factor" approach (blue-dash-dotted lines) has a similar energy and temperature dependence to those of the theoretical calculations; however, it systematically deviates from the theory for different coupling constant in a logarithmic manner.
@@ -427,7 +412,7 @@ In the LPM region $2\pi T < \omega < E$, the spectrum is dominated by coherent m
 The power-law fits in each domain are very close to the expected scaling.
 In the middle plot, we compare the above Monte-Carlo simulation to a simulation using incoherent rate and to the AMY NLL approximation. 
 Their ratios are shown in the bottom plot.
-The ``Modified rescattering" approach with $C_1 = 1$ and $C_2 = 1.8$ reproduces the incoherent limit with gluon thermal mass for $\omega < 2\pi T$ and the LPM suppression for $\omega > 2\pi T$ within about 20\% accuracy.
+The ``Modified rescattering" approach with $C_1 = 1$ and $C_2 = 1$ reproduces the incoherent limit with gluon thermal mass for $\omega < 2\pi T$ and the LPM suppression for $\omega > 2\pi T$ within about 20\% accuracy.
 In Figure \ref{fig:spectra-L-alphas=0.3}, the spectrum in a finite medium is compared to the full calculations from \cite{CaronHuot:2008uh}.
 Using $\alpha_s = 0.3$, we calculated the $L$-dependent gluon radiation rate of a 16 GeV quark.
 Medium temperature of the left and the right columns are 0.2 GeV and 0.4 GeV respectively.
@@ -436,7 +421,7 @@ In practice, we counted events within a finite range $\omega\pm 0.5$ GeV.
 The radiation spectrum is recovered to a similar level of accuracy as the infinite medium case.
 
 \begin{figure}
-\includegraphics[width=\columnwidth]{spectrum_Bjorken.pdf}
+%\includegraphics[width=\columnwidth]{spectrum_Bjorken.pdf}
 \caption{The top plot shows the radiation spectrum of BDMPS formula (symbols) and Monte-Carlo simulations (lines) in a static medium (blue points and lines with higher values) and a Bjorken expanding medium (red points and lines with lower values). In the bottom plot, we take ratios of the analytic results and simulations between the static and expanding medium cases. The parameters are $\alpha_s=0.3$, $\tau_0 = 0.2$ fm/$c$, $\tau_0+L = 20$ fm/$c$, $T_0 = 1$ GeV.}
 \label{fig:Bjorken-BDMPS}
 \end{figure}
@@ -448,7 +433,7 @@ The radiation spectrum is recovered to a similar level of accuracy as the infini
 \end{figure}
 
 
-The comparison to the BDMPS calculation in expanding medium is shown in Figure \ref{fig:Bjorken-BDMPS}.
+Next, the comparison to the BDMPS calculation in expanding medium is shown in Figure \ref{fig:Bjorken-BDMPS}.
 We only turn on the diffusion and the diffusion induced radiation  processes in ``Modified rescattering" approach, becasue it allows using the same $\hat{q}_g$ in both the BDMPS formula and the Monte-Carlo simulation.
 Here, we simply choose $\hat{q}_g = m_D^2 C_A\alpha_s T$.
 The top plot of Figure \ref{fig:Bjorken-BDMPS} compares the spectra to theory in both static and expanding cases. 
@@ -499,8 +484,8 @@ For splitting vertices,  $\alpha_s^{\textrm{rad}}$ should be evaluated at the fi
 \begin{eqnarray}\label{eq:kTn}
 k_{\perp,n}^2 = \left(\vec{k}_{\perp,0}+\vec{q}_1+\cdots+\vec{q}_n\right)^2.
 \end{eqnarray} 
-In the {\tt Lido} model, the original scale used for $\alpha_s^{\textrm{rad}}$ is $k_{\perp,0}^2$ of the $2\rightarrow 3$ process.
-Therefore, we modify the acceptance probability $p$ for the running coupling version from the one in Step 3.2 to
+In the {\tt Lido} model, the original scale used for $\alpha_s^{\textrm{rad}}$ is $k_{\perp,0}^2$ from the $2\rightarrow 3$ process.
+Therefore, we modify the acceptance probability $p$ to
 \begin{eqnarray}
 p' = \min\left\{1, u\frac{\tilde{\lambda}}{\tau_f}\frac{\alpha_s(k_{\perp,n})}{\alpha_s(k_{\perp,0})}\right\}.
 \end{eqnarray}
@@ -536,7 +521,7 @@ The solution is to use the $2\rightarrow3$ matrix-element without mass effect to
 p'' = \min\left\{1, u\frac{\tilde{\lambda}}{\tau_f'}\frac{\alpha_s(k_{\perp,n})}{\alpha_s(k_{\perp,0})} \left[\frac{k_{\perp,n}^2}{k_{\perp,n}^2+x^2 M^2}\right]^4\right\}.
 \end{eqnarray}
 On the left of Figure \ref{fig:mass}, the scaled energy loss rate in an infinite medium is extracted from simulations for light (massless), charm ($M=1.3$ GeV) and bottom ($M=4.2$ GeV) quarks. 
-On the right, it is the energy loss fraction at a finite path-length $L=5$ fm.
+On the right, it is the energy loss fraction at a fixed path-length $L=5$ fm.
 In both cases, the mass introduces the energy loss ordering, $\Delta E_{\textrm{light}} > \Delta E_c > \Delta E_b$ and the differences decrease at higher energy.
 
 %\begin{figure*}
@@ -548,9 +533,8 @@ In both cases, the mass introduces the energy loss ordering, $\Delta E_{\textrm{
 \section{Summary and outlook}\label{section:summary}
 To reduce the theory uncertainty introduced in the numerical implementation of the perturbative QCD transport of hard partons inside a quark-gluon plasma, we studied three different Monte-Carlo implementations and compare them to theory calculations.
 We showed that the ``Modified rescattering" approach reproduces the coupling constant, temperature, parton energy and path-length dependences of the theoretical formula in both infinite- and thin-medium limits.
-The expanding medium effect is also studied. 
-This overall level of agreement to theory is promising given the simplicity and limits of a Monte-Carlo procedure. 
-The running coupling and a tentative dead-cone effect are also implemented.
+This overall level of agreement between the simulated radiation spectrum to theory is promising given the simplicity and limits of a Monte-Carlo procedure. 
+Tentative running coupling and dead-cone effect are also implemented.
 For future studies, controlling the uncertainties between Monte-Carlo implementation and theory helps to perform a more unambiguous examination of theory assumptions and a more meaningful phenomenology extraction of jet, heavy quark transport properties in a model-to-data comparison.
 Moreover, a Monte-Carlo generator that is tuned to match leading order theory calculation could be a good starting point to implement next-to-leading-order effects in the phenomenology model.
 
@@ -560,18 +544,26 @@ SAB, WK and YX are supported by the U.S. Department of Energy Grant no. DE-FG02-
 \end{acknowledgments}
 
 \begin{appendices}
+\section{The running coupling constant}\label{app:alphas}
+The leading order running couplings constant with three flavors of quarks is
+\begin{eqnarray}
+\alpha_s(Q) = \frac{4\pi}{9\log(Q^2/\Lambda_{\textrm{QCD}}^2)},
+\end{eqnarray}
+and $\Lambda_{\textrm{QCD}} = 0.2$ GeV. In a medium, we require the scale of a process cannot be arbitrary smaller than the temperature. The resulting $Q$ is cut off at a medium scale defined by $\mu\pi T$ ($\mu=2$ by default) and $\alpha_s(Q) = \alpha_s(\max\{Q,T\})$. We treat $\mu$ as a parameter of the model. It is also a major source of uncertainty in the predictions. In fact for a typical $T=0.3$ GeV, $\alpha_s(\pi T \sim 4\pi T)$ varies from 0.45 to 0.24.
+
 \begin{figure}
 \includegraphics[width=\columnwidth]{spectrum_E_alphas0d1.pdf}
 \caption{The ratios of Monte-Carlo simulated spectra to the AMY NLL spectra (gray bands) and to the Gunion-Bertsch incoherent spectra (blue lines) are plotted, using $\alpha_s = 0.1$. The quark energy $E$ is 10, 50, 100, and 500 GeV as indicated by the rightmost vertical dashed lines in each subplot. The horizontal dashed lines denote $\pm 20\%$ deviation from unity.}
 \label{fig:spectra-alphas=0.1}
 \end{figure}
 
+
 \begin{figure}
 \includegraphics[width=\columnwidth]{spectrum_E_alphas0d3.pdf}
 \caption{The same as Figure \ref{fig:spectra-alphas=0.1}, but for $\alpha_s = 0.3$.}
 \label{fig:spectra-alphas=0.3}
 \end{figure}
-\end{appendices}
+
 \section{The Gunion-Bertsch rate under soft transverse momenta exchange.}
 \label{app:consistency}
 The Gunion-Bertsch matrix-element factorizes the $2\rightarrow3$ process into the product of a $2\rightarrow2$ process and the radiative $1\rightarrow 2$ process. 
@@ -623,5 +615,7 @@ The gray bands are the ratios between the simulations and the AMY-NLL results (p
 We notice that there are residue systematic logarithmic discrepancies from low energy to high energy.
 The implementation also tends to generate less branching when $x \rightarrow 1$.
 
+
+\end{appendices}
 \bibliography{mclpm} 
 \end{document}
