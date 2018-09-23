@@ -401,7 +401,7 @@ Here $L_c^0 = \sqrt{E/\hat{q}_0}$ with $\hat{q}_0 = C_A \alpha_s T m_D^2$ estima
 All three implementations show the non-linear increase of $\Delta E$ as function of $L$.
 The ``Modified rescattering" approach stays close to the theory calculations when $L<L_c^0$ for all cases, while the other two approaches deviates systematically as $\alpha_s$ changes.
 
-Finally, we validate the gluon radiation spectrum using the ``Modified rescattering" approach. 
+Now we go beyond comparing energy loss and validate the gluon radiation spectrum using the ``Modified rescattering" approach. 
 The spectrum in an infinite medium $dP/dtd\omega$ is shown in Figure \ref{fig:spectrum} for a 500 GeV quark.
 Please also refer to Appendix \ref{app:tune-spectrum} for a full comparison varying both the quark energy and the coupling constant.
 The top plot is divided into different domains by the gluon thermal mass $m_g$ and an estimation of the Bethe-Heitler energy $\lambda_g m_D^2 \sim 2\pi T$.
@@ -421,8 +421,8 @@ In practice, we counted events within a finite range $\omega\pm 0.5$ GeV.
 The radiation spectrum is recovered to a similar level of accuracy as the infinite medium case.
 
 \begin{figure}
-%\includegraphics[width=\columnwidth]{spectrum_Bjorken.pdf}
-\caption{The top plot shows the radiation spectrum of BDMPS formula (symbols) and Monte-Carlo simulations (lines) in a static medium (blue points and lines with higher values) and a Bjorken expanding medium (red points and lines with lower values). In the bottom plot, we take ratios of the analytic results and simulations between the static and expanding medium cases. The parameters are $\alpha_s=0.3$, $\tau_0 = 0.2$ fm/$c$, $\tau_0+L = 20$ fm/$c$, $T_0 = 1$ GeV.}
+\includegraphics[width=\columnwidth]{spectrum_Bjorken.pdf}
+\caption{The top plot shows the radiation spectrum of BDMPS formula (symbols) and Monte-Carlo simulations (lines) in a static medium ($\nu=1/2$), a slowly expanding medium ($\nu=5/7$) and a Bjorken expanding medium ($\nu\rightarrow 1$). In the bottom plot, we take ratios of the analytic results and simulations between expanding cases and the static case. The parameters are $\alpha_s=0.3$, $\tau_0 = 0.2$ fm/$c$, $\tau_0+L = 20$ fm/$c$, $T_0 = 1$ GeV.}
 \label{fig:Bjorken-BDMPS}
 \end{figure}
 
@@ -432,20 +432,34 @@ The radiation spectrum is recovered to a similar level of accuracy as the infini
 \label{fig:Bjorken}
 \end{figure}
 
-
-Next, the comparison to the BDMPS calculation in expanding medium is shown in Figure \ref{fig:Bjorken-BDMPS}.
-We only turn on the diffusion and the diffusion induced radiation  processes in ``Modified rescattering" approach, becasue it allows using the same $\hat{q}_g$ in both the BDMPS formula and the Monte-Carlo simulation.
-Here, we simply choose $\hat{q}_g = m_D^2 C_A\alpha_s T$.
-The top plot of Figure \ref{fig:Bjorken-BDMPS} compares the spectra to theory in both static and expanding cases. 
+Moving toward a comparison in an expanding medium, we only turn on the diffusion and the diffusion induced radiation  processes in ``Modified rescattering" approach, becasue it allows using the same $\hat{q}_g$ in both the BDMPS formula and the Monte-Carlo simulation.
+We simply choose $\hat{q}_g = m_D^2 C_A\alpha_s T$ without the logarithmic ambiguity, so the $u$ factor in the acceptance is also turned off. 
 The expansion starts from $\tau_0=0.2$ fm/$c$ with $T_0=1$ GeV. 
-The evolution stops at $\tau = 20$ fm/$c$ with $T \approx 0.22$ GeV.
+The evolution stops at $\tau = 20$ fm/$c$. 
+In Table \ref{tab:expand}, we listed three cases $\nu = 1/2, 5/7, 1$ corresponding to a static medium, a slowly expanding medium and a medium with Bjorken flow respectively.
+In the third column, the power of the falling temperature as function of proper time is calculated. The last column lists the temperature at the end of the evolution.
 One can check that for a 100 GeV quark and $\alpha_s = 0.3$, the requirement of Equation \ref{eq:BDMPS-requrement} is satisfied.
-The static medium lasts the same amount of time with its temperature stays at $T_0$.
-The spectrum in the expanding medium is well described by the simulation, meaning that the``Modified rescattering" approach can be applied to parton evolution in a dynamical medium.
-The bottom plot shows the ratio between the two cases. 
-The expansion reduces the spectra by almost a factor of 10 compared to the static case.
+The top plot of Figure \ref{fig:Bjorken-BDMPS} compares the spectra to theory directly and the bottom plot shows the ratio between the expanding cases over the static case. 
+The Monte-Carlo simulation in the LPM region reflects this decreasing of induced radiation due to the dropping of temperature, though its performance deceases when the medium expands faster.
 
-We have briefly mentioned the local approximation in the discussion following Equation \ref{eq:expanding-kt2}.
+\begin{center}
+\begin{table}[h]
+\caption{Expanding medium setup}\label{tab:expand}
+\begin{tabularx}{\columnwidth}{XXXX}
+\hline
+Type & $\nu$ & $(2-1/\nu)/3$ & $T_f$ [GeV]\\ 
+\hline
+Static & 1/2 & 0 & 1.0\\
+\hline
+Slow & 5/7 & 1/5 & 0.40\\
+\hline
+Bjorken & $\rightarrow 1$ & 1/3 & 0.22\\
+\hline
+\end{tabularx} 
+\end{table}
+\end{center}
+
+Finally, we come back to the validity of a local approximation briefly mentioned in the discussion following Equation \ref{eq:expanding-kt2}.
 When the medium expansion rate is large compared to the inverse formation time, the following two scenarios are different,
 \begin{itemize}
 \item[1.]  {\it A non-local (direct) calculation}: radiated gluons can precept the changing medium within the formation times.
