@@ -27,7 +27,7 @@
 Modeling of the space-time evolution of highly energetic partons  created in perturbative processes at the onset of relativistic heavy-ion collisions  has become a valuable tool for the study of hot and dense deconfined QCD matter. This is accomplished by relating the energy-loss of these partons to the properties of the medium they traverse.
 Monte-Carlo event generators, that allow for the realistic description of fluctuating initial conditions and medium properties, have become a powerful tool in this endeavor. However, the implementation of quantum coherence effects, such as the Landau-Pomeranchuk-Migdal (LPM) effect, poses a serious challenge to this class of models, since multiple parton interactions cannot be factorized into independent processes. 
 In this work, we discuss several common implementations of the LPM effect in Monte-Carlo event generators and compare them to limiting cases in jet energy-loss theory for which semi-analytic calculations exist. We propose an approach, dubbed
-``modified rescattering", that reproduces the limiting semi-analytic calculations of  radiative parton  energy loss for infinite and thin media  and reasonably describes gluon emission spectra in a static medium. We study the impact of an expanding medium, a running coupling and heavy quark masses in this approach. 
+``modified rescattering", that reproduces the limiting semi-analytic calculations of radiative parton energy loss for infinite and thin media  and reasonably describes gluon emission spectra in a static medium. We study the impact of an expanding medium, a running coupling and heavy quark masses in this approach. 
 \end{abstract}
 
 \begin{document}
@@ -40,19 +40,19 @@ In this work, we discuss several common implementations of the LPM effect in Mon
 \maketitle 
 
 \section{Introduction}
-The study of hard probes in relativistic heavy-ion collisions is moving towards the precision era thanks to upcoming experimental upgrades \cite{ATLAS-Collaboration:2012iwa,Abelevetal:2014dna,STAR:upgrade-hf,Adare:2015kwa,CMS:2017dec} as well as theoretical and computational advances that allow for the execution of jet energy-loss calculations in a realistic Quark-Gluon-Plasma (QGP) medium (including event-by-event fluctuating initial conditions and temperature-dependent transport coefficients). Among the goals for this research is the characterization of the QGP medium in terms of its jet energy-loss transport coefficients.
+The study of hard probes in relativistic heavy-ion collisions is moving towards the precision era thanks to upcoming experimental upgrades \cite{ATLAS-Collaboration:2012iwa,Abelevetal:2014dna,STAR:upgrade-hf,Adare:2015kwa,CMS:2017dec} as well as theoretical and computational advances that allow for the execution of jet energy-loss calculations in a realistic Quark-Gluon-Plasma (QGP) medium (including event-by-event fluctuating initial conditions and temperature-dependent transport coefficients) \cite{Wang:1994fx,Zakharov:1996fv,Baier:1996sk,Zakharov:1997uu,Arnold:2002zm,Gyulassy:2003mc,Kovner:2003zj,CasalderreySolana:2007pr,Bass:2008rv,Schenke:2009gb,Majumder:2009zu,Majumder:2010qh,Armesto:2011ht,Zapp:2011ya,Ovanesyan:2011xy,Kang:2014xsa,Cao:2016gvr,Kauder:2018cdt,Cao:2017zih}. Among the goals for this research is the characterization of the QGP medium in terms of its jet energy-loss transport coefficients.
 
 Monte-Carlo event generators that allow for the realistic description of fluctuating initial conditions and medium properties, have become a powerful tool in this endeavor. 
 However, the implementation of quantum coherence effects, such as the Landau-Pomeranchuk-Migdal (LPM) effect, poses a serious challenge to this class of models, since multiple parton interactions cannot be factorized into independent processes. 
 In a dense medium, the LPM effect is important for the treatment of radiative energy-loss, which is the dominant contribution to energy-loss of partons traversing the QGP at high momentum.
-Here, multiple scatterings during the gluon formation time act coherently to suppress the radiation spectrum \cite{PhysRev.103.1811,Wang:1994fx,Zakharov:1996fv,Baier:1996kr}.
+Here, multiple scatterings during the gluon formation time act coherently to suppress the radiation spectrum \cite{PhysRev.103.1811,Wang:1994fx,Zakharov:1996fv,Zakharov:1997uu,Baier:1996kr,Baier:1996sk}.
 Therefore, a medium induced radiation becomes effectively an $n$-body to $(n+1)$-body process that extends in space-time.
 This feature is particularly difficult to be accurately implemented in a Monte-Carlo way, where interactions are usually based on few-body processes that are local.
 To simplify the problem while still keep the essential qualitative features such as the characteristic emission spectrum and path-length dependent energy loss, different methods have been used in numerical simulations \cite{Djordjevic:2008iz,Cao:2013ita,ColemanSmith:2012vr,Xu:2004mz,Zapp:2011ya,Gossiaux:2012cv,Park:thesis}.
-In this work we compare three of the most common implementations based on different approximations of radiative energy-loss in idealized limits.
+In this work we compare three of the most common implementations based on different approximations of radiative processes to the perturbative kinetic theory predictions in idealized limits \cite{Arnold:2002zm,Arnold:2008zu,Arnold:2009mr,Baier:1996kr,Baier:1998yf}. 
 As we shall see, a modified approach based the method of \cite{Zapp:2011ya} works remarkably well.
-This method, referred to as the ``Modified rescattering" approach, reproduces  analytic calculations of energy loss as a function of coupling constant, temperature, parton energy and path lengths.
-It also reasonably well describes the gluon radiation spectrum.
+This method, referred to as the ``Modified rescattering" approach, reproduces analytic calculations of energy loss as a function of coupling constant, temperature, parton energy and path length.
+It also reasonably well describes the gluon radiation spectrum in both static and expanding media.
 We introduce parameters to control its finite- and infinite-size behaviors separately.
 The parameters can be fine-tuned to match the theory or be calibrated to experimental data;
 therefore, the performance of the theory can be measured quantitatively on the landscape of this parameter space in future statistical analysis.
@@ -140,7 +140,7 @@ If one makes a small angle scattering approximation to the Gunion-Bertsch matrix
 \Gamma = \hat{q}_g\int\frac{\alpha_s}{2\pi}\frac{2C_F dx}{x} \frac{dk_\perp^2}{k_\perp^4}.
 \end{eqnarray}
 This would be the same as the one used in \cite{Cao:2013ita} if the coherence factor is included.
-Either way, the value of $\Delta t$ is only determined at run-time,
+Either way the value of $\Delta t$ is only determined at run-time,
 but we can still estimate its order-of-magnitude from the following condition:
 \begin{eqnarray}\label{eq:delta-t-1}
 \nonumber
@@ -391,6 +391,8 @@ Within each subplot, the parton energy varies from $10$ GeV to $200$ GeV.
 Different Monte Carlo calculations are shown in colored lines, AMY NLL results are shown as black boxes (we only integrate $\omega$ above the the Debye mass to calculate the AMY energy loss). 
 The lower- and upper-bounds of the black boxes correspond to the results with or without the correction factor \ref{eq:correction}.
 We found that the ``Modified rescattering" approach (red-dashed lines) well reproduces the energy, temperature, and coupling constant dependence of AMY NLL energy loss.
+There are actually two adjacent red-dashed lines in each subplot, corresponding to different choice of cut between diffusion and large-angle, $m_D^2$ and $2 m_D^2$. 
+The fact that the two lines are almost overlapping demonstrates the weak model dependence on this separation scale.
 The ``Coherence factor" approach (blue-dash-dotted lines) has a similar energy and temperature dependence to those of the theoretical calculations; however, it systematically deviates from the theory for different coupling constant in a logarithmic manner.
 For the ``Block radiation" approaches, this $\alpha_s$-dependence deviation are even bigger and the energy dependence also gets worse, which are not surprised as we have discussed its problems in Section \ref{section:MC}.
 
