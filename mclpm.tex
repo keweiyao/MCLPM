@@ -63,11 +63,11 @@ Semi-analytic results to which the Monte Carlo simulations are compared are brie
 Major results are shown in Section \ref{section:results}.
 Finally, we discuss in Section \ref{section:disscuss} effects induced by the running of the coupling constant, the expanding medium and heavy quark masses (dead-cone effect) in the ``modified rescattering" implementation. We summarize in Section \ref{section:summary}.
 
-\section{Transport model in the incoherent limit}\label{section:MC}
+\section{Transport approach in the incoherent limit}\label{section:MC}
 In this section, we describe the Monte Carlo model in detail. The partonic processes are categorized into elastic (particle number conserving) and inelastic processes (particle number non-conserving). 
 The inelastic processes are further divided into parton-splitting and parton-jointing contribution. 
 As a remark at the beginning, the QCD analog of the Landau-Pomeranchuk-Migdal (LPM) effect introduces coherence of medium-induce high energy splitting in dense QCD medium over a long distance, breaking the assumption of Boltzmann equation that interacts are treated as local in space-time.
-In this section, we shall first proceed using local and incoherent calculation such processes and will discuss in great detail in the next section on including the LPM effect in a Boltzmann-like transport approach.
+In this section, we shall first proceed using local and incoherent calculation of such processes and will discuss in great detail in the next section on including the LPM effect in a Boltzmann-like transport approach.
 
 The elastic interaction between hard parton and medium is separate into a large-momentum transfer (hard) and a small-momentum transfer (soft) part.
 The switching scale is chosen to be proportional to the Debye mass square $Q_{\textrm{cut}}^2 = c m_D^2$, where $c$ is a parameter.
@@ -90,16 +90,33 @@ The diffusion dynamics consists of a thermal random force such that,
 \right)\frac{\hat{q}_S}{2} 
 \right)
 \end{eqnarray}
-The collision rates for large-$Q$ processes are obtained by integrating the vacuum matrix-element above the cut-off $Q_{\textrm{cut}}$
+Because we require that the diffusion dynamics only accounts for soft momentum transfer processes, its transport coefficient is obtained by integrating the leading order collision kernel upto the momentum $Q_{\textrm{cut}}$,
 \begin{eqnarray}
-R = 
+\hat{q}_S = \int dq^2 \frac{\alpha_s m_D^2 T}{q^2 (q^2+m_D^2)} \\
+\hat{q}_{S,L} = \int dq^2 \frac{\alpha_s m_\infty^2 T}{q^2 (q^2+m_\infty^2)}
 \end{eqnarray}
+with the drag coefficient determined by the Einstein relation,
+\begin{eqnarray}
+\eta_D = \frac{\hat{q}_{S,L}}{2ET} - \frac{d\hat{q}_{S,L}}{dp^2} - \frac{2\hat{q}_{S,L} - 2\hat{q}_S}{2p^2}
+\end{eqnarray}
+For the large-$Q$ scattering processes, the collision rates for the $2\rightarrow 2$ and $2\rightarrow 3$ scatterings are obtained by integrating the vacuum matrix-element,
+\begin{eqnarray}
+R = \frac{d}{2E_1}\int  \frac{d^3p_2}{2E_2(2\pi)^3} f_0(p_2)2\hat{s} \int_{-\hat{s}}^{Q_{\textrm{cut}^2}}\frac{d\sigma}{d\hat{t}}d\hat{t}
+\end{eqnarray}
+The integration is restricted to large momentum transfer above $Q_{\textrm{cut}}$ and therefore we do not impose additional screening effect to regulate the matrix-element.
+For the incoherent diffusion-induced splitting rate, we borrow the expression from [] stripping its time-dependent phase factor,
+\begin{eqnarray}
+R = \int d k_\perp^2 dx \frac{\alpha_s P(x) \hat{q}^S}{2\pi (k_\perp^2 + m_\infty^2)^2}
+\end{eqnarray}
+where a gluon thermal mass is added to screen the divergence.
+For the reverse processes $3\rightarrow 2$  and $2\rightarrow 1$ processes, similar reaction rate can be written down.
 
-For incoherent inelastic processes, we used to employ an improved version of the original Gunion-Bertsch cross-section.
-The improved Gunion-Bertsch cross-section works under the collinear and soft limit $k_\perp, q_\perp \ll \sqrt{s}$ and $x q_\perp \ll k_\perp$ and therefore does not reproduce the full splitting function in the collinear limit. 
-In this study, we keep improving the matrix-elements by following the derivation in the derivation in [] but without employing the $x q_\perp \ll k_\perp$ condition.
-Therefore the updated matrix-elements will contain the correct vacuum splitting function in the collinear limit.
-And we summarize the matrix-elements here and we attached a derivation in the appendix,
+The vacuum matrix-element is used for the large-$Q$ elastic and inelastic scatterings.
+In this work, the $2\rightarrow 2$ matrix-element only includes the $\hat{t}$-channel contribution.
+Regarding the $2\rightarrow 3$ matrix-element, in previous study [], we used to employ an improved version of the original Gunion-Bertsch cross-section that works under the limits $k_\perp, q_\perp \ll \sqrt{s}$ and $x q_\perp \ll k_\perp$.
+In the present study, we keep improving the matrix-elements by following the derivation in in [] while relaxing the condition $x q_\perp \ll k_\perp$.
+Therefore the updated matrix-elements contain the correct vacuum splitting function in the collinear limit.
+We summarize the matrix-elements here and have attached a derivation in the appendix,
 \begin{eqnarray}
 \overline{|M^2|}_{g+q\rightarrow g+g+q} &=& \overline{|M^2|}_{g+q\rightarrow g+q} x(1-x) P_1\\
 \overline{|M^2|}_{g+g\rightarrow g+g+g} &=& \overline{|M^2|}_{g+g\rightarrow g+g} x(1-x) P_1\\
@@ -126,7 +143,15 @@ P_3 &=& g^2 \frac{n_f C_F^2 d_F}{2C_A d_A}(x^2+(1-x)^2) \\\nonumber
 \vec{A} &=& \frac{\vec{k}_\perp - x\vec{q}_\perp}{(\vec{k}_\perp - x\vec{q}_\perp)^2} -  \frac{\vec{k}_\perp - \vec{q}_\perp}{(\vec{k}_\perp - \vec{q}_\perp)^2} \\
 \vec{B} &=& \frac{\vec{k}_\perp - x\vec{q}_\perp}{(\vec{k}_\perp - x\vec{q}_\perp)^2} -  \frac{\vec{k}_\perp}{\vec{k}_\perp^2}.
 \end{eqnarray}
-Here, the two body matrix-elements that enters the $2\rightarrow 3$ matrix-element only contains the $t$-channel contribution.
+Here, the two body matrix-elements that enters the $2\rightarrow 3$ matrix-element is always required to be the $t$-channel contribution.
+
+Combining all these processes, we summarize our linearized-Boltzmann plus Langevin equation into,
+\begin{eqnarray}
+\frac{df}{dt} = \mathcal{D}[f] + \mathcal{C}_{1\leftrightarrow 2}[f] + \mathcal{C}_{2\leftrightarrow 2}[f] + \mathcal{C}_{2\leftrightarrow 3}[f].
+\end{eqnarray}
+The distribution function of the hard parton under goes soft diffusion and diffusion induced-radiation. 
+Hard collision with the medium are included as $2\leftrightarrow 2$ and $2\leftrightarrow 3$ collision terms.
+The next section devotes to the inclusion of LPM effect to such an incoherent transport equation.
 
 \section{Modeling LPM effect with histroy dependent transport approach}\label{section:modified-Boltzmann}
 The LPM effects comes from that the parton splitting is not instantaneous but expend for a finite space-time, known as the formation time $\tau_f$ for a specific transition.
@@ -161,16 +186,17 @@ F(t', t) &=& \mathfrak{Re} \int_{{\bf q}', {\bf q}} \frac{i {\bf q}'\cdot {\bf q
 \end{eqnarray}
 Where $P_{bc}^{a(0)}$ is the vacuum splitting function, $\delta E$ the energy difference between initial and final states. $\mathcal{C}(t')$ is a Boltzmann-like collision operator such that,
 \begin{eqnarray}
-\mathcal{C}[f]_{\bf p} &=& \int_{\bf q} \frac{g^2 m_D^2 T}{\left(m_D^2+q^2\right)}
-\left\{  \frac{C_b+C_c-C_a}{2}\left(f_{\bf p}-f_{{\bf p}-{\bf q}}\right) \right.\\\nonumber
- &+&    \frac{C_a+C_c-C_b}{2}\left(f_{\bf p}-f_{{\bf p}+x{\bf q}}\right) \\\nonumber
-&+& \left. \frac{C_a+C_b-C_c}{2}\left(f_{\bf p}-f_{{\bf p}+(1-x){\bf q}}\right)\right\}
+\mathcal{C}[f] = \int_{\bf q} \frac{g^2 m_D^2 T}{q^2\left(m_D^2+q^2\right)}
+&&\left\{  \frac{C_b+C_c-C_a}{2}\left(f_{\bf p}-f_{{\bf p}-{\bf q}}\right) \right.\\\nonumber
+ +&&    \frac{C_a+C_c-C_b}{2}\left(f_{\bf p}-f_{{\bf p}+x{\bf q}}\right) \\\nonumber
++&&  \left. \frac{C_a+C_b-C_c}{2}\left(f_{\bf p}-f_{{\bf p}+(1-x){\bf q}}\right)\right\}
 \end{eqnarray}
 Where $C_i$ are the color factors of each parton.
 Finally, $K$ is the quantum mechanical propagator of the Hamiltonian $\hat{H} = \delta E - i\mathcal{C}$ in the momentum representation.
 This rather compact equation for leading order calculation is actually hard to implemented in a Monte Carlo way, due to the double time integral that signature the quantum nature of this transition.
-Also, the solution for the propagator generally dependents on the temperature profile of such a brick medium, making it an increasingly difficult task for simulation in event-by-event fluctuating medium.
+Also, the solution for the propagator generally dependents on the temperature profile of such a brick medium, making it an increasingly difficult task for simulation in phenomenological situations like event-by-event fluctuating QGP evolutions.
 
+\subsection{Ansatz for modifying the Boltzmann transport}
 Our approximation towards a Boltzmann-like transport equation starts from replacing the time propagator $F(t',t)$ by a very simple ansatz,
 \begin{eqnarray}
 \int dt' F(t', t) \rightarrow \int dt' \frac{b}{\tau_f^2}\Theta(t'-t-a\tau_f).
@@ -195,103 +221,105 @@ Now it becomes clear how one can modify the standard Botlzmann transport to incl
 The key in such a procedure is a self-consistent determination of the formation time as described in step 3, which results in the expected scaling of the average formation time in the large static medium $\left\langle\tau_f\right\rangle \propto \sqrt{\omega/\hat{q}}$ and generalizes to medium with more complex temperature profile.
 This iterative procedure was first developed and implemented by [].
 
-\section{Semi-analytic reference calculation}\label{section:Theo}
+\subsection{Matching the ansatz to semi-analytic calculation}
+Such an ansatz only captures the qualitative behavior of the LPM effect in a large medium. 
+To make it more useful, we try to match it to semi-analytic calculation of the underlying theory performed in an infinite medium.
 
-Due to the complexity of the full calculation, we only quote its numerical results for the radiation spectra in a finite medium.
-For other comparisons in a static medium, we make use of two (semi-)analytic results where medium induced gluon radiation is solved in an infinitely large medium (to next-to-leading-log accuracy) \cite{Arnold:2008zu} and in a thin medium (to leading-log accuracy) \cite{Arnold:2009mr}.
-We also utilize a calculation performed in an expanding medium \cite{Baier:1998yf}, as it is much closer to the reality in heavy-ion collisions than the static approximations.
-For the reader's convenience, we briefly summarize the formula borrowed from \cite{Arnold:2008zu,Arnold:2009mr,Baier:1998yf} in this section.
+In an infinite static medium, the formula for the gluon radiation spectrum (we only use the one for a gluon splitting from a quark) is derived in \cite{Arnold:2002zm,Arnold:2003zc},
+\begin{eqnarray}\label{eq:AMY-1}
+\nonumber
+\frac{dP_{a\rightarrow bc}}{dt dx} &=& \frac{1}{2E\nu_a} \frac{\alpha_s d_a P_{a\rightarrow bc}(x)}{2x^2(1-x)^2}\int\frac{d^2\vec{h}}{(2\pi)^2}2\vec{h}\cdot \mathfrak{Re} \vec{F}
+\end{eqnarray}
+where we have dropped the Bose enhancement and the Pauli blocking factors from the original formula.
+$\vec{F}(\vec{h}; p, x)$ satisfies the following equation,
+\begin{eqnarray}\label{eq:AMY-2}
+\nonumber
+2\vec{h} &=& i\frac{h^2 \vec{F}(\vec{h})}{p^3 2x(1-x)} + g^2 \mathcal{C}[\vec{F}]
+\end{eqnarray} 
+The exact solution was solved numerically [], but we shall analyze using a semi-analytic solution to the next-to-leading-log accuracy obtained by the author of \cite{Arnold:2008zu}.
+In their derivation at the leading log level, a momentum transfer scale $Q_0$ is introduced to the collision kernel $\mathcal{C}$ and a small-$q$ expansion is performed to obtained a diffusion approximation to $\mathcal{C}$ and is valid upto $Q_0$.
+The resulting leading-log solution is,
+\begin{eqnarray}\label{eq:AMY-LL}
+\frac{dP_{a\rightarrow bc}^{\textrm{LL}}}{dt dx} &=& \frac{\alpha_s P_{a\rightarrow bc}(x)}{\pi}\frac{\sqrt{2}}{2}
+\left(\frac{\hat{q}_3(x, Q_0^2)}{2x(1-x)E}\right)^{\frac{1}{2}}\\
+\hat{q}_3(x, Q_0^2) &=& \alpha_s T m_D^2 \ln\left(1+\frac{Q_0^2}{m_D^2}\right) C_{abc}(x)\\
+C_{abc}(x) &=&  \left(\frac{C_b+C_c-C_a}{2} + x^2 \frac{C_a+C_c-C_b}{2} \right.\\
+&+& \left.(1-x)^2\frac{C_a+C_b-C_c}{2}\right)
+\end{eqnarray}
+Where the $\hat{q}_3$ is as an effective diffusion constant for conveniences. 
+Comparing the leading-log formula to the simple ansatz we introduced to the modified Boltzmann approach, there is indeed a piece that playes the row of inverse formation time $\sqrt{\hat{q}_3 / 2x(1-x)E}$. However, the difference is that the effective $\hat{q}_3$ is different from the transport coefficient expected from the implemented gluon elastic re-scatterings by the $x$-dependent of the color factor combination $C_{abc}$.
+This can be improved in the modified by making the $a$ parameter an color- and $x$-dependent quantity,
+\begin{eqnarray}
+a \rightarrow a_{abc}(x) = \frac{C_A}{C_{abc}(x)}
+\end{eqnarray}
+Because the leading-log approximation is only made with a upper bound for the momentum transfer,$\hat{q}_3$ has a logarithmic dependence on $Q_0^2$ that comes from integrating the collision kernel upto $Q_0$.
+This unknown $Q_0$ parameter also introduces a large uncertainty to the lead-log formula.
+In our Monte-Carlo simulation, the large-$Q$ matrix-element are always integrated upto the largest possible momentum transfer which is the center of mass energy $\hat{s}$.
+In a thermal medium, the average of $Q_0^2$ or $\hat{s}$ will be $6ET$.
 
-\begin{figure*}
-\includegraphics[width=\textwidth]{Eloss_infinite.png}
-\caption{Energy loss per unit path lengh $dE/dx$ as a function of energy $E$, temperature $T$ and coupling constant $\alpha_s$. Each column corresponds to a value of the coupling constant $\alpha_s = 0.075, 0.15, 0.3$, and $0.6$ (from left to right). Each row corresponds to a temperature of $T = 0.2, 0.4$, and $0.6$ GeV (from top to bottom). $dE/dx$ is divided by the expected scaling $\alpha_s^2 \sqrt{ET^3}$. The MC implementations of the LPM effect referred to as ``modified rescattering", ``coherence factor", and ``block radiation" approaches are shown with red-dashed lines, blue-dash-dotted lines, and green-dotted lines respectively. The AMY NLL results are denoted as black boxes.}
-\label{fig:eloss-inf}
-\end{figure*}
+The problem of the undetermined $Q_0$ scale can be improved by going to the next-to-lead-log order, where the part of the collision kernel above $Q_0$ is treated as a pertrubation on top of the leading-log solution.
+This single-hard correction to the multiple-soft calculation is also recently studied by the author of [] in the BDMPS framework.
+In both works, a reasonable value of $Q_0$ can be determined at NLL order or self consistently in [], and the NLL spectrum looks like the LL solution but with $Q_0$ replaced by the $Q_{0}^{\textrm{NLL}}$,
+\begin{eqnarray}
+\frac{Q_{0}^{\textrm{NLL},2}}{m_D^2} \approx \frac{\sqrt{\omega \hat{q}(Q_0)}}{m_D^2} \approx \frac{\tau_f \hat{q}}{m_D^2} = \frac{\tau_f}{\tilde{\lambda}}
+\end{eqnarray}
+where in the last step, we express this quantity with the formation time and effective mean-free-path that is used in our modified Boltzmann approach.
+Therefore, we can correct for the $Q$ scale in our approach by improving the $b$ parameter to 
+\begin{eqnarray}
+b = 0.75\sqrt{\frac{\ln\left(1+\tau_f/\tilde{\lambda}\right)}{\ln\left(1+6ET/m_D^2\right)}},
+\end{eqnarray}
+which corrects the na\"ive choice of $Q_0 \sim \sqrt{6ET}$ in the incoherent matrix-element integration.
+The prefactor $0.75$ was tuned when comparing with our modified-Boltzmann simulation to the semi-analytic results in the next section, and will be the same for the rest of the paper.
+This logarithmic correction comes from the $\sim 1/q^4$ perturbative tail of the collision kernel.
+Therefore, if one implements anther collision kernel that vanishes exponentially at large-$q$, this logarithm factor in $b$ is unnecessary. 
 
-\begin{figure*}
-\includegraphics[width=\textwidth]{Eloss_Ldep.png}
-\caption{Energy loss $\Delta E$ as a function of path length $L$, temperature $T$ and coupling constant $\alpha_s$. Each column corresponds to a coupling constant of value $\alpha_s = 0.075, 0.15, 0.3$, and $0.6$ (from left to right). Each row corresponds to a temperature of value $T = 0.2, 0.4$, and $0.6$ GeV (from top to bottom). $\Delta E$ is scaled by $\alpha_s E$ and $L$ is scaled by an estimated critical path length $L_c^0 = \sqrt{E/\hat{q}_0}$, $\hat{q}_0 = C_A \alpha_s T m_D^2$. The MC implementations of the LPM effect referred to as ``modified rescattering", ``coherence factor", and ``block radiation" approaches are the red-dashed lines, blue-dash-dotted lines, and green-dotted lines respectively. The analytic results for a thin medium are denoted as black solid lines.}
-\label{fig:eloss-ldep}
-\end{figure*}
 
+\section{results}\label{section:results}
 \begin{figure}
 \includegraphics[width=\columnwidth]{spectrum.png}
-\caption{Radiated gluon spectrum in an infinite medium from a quark of energy $E=500$ GeV, with a coupling constant $\alpha_s = 0.1$. The top frame shows the spectrum (red-dashed line) and power law fit (green-dotted and blue-dash-dotted lines) in different gluon energy ($0<\omega < E$) regions, separated by energy scales $m_g$, $\hat{q}_0\lambda_g^2 \sim 2\pi T$. The middle frame is the same calculation compared to the incoherent spectrum and the AMY semi-analytic result. The bottom frame is the ratio between the Monte-Carlo simulation and the semi-analytic calculation.}
+\caption{Radiated gluon spectrum in an infinite medium from a quark of energy $E=q$ TeV, with a coupling constant $\alpha_s = 0.1$. The top frame shows the spectrum (red-dashed line) and power law fit (green-dotted and blue-dash-dotted lines) in different gluon energy ($0<\omega < E$) regions, separated by energy scales $m_\infty$, $\hat{q}_0\lambda_g^2 \sim 2\pi T$. The middle frame is the same calculation compared to the incoherent spectrum and the AMY semi-analytic result. The bottom frame is the ratio between the Monte-Carlo simulation and the semi-analytic calculation.}
 \label{fig:spectrum}
 \end{figure}
+\begin{figure}
+\includegraphics[width=\columnwidth]{channel_rate.png}
+\caption{Radiated gluon spectrum in an infinite medium from a quark of energy $E=q$ TeV, with a coupling constant $\alpha_s = 0.1$. The top frame shows the spectrum (red-dashed line) and power law fit (green-dotted and blue-dash-dotted lines) in different gluon energy ($0<\omega < E$) regions, separated by energy scales $m_\infty$, $\hat{q}_0\lambda_g^2 \sim 2\pi T$. The middle frame is the same calculation compared to the incoherent spectrum and the AMY semi-analytic result. The bottom frame is the ratio between the Monte-Carlo simulation and the semi-analytic calculation.}
+\label{fig:spectrum}
+\end{figure}
+In this section, we compare the splitting rate $dR/d\omega$ that comes out of the modified Boltzmann approach simulation to the NLL approximation in the infinite medium limit.
 
+
+The differential rate in an infinite medium $dR/d\omega$ is shown in Figure \ref{fig:spectrum} for a 1 TeV quark.
+Please also refer to Appendix \ref{app:tune-spectrum} for a full comparison varying both the parton energy and the coupling constant.
+The upper figure shows different domains of the emission spectrum separated by the gluon thermal mass $m_\infty$ and an estimate of the Bethe-Heitler energy $\lambda_g m_D^2 \sim 2\pi T$.
+We have chosen $\alpha_s = 0.1$ so that the separation between $m_\infty$ and $2\pi T$ is more visible.
+The spectrum with $\omega < m_\infty$ is suppressed due the use of a finite mass.
+In the Bethe-Heitler region $m_\infty < \omega < 2\pi T$, incoherent $2\rightarrow 3$ processes described in Equation \ref{eq:GB-rate} dominate and the spectrum scales like $\omega^{-1}$.
+In the LPM region $2\pi T < \omega < E$, the spectrum is dominated by coherent multiple scatterings and should be proportional to $\omega^{-3/2}$.
+The power-law fits in each domain are very close to the expected scaling.
+In the middle figure, we compare the above Monte-Carlo implementation to a calculation using the incoherent rate and to the AMY NLL approximation and the ratio is shown in the bottom plot.
+There is a good agreement of $dR/d\omega$ between the modified Boltzmann approach and the NLL AMY calculation which we have used as guidance in developing our Monte-Carlo approach.
+
+
+\section{Towards phenomenological applications}
+\subsection{Results in a finite medium}
 \begin{figure}
 \includegraphics[width=\columnwidth]{spectrum_L.png}
 \caption{Comparison of the path-length dependent energy-differential rate $dP/(dtd\omega)$ from the Monte-Carlo implementation using $\alpha_s = 0.3$ to the theoretical baseline calculation \cite{CaronHuot:2010bp}. The light quark energy is $16$ GeV.}
 \label{fig:spectra-L-alphas=0.3}
 \end{figure}
 
-In an infinite static medium, the formula for the gluon radiation spectrum (we only use the one for a gluon splitting from a quark) is derived in \cite{Arnold:2002zm,Arnold:2003zc},
-\begin{eqnarray}\label{eq:AMY-1}
-\nonumber
-\frac{dP_{q\rightarrow qg}}{dt dx} &=& \frac{1}{2E\nu_q} \frac{\alpha_s d_F P_{q\rightarrow qg}(x)}{2x^2(1-x)^2}\int\frac{d^2\vec{h}}{(2\pi)^2}2\vec{h}\cdot \mathfrak{Re} \vec{F} \\
-&\times& [1+f_g(xp)][1-f_q((1-x)p)],
-\end{eqnarray}
-where $\vec{F}(\vec{h}; p, x)$ satisfies the following equation,
-\begin{eqnarray}\label{eq:AMY-2}
-\nonumber
-2\vec{h} &=& i\frac{h^2 \vec{F}(\vec{h})}{p^3 2x(1-x)} \\
-\nonumber
-&+& g^2\int \frac{dq_\perp^2 \mathcal{A}(q_\perp^2)}{(2\pi)^2}\left\{\frac{C_A}{2}\left[\vec{F}(\vec{h}) - \vec{F}(\vec{h}+p\vec{q}_\perp)\right]\right. \\
-\nonumber
-&& \phantom{} + \left(C_F - \frac{C_A}{2}\right)\left[\vec{F}(\vec{h}) - \vec{F}(\vec{h}-xp\vec{q}_\perp)\right] \\
-&& \phantom{sss} + \left. \frac{C_A}{2}\left[\vec{F}(\vec{h}) - \vec{F}(\vec{h}-(1-x)p\vec{q}_\perp)\right] \right\}.
-\end{eqnarray}
-The collision kernel of a gluon in a thermalized QGP is,
-\begin{eqnarray}\label{eq:kernel}
-\mathcal{A}(q_\perp^2) = \frac{T m_D^2}{q_\perp^2(q_\perp^2+m_D^2)}.
-\end{eqnarray}
-The exact solution can be obtained numerically, but the author of \cite{Arnold:2008zu} obtained a semi-analytic solution to next-to-leading-log ($[\ln(E/T)]^{-1}$) accuracy that is easier to use,
-\begin{eqnarray}\label{eq:AMY-NLL}
-\frac{dP_{q\rightarrow qg}^{\textrm{NLL}}}{dt dx} &=& \frac{\alpha_s P_{q\rightarrow qg}(x)}{2\pi}\frac{ \sqrt{2} d_F }{\nu_q }  \frac{m_D^2\hat{\mu}_\perp^2(x)}{2x(1-x)E}. 
-\end{eqnarray}
-Because we do not use quantum statistics in the Monte Carlo simulations, we have dropped the Bose enhancement and the Pauli blocking factors from the original formula.
-The remaining terms are organized such that the last factor plays the role of the inverse formation time.
-The dimensionless quantity $\hat{\mu}_\perp^2(x)$ is determined by the self-consistency condition,
-\begin{eqnarray}\label{eq:AMY-sf}
-\nonumber
-\hat{\mu}_\perp^2 && = \frac{gT}{m_D} \sqrt{\frac{2x(1-x)E}{\pi T}}\left\{
-\frac{C_A}{2}(1-x)^2\ln\left[\frac{\xi\hat{\mu}_\perp^2}{(1-x)^2}\right] + \right. \\
-&&\left.\left(C_F-\frac{C_A}{2}\right)x^2\ln\left(\frac{\xi\hat{\mu}_\perp^2}{x^2}\right) + \frac{C_A}{2}\ln(\xi\hat{\mu}_\perp^2)\right\}^{\frac{1}{2}}.
-\end{eqnarray}
-$\xi\approx9.09916$ is a constant. 
-The NLL result is a good approximation when $\ln(xE/T)$ is large. 
-It rises above the numerical solutions with  when $\ln(xE/T)$ is small.
-We are able to compensate for the deviation between the NLL approximation and the full numerical solution by including an additional multiplicative correction factor to Equation \ref{eq:AMY-NLL}, 
-\begin{eqnarray}\label{eq:correction}
-R_{\textrm{corr}} = \frac{1}{1+0.8\left(xE/T\right)^{-0.7}}.
-\end{eqnarray}
-It mimics the systematic deviation of Equation \ref{eq:AMY-NLL} from the numerical solution. 
-Later we will see that this deviation is not significant for the relevant temperatures and parton energies larger than $10$ GeV.
+In Figure \ref{fig:spectra-L-alphas=0.3}, the spectrum in a finite medium is compared to the full calculations from \cite{CaronHuot:2010bp}.
+Using $\alpha_s = 0.3$, we have calculated the $L$-dependent gluon radiation rate of a 16 GeV quark.
+The medium temperature of the left and the right columns are 0.2 GeV and 0.4 GeV respectively.
+Top and bottom rows show the differential rates for the emitting gluon with $\omega = 3$ GeV and $\omega = 8$ GeV \footnote{to facilitate our analysis, we have selected events within a finite range $\omega\pm 0.5$ GeV}.
+The radiation spectrum is recovered to a similar level of accuracy as in the infinite medium case.
 
-To elucidate the physical interpretation of $\hat{\mu}_\perp^2$, we also quote the leading-log result from \cite{Arnold:2008zu} (terms reorganized),
-\begin{eqnarray}\label{eq:AMY-LL}
-\nonumber
-\frac{m_D^2\hat{\mu}_{\perp, \textrm{LL}}^2}{2x(1-x)E} &=& 
-\left(\frac{4C_A\alpha_s T m_D^2 \ln\left(Q_0^2/m_D^2\right)}{2x(1-x)E}\right)^{\frac{1}{2}}\\
-&\times& \left(1-x+\frac{C_F}{C_A}x^2\right)^{\frac{1}{2}}
-\end{eqnarray}
-The logarithmic term comes from the integration of $q_\perp^2 A(q_\perp^2)dq_\perp^2$ that enters $\hat{q}$.
-$Q_0^2$ is an estimated upper limits of the integration.
-We see that the spectrum is proportional to $\sqrt{\hat{q}/\omega}$, corroborating the previous qualitative arguments.
-The factor in the second line is included in the formation time redefinition in Equation \ref{eq:formation-time-def} of the ``modified rescattering" approach.
-At the NLL order, $Q_0^2/m_D^2$ (equivalently $\hat{\mu}_\perp^2$) is improved by the self-consistent Equation \ref{eq:AMY-sf} that $Q_0^2/m_D^2 \sim \sqrt{\hat{q}\omega}/m_D^2\sim \tau_f\hat{q}/m_D^2$. 
-This is corrected in the ``modified rescattering" approach by the $u$ factor in the acceptance. 
-Of course, the form of correction is specific to the leading order collision kernel that has a long tail at large $q_\perp^2$.
-
-For the case of a thin medium, a compact result is derived in \cite{Arnold:2009mr}. 
-It already combines the contributions from a single-hard scattering and multiple-soft scatterings.
-The energy loss reads,
-\begin{eqnarray}\label{eq:dE-thin}
-\Delta E = \pi C_F C_A N_0 \alpha_s^3 T^3 L^2 \ln\left(\frac{E}{m_D^2 L}\right).
-\end{eqnarray}
-The factor $N_0 = 6\zeta(3)(1+N_f/4)/\pi^2 \approx 1.28$ 
-is obtained using quantum statistics for $N_f=3$. Since it is very close to the value calculated using classical statistics ($12/\pi^2 \approx 1.22, N_f=3$), we will not correct it in the comparison of the next section.
+\subsection{Results in an expanding medium}
+\begin{figure}
+\includegraphics[width=\columnwidth]{spectrum_Bjorken.png}
+\caption{The top frame shows the gluon radiation spectrum calculated with the the BDMPS formula (symbols) and Monte-Carlo simulations (lines) in a static medium ($\nu=1/2$), a slowly expanding medium ($\nu=5/7$) and a Bjorken expanding medium ($\nu\rightarrow 1$). In the bottom frame, we compute ratios of the analytic results and simulations between expanding cases and the static case. The parameters chosen are $\alpha_s=0.3$, $\tau_0 = 0.2$ fm/$c$, $L = 19.8$ fm/$c$, $T_0 = 1$ GeV.}
+\label{fig:Bjorken-BDMPS}
+\end{figure}
 
 Next, we shall consider an expanding medium with a power law fall-off for the temperature: 
 \begin{eqnarray}
@@ -313,72 +341,10 @@ In an expanding medium, e.g. $\nu=1$, the transverse momentum broadening is,
 \end{equation}
 So if the formation time is very short compared to the typical expansion time scale $d\ln(T)/d\tau \sim t_1$, the transverse broadening becomes $\left\langle k_\perp^2\right\rangle \sim \hat{q}(t_1)\tau_f$, which is the same as the one obtained in a static medium defined by the local temperature at $t_1$.
 However, for large formation times, $\left\langle k_\perp^2\right\rangle$ becomes significantly smaller than the one determined using a local static medium.
-We will come back to the impact of a local approximation in the next section. 
 The BDMPS calculation assumes multiple-soft scatterings, so we only use it in a medium thick enough that
 \begin{eqnarray}\label{eq:BDMPS-requrement}
 \omega_c \sim \left\langle k_\perp^2 \right\rangle L > E.
 \end{eqnarray}
-
-We would like to remark that all of these analytic formulas are derived in the eikonal limit, so correspondingly in the Monte-Carlo simulations we reset the mother parton's four momentum back to its initial state after each time step and the gluon four-momentum is rescaled such that the energy is unchanged.
-
-
-
-\section{results}\label{section:results}
-In this section, we compare the outcome of the three different MC LPM implementations described in Section \ref{section:MC} to the theoretical reference outlined in Section \ref{section:Theo}. 
-It is easier to compare the energy loss first, since it only depends on the integration over the spectrum and not on its details.
-It will be shown that the ``modified rescattering" approach performs the best in comparison to the theory references. 
-We will also validate its radiation spectrum.
-
-
-In Figure \ref{fig:eloss-inf}, we show the calculation of energy loss per unit path length $dE/dx$ of a quark in an ``infinitely large" medium. 
-Technically, $dE/dx$ is measured after an evolution time long enough ($L\gg L_c$) that finite size effects have faded away.
-The results presented are normalized by $1/(\alpha_s^2 \sqrt{ET^3})$ in anticipation of the scaling $dE/dx \propto \alpha_s^2 \sqrt{ET^3}$.
-For each column, we double the value of $\alpha_s$ and for each row, the temperature is increased by $0.2$ GeV. 
-Within each subplot, the parton energy varies from $10$ GeV to $200$ GeV.
-Different Monte Carlo implementations of the LPM effect are shown in colored lines, AMY NLL results are shown as black bands (we only integrate $\omega$ above the the Debye mass to calculate the AMY energy loss). 
-The lower- and upper-bounds of the black bands correspond to the results with and without the correction factor in Equation \ref{eq:correction}.
-We found that the ``modified rescattering" approach (red-dashed lines) reproduces the energy, temperature, and coupling constant dependence of AMY NLL energy loss very well.
-There are actually two adjacent red-dashed lines in each subplot, corresponding to different choice of $\hat{t}_{\textrm{cut}}=m_D^2$ and $2 m_D^2$. 
-The fact that the two lines are almost overlapping demonstrates the weak model dependence on this separation scale.
-The ``coherence factor" approach (blue-dash-dotted lines) has a similar energy and temperature dependence to that of the theoretical baseline; however, it systematically deviates from the baseline for different values of the coupling constant in a logarithmic manner.
-For the ``block radiation" approaches, the deviations from the baseline regarding their $\alpha_s$-dependence are even bigger and the energy dependence also gets worse, which is not surprising as we have discussed its shortcomings in Section \ref{section:MC}.
-
-Next we examine the path-length ($L$) dependence of the energy loss $\Delta E$ of a quark with an initial energy of $E = 106$ GeV in a finite medium in Figure \ref{fig:eloss-ldep}.
-Again, each column uses a different coupling constant and each row uses a different temperature. 
-The path length within each subplot is varied up to four times $L_c^0$.
-Here $L_c^0 = \sqrt{E/\hat{q}_0}$ with $\hat{q}_0 = C_A \alpha_s T m_D^2$ estimating the critical path length below which one expects a clear non-linear path-length dependence.
-All three implementations show the non-linear increase of $\Delta E$ as function of $L$.
-The ``modified rescattering" approach stays close to the theory calculations when $L<L_c^0$ for all cases, while the other two approaches deviate systematically as $\alpha_s$ is varied, similar to our previous findings for the energy-loss in the infinite matter case.
-
-Now we go beyond comparing energy loss and directly validate the gluon emission spectrum using the ``modified rescattering" approach. 
-The spectrum in an infinite medium $dP/dtd\omega$ is shown in Figure \ref{fig:spectrum} for a 500 GeV quark.
-Please also refer to Appendix \ref{app:tune-spectrum} for a full comparison varying both the quark energy and the coupling constant.
-The upper figure shows different domains of the emission spectrum separated by the gluon thermal mass $m_g$ and an estimate of the Bethe-Heitler energy $\lambda_g m_D^2 \sim 2\pi T$.
-We have chosen $\alpha_s = 0.1$ so that the separation between $m_g$ and $2\pi T$ is more visible.
-The spectrum with $\omega < m_g$ is suppressed due the use of a finite mass.
-In the Bethe-Heitler region $m_g < \omega < 2\pi T$, incoherent $2\rightarrow 3$ processes described in Equation \ref{eq:GB-rate} dominate and the spectrum scales like $\omega^{-1}$.
-In the LPM region $2\pi T < \omega < E$, the spectrum is dominated by coherent multiple scatterings and should be proportional to $\omega^{-3/2}$.
-The power-law fits in each domain are very close to the expected scaling.
-In the middle figure, we compare the above Monte-Carlo implementation to a calculation using the incoherent rate and to the AMY NLL approximation. 
-Their ratios with respect to the MC implementation are shown in the bottom figure.
-The ``modified rescattering" approach with $C_1 = 1$ and $C_2 = 1$ reproduces the incoherent limit with a gluon thermal mass for $\omega < 2\pi T$ and the LPM suppression for $\omega > 2\pi T$ within about $\pm 10\%$ accuracy.
-In Figure \ref{fig:spectra-L-alphas=0.3}, the spectrum in a finite medium is compared to the full calculations from \cite{CaronHuot:2010bp}.
-Using $\alpha_s = 0.3$, we have calculated the $L$-dependent gluon radiation rate of a 16 GeV quark.
-The medium temperature of the left and the right columns are 0.2 GeV and 0.4 GeV respectively.
-Top and bottom rows show the differential rates for the emitting gluon with $\omega = 3$ GeV and $\omega = 8$ GeV \footnote{to facilitate our analysis, we have selected events within a finite range $\omega\pm 0.5$ GeV}.
-The radiation spectrum is recovered to a similar level of accuracy as in the infinite medium case.
-
-\begin{figure}
-\includegraphics[width=\columnwidth]{spectrum_Bjorken.png}
-\caption{The top frame shows the gluon radiation spectrum calculated with the the BDMPS formula (symbols) and Monte-Carlo simulations (lines) in a static medium ($\nu=1/2$), a slowly expanding medium ($\nu=5/7$) and a Bjorken expanding medium ($\nu\rightarrow 1$). In the bottom frame, we compute ratios of the analytic results and simulations between expanding cases and the static case. The parameters chosen are $\alpha_s=0.3$, $\tau_0 = 0.2$ fm/$c$, $L = 19.8$ fm/$c$, $T_0 = 1$ GeV.}
-\label{fig:Bjorken-BDMPS}
-\end{figure}
-
-\begin{figure}
-\includegraphics[width=\columnwidth]{Bjorken.pdf}
-\caption{Energy loss fraction $\Delta E /E$ as function of path length $L$ for three different energies. Red-dashed lines are direct simulations (the non-local case) and blue-dash-dotted lines are results using the local approximation.}
-\label{fig:Bjorken}
-\end{figure}
 
 Moving toward a comparison in an expanding medium, we perform a calculation using only the diffusion and the diffusion induced radiation  processes with the ``modified rescattering" LPM implementation, since this setup allows us to use the same $\hat{q}_g$ in both the BDMPS formula and the Monte-Carlo calculation.
 For simplicity, we choose $\hat{q}_g = m_D^2 C_A\alpha_s T$ without the logarithmic term, thus the $u$ factor in the acceptance is not required. 
@@ -408,33 +374,13 @@ Bjorken & $\rightarrow 1$ & 1/3 & 0.22\\
 \end{table}
 \end{center}
 
-Finally, we revisit the validity of the local approximation briefly mentioned in the discussion following Equation \ref{eq:expanding-kt2}.
-When the medium expansion rate is large compared to the inverse formation time, the following two scenarios are different,
-\begin{itemize}
-\item[1.]  {\it A non-local (direct) calculation}: radiated gluons are sensitive to the changing medium within the formation times.
-\item[2.] {\it A local approximation}: calculated with rates obtained in the infinite medium defined by the local temperature at the radiation vertex.
-\end{itemize} 
-Here we study how well the local approximation performs for a typical coupling $\alpha_s = 0.3$.
-The ``modified rescattering" approach is  a non-local calculation, because it performs gluon rescatterings at different space-time points during the lifetime of the "pre-formed gluons". 
-To mimic the local approximation, we let each pre-formed gluon $i$ remember the temperature $T_i$ when it was first created and then perform rescatterings in a medium defined by that $T_i$.
-The results are shown in Figure \ref{fig:Bjorken}. 
-The difference between the two scenarios is negligible for $E=10$ GeV and  only moderate for a 200 GeV quark.
-This is because for the coupling constant used, $\alpha_s = 0.3$, the ratio of the estimated maximum formation time $\sqrt{2x(1-x)E/\hat{q_0}}$ to the inverse temperature changing rate $(d\ln(T)/dt)^{-1}$,
-\begin{eqnarray}
-L_c \frac{d\ln(T)}{dt} = \sqrt{\frac{0.5 E}{6\pi C_A\alpha_s^2 T_0^3 9\tau\tau_0}} \approx \sqrt{\frac{0.7 \textrm{ fm}/c}{\tau_0+L}}
-\end{eqnarray}
-is not large after a few fm/$c$. 
-However, in more realistic event-by-event hydrodynamics simulations, the temperature profiles are much more complicated.
-Initial condition fluctuations create medium hot spots and the radial expansion boosts the fluid's local  rest frame.
-We therefore consider it premature to conclude from this study utilizing Bjorken flow that the local approximation is also justified for more realistic event-by-event simulations.
-
-
-\section{Running coupling and mass dependence}\label{section:disscuss}
+\subsection{Implementing running coupling}
 \begin{figure}
-\includegraphics[width=\columnwidth]{Eloss_infinite_run.pdf}
-\caption{Impact of the running of the coupling constant on the radiative energy loss. The dotted lines are calculated using a fixed coupling $\alpha_s(2\pi T)$ for reference. The dashed-dotted lines uses the prescription $\alpha_s^{\textrm{el}}(q_\perp)$ and $\alpha_s^{\textrm{rad}}(k_{\perp,0})$. The dashed lines further modify the radiation vertex with $\alpha_s^{\textrm{rad}}(k_{\perp,n})$.}
-\label{fig:run}
+\includegraphics[width=\columnwidth]{running.png}
+\caption{Comparison of the path-length dependent energy-differential rate $dP/(dtd\omega)$ from the Monte-Carlo implementation using $\alpha_s = 0.3$ to the theoretical baseline calculation \cite{CaronHuot:2010bp}. The light quark energy is $16$ GeV.}
+\label{fig:spectra-L-alphas=0.3}
 \end{figure}
+
 This section focus on improving our model by introducing a running coupling constant and mass effects. 
 However, due to their complexity, we did not found applicable theory baseline results to compare to.
 As a result, the proposed methods in this section should be considered as tentative.
@@ -459,15 +405,10 @@ The dash-dotted lines are running coupling calculations where the $\alpha_s^{\te
 The dashed lines are also running coupling calculations but evaluate $\alpha_s^{\textrm{rad}}$ at $k_{\perp,n}$ through the modified acceptance $p'$.
 The running coupling effect results in a reduction of the energy loss compared to the fixed coupling references.
 
-\begin{figure}
-\includegraphics[width=\columnwidth]{Eloss_mass.pdf}
-\caption{A demonstration of the mass effect with $\alpha_s=0.3$. Left frame: scaled energy loss rate in an infinite medium for light quarks, charm quarks and bottom quarks. Right frame: energy loss fraction of light quarks, charm quarks and bottom quarks at a path length $L=5$ fm.  }
-\label{fig:mass}
-\end{figure}
-
+\subsection{Outlook for mass effect}
 Finally, we include quark mass dependencies in our calculation in order to expand our LPM treatment to heavy quarks. These include the massive particle kinematics, a substitution in the formation time,
 \begin{eqnarray}
-(1-x)m_g^2 \rightarrow x^2M^2 + (1-x)m_g^2
+(1-x)m_\infty^2 \rightarrow x^2M^2 + (1-x)m_\infty^2
 \end{eqnarray}
 and the so-called ``dead-cone" effect that suppresses collinear radiations with angles $\theta \sim k_\perp/k < M/E$. 
 The massive version of the $2\rightarrow3$ improved Gunion-Bertsch matrix-element has been derived in \cite{Uphoff:2014hza}.
@@ -494,8 +435,6 @@ In both cases, the mass introduces the energy loss ordering, $\Delta E_{\textrm{
 
 
 \section{Summary and outlook}\label{section:summary}
-
-
 We have studied three different Monte-Carlo implementations of the LPM suppression of jet energy-loss and have compared them to a theory baseline.
 We have shown that the ``modified rescattering" approach reproduces the coupling constant, temperature, parton energy and path-length dependences of the theoretical baselines for both infinite- and thin-medium limits.
 The overall level of agreement between the simulated radiation spectrum and theory is promising given the simplicity and limits of a Monte-Carlo procedure. Tentative running coupling and dead-cone effect dependencies have also implemented.
@@ -505,6 +444,7 @@ Moreover, a Monte-Carlo generator that is tuned to match leading order theory ca
 
 \begin{acknowledgments}
 SAB, WK and YX are supported by the U.S. Department of Energy Grant no. DE-FG02-05ER41367. WK is also supported by NSF grant OAC-1550225.
+WK would like to thank Florian Senzel, Jean-Francois Paquet and Yacine Mehtar-Tani for helpful discussions.
 \end{acknowledgments}
 
 \begin{appendices}
@@ -533,48 +473,6 @@ and $\Lambda_{\textrm{QCD}} = 0.2$ GeV. In a medium, we require that the scale o
 \label{fig:spectra-alphas=0.1}
 \end{figure}
 
-\section{Gunion-Bertsch rate under soft transverse momenta exchange}
-\label{app:consistency}
-The Gunion-Bertsch matrix-element factorizes the $2\rightarrow3$ process into the product of a $2\rightarrow2$ process and the radiative $1\rightarrow 2$ process. 
-In the vacuum, this is,
-\begin{eqnarray}
-|M_{\textrm{GB}}|^2 &=& |M_{2\rightarrow 2}|^2 16 C_A \pi \alpha_s \frac{(1-\bar{x})^2q_\perp^2}{k_\perp^2\left(\vec{q}_\perp-\vec{k}_\perp\right)^2}.
-\end{eqnarray}
-In medium, a gluon thermal mass regulates the divergence. 
-For hard splitting where $k_\perp \gg q_\perp \sim m_D$, 
-\begin{eqnarray}
-|M_{\textrm{GB}}|^2 &\approx & q_\perp^2 |M_{2\rightarrow 2}|^2 16 C_A \pi \alpha_s \frac{(1-\bar{x})^2}{k_\perp^4}.
-\end{eqnarray}
-Using this approximation in the scattering rate Equation \ref{eq:GB-rate} and factorizing the $q_\perp$ and $k_\perp$ integrations yields,
-\begin{eqnarray}
-\Gamma &=& \frac{1}{2E_1}\int\frac{f_i(p_2)d\vec{p_2}^3}{(2\pi)^3 2p_2}2\hat{s} \frac{d\sigma_{2\rightarrow 2}}{d\hat{t}}q_\perp^2 d\hat{t} \nonumber \\
-&\times& \int 16\pi C_A \alpha_s \frac{(1-\bar{x})^2}{k_\perp^4} \frac{d\vec{k}^3}{(2\pi)^3 2k}
-\end{eqnarray}
-For the case of a quark, the first integration over the $2\rightarrow 2$ cross-section gives $C_F/C_A\hat{q}_g$, after summing over the degeneracy of the gluonic and the fermionic scattering centers.
-Rewriting the second $k$ integration in terms of $x, k_\perp^2$ in the limit $\bar{x}\ll 1$, the rate becomes,
-\begin{eqnarray}\label{eq:GB-LGV}
-\Gamma &=& \hat{q}_g \int \frac{\alpha_s C_F}{\pi} \frac{dk_\perp^2}{k_\perp^4} \frac{dx}{x}
-\end{eqnarray}
-Finally, inserting the coherence factor of Equation \ref{eq:GB-rate-LPM}, the gluon radiation rate becomes identical to the one used in \cite{Cao:2013ita} when $x\ll 1$.
-After reorganizing the incoherent rate Equation \ref{eq:GB-LGV} and performing the $k_\perp$ integration with the regulator $m_g$, we obtain,
-\begin{eqnarray}
-\Gamma &=& \int \frac{\alpha_s}{\pi} \frac{C_F}{x}dx \frac{\hat{q}_g}{m_g^2} 
-\end{eqnarray}
-The factor $\frac{\hat{q}_g}{m_g^2}$ motivates our definition of the effective mean-free-path in Equation \ref{eq:effmpf}.
-
-To estimate the order-of-magnitude of $\Delta t$ in the coherence factor, we apply the condition \ref{eq:delta-t-1} and the above approximated formula yields,
-\begin{eqnarray}
-\nonumber
-1 &\sim& \alpha_s\hat{q}\Delta t \int_{\omega_{\min}}^{E} \frac{d\omega}{\omega}  \frac{dk_\perp^2}{k_\perp^4}  \left[1-\frac{\sin(\Delta t k_\perp^2/2\omega)}{\Delta t k_\perp^2/2\omega}\right]\\
-\nonumber
-&=& \alpha_s\hat{q}\Delta t^2 \int \frac{d\omega}{2\omega^2}  \int d\frac{2\omega}{\Delta t k_\perp^2}  \left[1-\frac{\sin(\Delta t k_\perp^2/2\omega)}{\Delta t k_\perp^2/2\omega}\right]\\
-&=& \alpha_s\hat{q}\Delta t^3 \int \frac{d(\omega\Delta t)}{2(\omega\Delta t) ^2} f(2\omega\Delta t)
-\end{eqnarray}
-The limiting behavior of function $f(x)$ can be captured by a simple interpolation $Ax/(B+x)$.
-Using this simple approximated form of $f(x)$, we conclude that the last integration has a logarithmic dependence on $E$, $\Delta t$, and the infrared cut-off $\omega_{\min}$.
-Negelecting the logarithmic term, the order of magnitude of a typical $\Delta t$ is $(\alpha_s\hat{q})^{-1/3}\sim 1/\alpha_s T$.
-
-
 \section{Energy and coupling constant dependence of radiation spectra}\label{app:tune-spectrum}
 It is important to be aware of the known discrepancies between the Monte-Carlo implementation and the theory baseline, particularly if one investigates an observable that is sensitive to the details of the radiation spectra. 
 In this appendix, we provide comparisons of radiation spectra at different values of energy and coupling constant for the reader's references.
@@ -582,7 +480,6 @@ Figure \ref{fig:spectra-alphas=0.1} and Figure \ref{fig:spectra-alphas=0.3} show
 Within in each figure, different subplots vary the quark energy.
 The gray bands are the ratios between the simulations and the AMY-NLL results (plotted for $\pi T < \omega < E$) and the blue lines are the ratios between the full simulations and the incoherent simulations (the Gunion-Bertsch rate, plotted for $0.1$ GeV $< \omega < 4\pi T $).
 We notice that there are residual systematic discrepancies, but the overall difference is controlled within $\pm 15\%$ for the coupling constants, temperatures and energies under consideration.
-
 
 \end{appendices}
 \bibliography{mclpm} 
