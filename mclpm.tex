@@ -273,34 +273,79 @@ The prefactor $0.75$ was tuned when comparing with our modified-Boltzmann simula
 This logarithmic correction comes from the $\sim 1/q^4$ perturbative tail of the collision kernel.
 Therefore, if one implements anther collision kernel that vanishes exponentially at large-$q$, this logarithm factor in $b$ is unnecessary. 
 
+\subsection{Implement running of $\alpha_s$}
+Finally, we discuss the prescription to implement the running coupling constant following the prescription described in \cite{Arnold:2008zu}.
+We used the leading order running coupling constant with $n_f = 3$ and $\Lambda = 0.2$ GeV, 
+\begin{eqnarray}
+\alpha_s(Q) = \frac{4\pi}{9\ln\left(Q^2/\Lambda^2\right)}
+\end{eqnarray}
+To avoid the pole in the leading order running when $Q$ approaches the non-perturbative scale, we introduce a cut-off of the minimum $Q$ using a medium scale $Q_{\textrm{med}} = \mu\pi T$. 
+Therefore the actual coupling constant is $\alpha_s(\max\{Q, Q_{\textrm{med}}\})$.
+
+For the diffusion transport coefficient Eq. \ref{eq:qhat}, we integrate the formula with this running coupling constant upto the separation scale $Q_{\textrm{cut}}$ to get its running version,
+\begin{eqnarray}
+\hat{q}_S &=& \left(\frac{2\pi}{9}\right)^2\int_{0}^{Q_{\textrm{cut}}} \frac{6\pi T^3}{\ln^2\left(\frac{\max\{q_\perp, \mu\pi T\}}{\Lambda}\right)}\frac{dq_\perp^2}{q_\perp^2 + m_D^2}
+\end{eqnarray}
+and similarly for $\hat{q}_{S,L}$.
+For coupling constant associated to the $2\rightarrow 2$ scattering matrix-elements, including the ones that appears in the $2\rightarrow 3$ matrix-elements, a reasonable choice of the scale would be the momentum transfer $Q^2 = -t$. 
+The coupling constant associated to the splitting vertices should be evaluated at the total transverse momentum of the splitting.
+In the presence of the LPM effect, this should be the transverse momentum after summing over the coherent multiple scatterings,
+\begin{eqnarray}\label{eq:kTn}
+\vec{k}_{\perp, t_0+\tau_f}^2 = \left(\vec{k}_{\perp,t_0}+\vec{q}_1+\cdots+\vec{q}_n\right)^2.
+\end{eqnarray} 
+which is $k_\perp^2$ at $t = t_0 +\tau_f$.
+However, the initial splitting processes are generated using incoherent processes where we evaluated the coupling at $\vec{k}_{\perp}(t_0)^2$.
+and is on average $\sqrt{\omega/T}$ times smaller than $\vec{k}_{\perp}(t_0+\tau_f)^2$ in the deep LPM region.
+Therefore the effect coupling for splitting after multiple scattering is smaller than the one we used in incoherent simulation and allows for an rejection implementation by modifying the acceptance probability $p$ to
+\begin{eqnarray}
+p' = p\times \frac{\alpha_s(k_{\perp,t_0+\tau_f}^2)}{\alpha_s(k_{\perp,t_0}^2)}.
+\end{eqnarray}
 
 \section{results}\label{section:results}
 \begin{figure}
 \includegraphics[width=\columnwidth]{spectrum.png}
-\caption{Radiated gluon spectrum in an infinite medium from a quark of energy $E=q$ TeV, with a coupling constant $\alpha_s = 0.1$. The top frame shows the spectrum (red-dashed line) and power law fit (green-dotted and blue-dash-dotted lines) in different gluon energy ($0<\omega < E$) regions, separated by energy scales $m_\infty$, $\hat{q}_0\lambda_g^2 \sim 2\pi T$. The middle frame is the same calculation compared to the incoherent spectrum and the AMY semi-analytic result. The bottom frame is the ratio between the Monte-Carlo simulation and the semi-analytic calculation.}
+\caption{Radiated gluon spectrum in an infinite medium from a quark of energy $E=1$ TeV, with a coupling constant $\alpha_s = 0.1$. The top frame shows the spectrum (red-dashed line) and power law fit (green-dotted and blue-dash-dotted lines) in different gluon energy ($0<\omega < E$) regions, separated by energy scales $m_\infty$, $\hat{q}_0\lambda_g^2 \sim 2\pi T$. The middle frame is the same calculation compared to the incoherent spectrum and the AMY semi-analytic result. The bottom frame is the ratio between the Monte-Carlo simulation and the semi-analytic calculation.}
 \label{fig:spectrum}
 \end{figure}
+
 \begin{figure}
 \includegraphics[width=\columnwidth]{channel_rate.png}
-\caption{Radiated gluon spectrum in an infinite medium from a quark of energy $E=q$ TeV, with a coupling constant $\alpha_s = 0.1$. The top frame shows the spectrum (red-dashed line) and power law fit (green-dotted and blue-dash-dotted lines) in different gluon energy ($0<\omega < E$) regions, separated by energy scales $m_\infty$, $\hat{q}_0\lambda_g^2 \sim 2\pi T$. The middle frame is the same calculation compared to the incoherent spectrum and the AMY semi-analytic result. The bottom frame is the ratio between the Monte-Carlo simulation and the semi-analytic calculation.}
-\label{fig:spectrum}
+\caption{The splitting rate of $q\rightarrow q+g^*$, $g\rightarrow g+g^*$, and $g\rightarrow q^* + \bar{q}$ as a function of the parton energy labeled by the star. The mother parton with $E=1$ TeV evolves inside an infinite medium with $T=0.5$ GeV. The Monte Carlo results (thick dashed lines) are compared to the AMY NLL results (thin solid lines).}
+\label{fig:channel_rate}
 \end{figure}
+
+\begin{figure}
+\includegraphics[width=\columnwidth]{running.png}
+\caption{Comparison of modified Boltzmann simulation with AMY NLL calculation using running coupling of $\alpha_s$. The running scale in $\alpha_s(Q)$ is regulated at $\mu\pi T$ with $\mu=1,2$. The ratio between simulation and theory is shown in the bottom plot.}
+\label{fig:running}
+\end{figure}
+
 In this section, we compare the splitting rate $dR/d\omega$ that comes out of the modified Boltzmann approach simulation to the NLL approximation in the infinite medium limit.
 
-
-The differential rate in an infinite medium $dR/d\omega$ is shown in Figure \ref{fig:spectrum} for a 1 TeV quark.
+The differential rate in an infinite medium $dR/d\omega$ is shown in Figure \ref{fig:spectrum} for a 1 TeV quark splitting into a gluon and a quark.
+The temperature of the medium is $T=0.5$ GeV, and a rather small coupling constant $\alpha_s = 0.1$.
 Please also refer to Appendix \ref{app:tune-spectrum} for a full comparison varying both the parton energy and the coupling constant.
-The upper figure shows different domains of the emission spectrum separated by the gluon thermal mass $m_\infty$ and an estimate of the Bethe-Heitler energy $\lambda_g m_D^2 \sim 2\pi T$.
-We have chosen $\alpha_s = 0.1$ so that the separation between $m_\infty$ and $2\pi T$ is more visible.
-The spectrum with $\omega < m_\infty$ is suppressed due the use of a finite mass.
-In the Bethe-Heitler region $m_\infty < \omega < 2\pi T$, incoherent $2\rightarrow 3$ processes described in Equation \ref{eq:GB-rate} dominate and the spectrum scales like $\omega^{-1}$.
-In the LPM region $2\pi T < \omega < E$, the spectrum is dominated by coherent multiple scatterings and should be proportional to $\omega^{-3/2}$.
+
+The horizontal axis is the radiated gluon energy.
+In the upper plot, we divided the spectrum into different regions by the gluon thermal mass $m_\infty$ and an estimated Bethe-Heitler energy $\lambda_g m_D^2 \sim 2\pi T$.
+The spectrum with above the is suppressed due the use of a finite mass.
+In the Bethe-Heitler region $\omega < 2\pi T$, the spectrum scales like $\omega^{-1}$ which comes from the incoherent radiation rate.
+In the LPM region $2\pi T < \omega < E$, the spectrum is dominated by coherent multiple scatterings and scales like $\omega^{-3/2}$.
 The power-law fits in each domain are very close to the expected scaling.
-In the middle figure, we compare the above Monte-Carlo implementation to a calculation using the incoherent rate and to the AMY NLL approximation and the ratio is shown in the bottom plot.
-There is a good agreement of $dR/d\omega$ between the modified Boltzmann approach and the NLL AMY calculation which we have used as guidance in developing our Monte-Carlo approach.
+In the middle plot, we compare the simulation to the AMY NLL approximation, with the ratio between the two shown in the bottom plot.
+There is a good agreement in the LPM region between the simulation and the theory calculation, which we have used as guidance in developing our Monte-Carlo approach.
+
+A comparison of the other channels $g\rightarrow g+g$ and $g\rightarrow q+\bar{q}$ to the theory calculations are shown in Figure \ref{fig:channel_rate}.
+For the splitting parton energy much greater than temperature $\omega > 10 T$, the simulation agrees well with the theory. 
+
+Finally, we compare the running coupling calculation with the theory curve in Fig. \ref{fig:running}.
 
 
 \section{Towards phenomenological applications}
+In the previous section, we have shown that the modified Boltzmann equation simulation has a good agreement with the AMY NLL calculation for parton splitting in the LPM regime, for an infinite medium and fixed coupling case.
+Towards future phenomenological application, we would like to investigate a few more complicated setup.
+We first demonstrate how our approach behave in a finite and an expanding medium, as these are two essential properties one expected for a more realistic evolving profile of QGP created in nuclear collision.
+
 \subsection{Results in a finite medium}
 \begin{figure}
 \includegraphics[width=\columnwidth]{spectrum_L.png}
@@ -373,37 +418,6 @@ Bjorken & $\rightarrow 1$ & 1/3 & 0.22\\
 \end{tabularx} 
 \end{table}
 \end{center}
-
-\subsection{Implementing running coupling}
-\begin{figure}
-\includegraphics[width=\columnwidth]{running.png}
-\caption{Comparison of the path-length dependent energy-differential rate $dP/(dtd\omega)$ from the Monte-Carlo implementation using $\alpha_s = 0.3$ to the theoretical baseline calculation \cite{CaronHuot:2010bp}. The light quark energy is $16$ GeV.}
-\label{fig:spectra-L-alphas=0.3}
-\end{figure}
-
-This section focus on improving our model by introducing a running coupling constant and mass effects. 
-However, due to their complexity, we did not found applicable theory baseline results to compare to.
-As a result, the proposed methods in this section should be considered as tentative.
-
-We replace the fixed coupling by a running coupling constant  following the prescription described in \cite{Arnold:2008zu}.
-This involves two changes in the formula. 
-For elastic scattering vertices, $\alpha_s^{\textrm{el}}$ is evaluated at the $t$-channel momentum transfer squared. 
-This is already the feature of {\tt Lido}.
-For splitting vertices,  $\alpha_s^{\textrm{rad}}$ should be evaluated at the final gluon transverse momenta squared,
-\begin{eqnarray}\label{eq:kTn}
-k_{\perp,n}^2 = \left(\vec{k}_{\perp,0}+\vec{q}_1+\cdots+\vec{q}_n\right)^2.
-\end{eqnarray} 
-In the {\tt Lido} model, the original scale used for $\alpha_s^{\textrm{rad}}$ is $k_{\perp,0}^2$ from the $2\rightarrow 3$ process.
-Therefore, we modify the acceptance probability $p$ to
-\begin{eqnarray}
-p' = \min\left\{1, u\frac{\tilde{\lambda}}{\tau_f}\frac{\alpha_s(k_{\perp,n})}{\alpha_s(k_{\perp,0})}\right\}.
-\end{eqnarray}
-The order of magnitude of $k_{\perp,n}^2$ is $\sqrt{\hat{q}\omega}$ and it is about $\sqrt{\omega/T}$ times larger than $k_{\perp,0}^2$ for gluons in the LPM region, therefore the running coupling effect suppresses the spectrum by another factor of $\alpha_s(k_{\perp,n})/\alpha_s(k_{\perp,0})$.
-In Figure \ref{fig:run}, we show three calculations in a static medium. The dotted lines, as references, uses a fixed coupling constant evaluated at a thermal scale $\alpha_s = \alpha_s(2\pi T)$ .
-This scale is also the lowest scale cut-off for the running coupling constant in our model \footnote{please see Appendix \ref{app:alphas} for details. Note that this minimum scale is not required in the original work \cite{Arnold:2008zu} where all scales are assumed to be much greater than $\Lambda_{\textrm{QCD}}$.}.
-The dash-dotted lines are running coupling calculations where the $\alpha_s^{\textrm{el}}$ is evaluated at $\hat{t}$ and the $\alpha_s^{\textrm{rad}}$ at $k_{T,0}$.
-The dashed lines are also running coupling calculations but evaluate $\alpha_s^{\textrm{rad}}$ at $k_{\perp,n}$ through the modified acceptance $p'$.
-The running coupling effect results in a reduction of the energy loss compared to the fixed coupling references.
 
 \subsection{Outlook for mass effect}
 Finally, we include quark mass dependencies in our calculation in order to expand our LPM treatment to heavy quarks. These include the massive particle kinematics, a substitution in the formation time,
