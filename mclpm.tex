@@ -36,7 +36,7 @@ This work will benefit transport model based studies and the usage of these mode
 \end{abstract}
 
 \begin{document}
-\title{A modified-Boltzmann approach for modeling the QCD Landau-Pomeranchuk-Migdal (LPM) effect of medium-induce splitting vertices in the deep LPM region}
+\title{A modified-Boltzmann approach for modeling the hot QCD medium-induce splitting vertices in the deep LPM region}
 \author{Weiyao Ke}
 \author{Yingru Xu}
 \author{Steffen A.\ Bass}
@@ -538,7 +538,72 @@ The results are shown as the ratio between the simulations and the NLL solution.
 Within in each figure, the mother parton energy are 10 GeV, 100 GeV and 1000 GeV from the top to bottom plot.
 We have used two coupling constants at $\alpha_s = 0.1$ (red solid lines) and $\alpha_s = 0.3$ (blue dashed lines).
 
-\section{The $2\rightarrow 3$ matrix-elements}
+\section{Comparison of energy loss with other Monte-Carlo methods}
+In this appendix, we compare the ``parton energy loss" from the modified Botlzmann approach to two other approaches that has been presented in the literature.
+Here we have defined the so called energy loss fraction of a parton in an infinite medium as,
+\begin{eqnarray}
+\Delta E/E = \int x \frac{dR}{dx} dx
+\end{eqnarray}
+We choose to compare this quantity because the spectrum predicted in these three approaches are quite different, but it is still helpful to quantify how they differ through this way.
+
+\paragraph{In the improved Langevin approach}
+The first approach is implemented in the improved Langevin equation \cite{Cao:2013ita}, using a higher-twist calculation of  medium-induced single-gluon emission rate and a prescription to implement multiple emission in a time-evolution manner.
+The higher-twist formula for single radiation rate reads,
+\begin{eqnarray}
+\frac{dN_g}{dx dk_\perp^2 dt} = \frac{\alpha_s P(x)\hat{q}_g}{\pi k_\perp^4} 2\left(1-\cos\frac{t-t_0}{\tau_f}\right)
+\end{eqnarray}
+The rate is time-dependent, coming from the interference between the production of the hard parton at time $t_0$ and one interaction with the medium at time $t$.
+From the second emission, the authors of [] implements the following presciption: set the time $t_0$ to the time of the previous emission so that the probability of the next emission starts to accumulate from zero again as time increases.
+Though it is not immediately clear what this prescription predicts without a simulation, it is possible to get a qualitative understanding by realizing that the typical time separation between two emissions of this model is a time scale within which the emission probability is of order one,
+\begin{eqnarray}
+1 \sim \int_{t_0}^{t} dt\int_{x_c}^1 dx \int dk_\perp^2 \frac{dN_g(t-t_0)}{dx dk_\perp^2 dt}
+\end{eqnarray}
+In the soft limit where $P(x) \sim 2/x$, $\tau_f\sim 2xE/k_\perp^2$, and perform the time integral first, then the $k_\perp$ integral with limits from $0$ to $xE$.
+To render the final integral of $x$ (with a change of variable to $u = xE\Delta t/2$) finite, we need a lower cut-off of $x$ at $x_c$,
+\begin{eqnarray}
+1 &\sim& 4\alpha_s\hat{q}\Delta t \int_{x_c}^1 \frac{dx}{x} \int \frac{dk_\perp^2}{k_\perp^4}\left(1-\frac{\sin(\Delta t/\tau_f)}{\Delta t/\tau_f}\right)\\
+&=& \frac{\alpha_s\hat{q}_g \Delta t^3}{3u^3} \left( u^3\mathrm{Ci}(u)-3u^2\mathrm{Si}(u) - u^2 \sin(u) \right. \\\nonumber
+&&\left. +3u-\sin(u) - 2u\cos(u) \right) \left.\right|_{\frac{\Delta t E x_c}{2}}^{\frac{\Delta t E}{2}} 
+\end{eqnarray}
+The result can be expanded at small $u$: $\frac{1}{18}(6\ln(u)+6\gamma_E - 17)$, besides it decays to $0$ at infinity, so a good proxy is to use the small-$u$ expansion but cut-off the upper bound at its zero,
+\begin{eqnarray}
+1 &\sim&  \frac{\alpha_s\hat{q}\Delta t^3}{3}\ln\frac{2}{ x_c E \Delta t } \propto (g^2 T \Delta t)^3 \ln\frac{2}{ x_c E \Delta t }
+\label{eq:delta-t-formula}
+\end{eqnarray}
+Now, it is clear that the typical time between two emissions in this approach is on the order of $1/g^2T$ which is the order of the elastic collision mean-free-path.
+Putting typical $\Delta t \sim \lambda_{el}$ back to the factor $2(1-\cos(\Delta t/\tau_f))$, one finds that the radiation spectrum is suppressed when the formation time is much greater than the mean-free-path.
+This feature certainly suppresses the energy loss relative the incoherent one, however, it is introduced by controlling the correlation between two subsequent emissions, while the LPM suppression actually happens on the level of single emission rate.
+Moreover, the logarithmic factor in equation \ref{eq:delta-t-formula} depends on the infrared cut-off (in the original work, this cut-off is chosen at $\pi T$), therefore the prediction is cut-off dependent though logarithmic slow.
+This is due to that this correlation prescription changes the second emission rate the same way, no matter how soft the previous emission is.
+This is in fact a feature we want to avoid as the correlation between subsequent emission is a higher order question.
+
+\paragraph{The blocking radiation approach}
+Another approach that has been used before will be termed as the ``blocking radiation approach" in this work.
+In this approach, the splitting is also first generated through an incoherent processes at time $t_0$, and then the self-consistent determination of formation time by elastic broadening is the same as the modified Boltzmann approach.
+However, the LPM suppression is introduced by requiring no additional radiation is allowed during the formation time of the previous one.
+Again, this method introduces correlations between subsequent emissions.
+A closer investigation reveals bigger problem.
+This approach effectively reduces every $\tau_f/\lambda_{inel}$ incoherent emission to one, resulting only an overall reduction in the radiation spectrum without changing its shape.
+And the suppression factor $\lambda_{inel}/\tau_f$ is a comparison between  the formation time with the incoherent inelastic mean-free-path, instead of the elastic mean-free-path, which is off by a power of $\alpha_s$.
+
+\begin{figure*}
+\centering
+\includegraphics[width=1.\textwidth]{Eloss_infinite.pdf}
+\caption{Energy loss per unit path lengh $dE/dx$ as a function of energy $E$, temperature $T$ and coupling constant $\alpha_s$. Each column corresponds to a value of the coupling constant $\alpha_s = 0.075, 0.15, 0.3$, and $0.6$ (from left to right). Each row corresponds to a temperature of $T = 0.2, 0.4$, and $0.6$ GeV (from top to bottom). $dE/dx$ is divided by the expected scaling $\alpha_s^2 \sqrt{ET^3}$. The MC implementations of the LPM effect referred to as ``modified rescattering", ``coherence factor", and ``block radiation" approaches are shown with red-dashed lines, blue-dash-dotted lines, and green-dotted lines respectively. The AMY NLL results are denoted as black boxes.}
+\label{fig:eloss-inf}
+\end{figure*}
+
+
+\paragraph{Comparison with the modified Boltzmann approach and the analytic results}
+In Figure \ref{fig:eloss-inf}, we show the calculation of energy loss per unit path length $dE/dx$ of a quark in an ``infinitely large" medium. 
+The results presented are normalized by $1/(\alpha_s^2 \sqrt{ET^3})$ in anticipation of the scaling $dE/dx \propto \alpha_s^2 \sqrt{ET^3}$.
+For each column, we double the value of $\alpha_s$ and for each row, the temperature is increased by $0.2$ GeV. 
+Within each subplot, the parton energy varies from $10$ GeV to $200$ GeV.
+The three Monte-Carlo methods of medium-induced energy loss are shown in colored lines, 
+NLL AMY results are shown as black lines where we only integrate $\omega$ above the the Debye mass 
+As expected, the modified Boltzmann approach (red-dashed lines) which describes the radiation spectrum also reproduces the energy, temperature, and coupling constant dependence of energy loss.
+The  approach used in the improved-Langevin equation (blue-dash-dotted lines) has a similar energy and temperature dependence as the theoretical baseline; however, it systematically deviates from the baseline for different values of the coupling constant in a logarithmic manner.
+For the ``block radiation" approaches, the deviations from the baseline regarding their $\alpha_s$-dependence is completely off, which is not surprising as we have discussed its shortcomings.
 
 \end{appendices}
 \bibliography{mclpm} 
