@@ -166,7 +166,7 @@ One also sees that the region where the incoherent transport model is valid is l
 Therefore, quite fundamental modification has to be made to the Boltzmann equation to include splitting processes properly which we shall refer as the so-called ``modified Boltzmann transport" approach.
 
 \subsection{An ansatz for the modified transport}
-We start by investigating the leading-order calculation of medium-induced parton splitting in a ``brick" and identify the approximations to arrive at an ansatz that modifies the Botlzmann formulation.
+We start by investigating the leading-order calculation of medium-induced parton splitting in a ``brick" and identify the modification to the Botlzmann formulation.
 Here we quote the reorganized formula for medium-induced splitting from \cite{CaronHuot:2010bp},
 \begin{eqnarray}
 \frac{dP^{a}_{bc}}{d\omega} &=& \int_0^\infty dt \frac{g^2}{\pi E} P_{bc}^{a(0)}(x) \int_t^\infty dt'  F(t', t)
@@ -180,31 +180,37 @@ $\mathcal{C}(t')$ is a Boltzmann-like collision operator such that,
 \mathcal{C}[f] = \int_{\bf q} g^2\mathcal{A}(q_\perp^2)
 &&\left\{  \frac{C_b+C_c-C_a}{2}\left(f_{\bf p}-f_{{\bf p}-{\bf q}}\right) \right.\\\nonumber
  +&&    \frac{C_a+C_c-C_b}{2}\left(f_{\bf p}-f_{{\bf p}+x{\bf q}}\right) \\\nonumber
-+&&  \left. \frac{C_a+C_b-C_c}{2}\left(f_{\bf p}-f_{{\bf p}+(1-x){\bf q}}\right)\right\}
++&&  \left. \frac{C_a+C_b-C_c}{2}\left(f_{\bf p}-f_{{\bf p}+(1-x){\bf q}}\right)\right\},
 \end{eqnarray}
-Where $C_i$ are the color factors of each parton and the collision kernel given by \cite{Aurenche:2002pd},
+where $C_i$ is the color factor of each parton. 
+The collision kernel is given by \cite{Aurenche:2002pd},
 \begin{eqnarray}
 \mathcal{A}(q_\perp^2) = \frac{m_D^2 T}{q^2\left(m_D^2+q^2\right)}
 \end{eqnarray}
-Finally, $K(t', {\bf q}'; t, {\bf q})$ is the quantum mechanical propagator of the Hamiltonian $\hat{H} = \delta E - i\mathcal{C}$ in the momentum representation.
-This rather compact result is actually hard to implement in a Boltzmann formulation, because of the double time integral that signatures the quantum nature of this transition.
-Moreover, more generally, the result should dependent on the temperature and flow velocity profiles of the medium, making it a computationally heavy task when coupled to dynamical evolving and fluctuating medium.
+Finally, $K(t', {\bf q}'; t, {\bf q})$ is the propagator of the transverse  Hamiltonian $\hat{H} = \delta E - i\mathcal{C}$ in the momentum representation.
+This rather compact result is actually hard to implement in a Boltzmann formulation, because of the double time integral that signatures the quantum transition.
+Moreover, the branching probability generally dependents on the temperature and flow velocity profiles of the medium, making it a computationally heavy task when coupled to dynamical evolving and fluctuating medium.
 
-Our approximation towards a Boltzmann-like transport equation starts from replacing the time propagator $F(t',t)$ by a simple ansatz,
+Our approximation towards a modified Boltzmann transport formulation starts by replacing the effect of the temporal correlator $F(t',t)$ with a simple ansatz,
 \begin{eqnarray}
-\int dt' F(t', t) \rightarrow \int dt' \frac{b}{\tau_f^2}\Theta(t'-t-a\tau_f).
+F(t', t) \rightarrow \frac{1}{N}\sum_{i=1}^N \frac{b}{\tau_i(t)} \delta(t-t'- a \tau_i(t))
 \end{eqnarray}
-This approximation is indeed very crude, but includes the expected qualitative behaviors. 
-Given that $\tau_f$ is a characteristic scale of the problem, the prefactor $b/\tau_f^2$ carries the dimension of $F$ and the $\Theta$-function represents that there is a finite time interval ($\sim \tau_f$) during which the coherence is important.
-Finally, $a$ and $b$ are dimensionless whose forms shall be discussed in detail in the next section and will be tuned to achieve a reasonable level of agreement with the theoretical calculation.
+Here the function $F(t', t)$ is approximated by an ensemble ($N$) of copies of the branching system $a\rightarrow b+c$.
+Each copy ``$i$" evolves with the incoherent transport equation, and there is certain probability for this copy to have a formation time $\tau_i$ at time $t$ during the evolution.
+The delta function expresses that the branching that start at time $t'$  is thought to be formed at time $t+a\tau_f$.
+The additional factor $b/\tau_f$ corrects for that the probability for a branching to happen is different from the incoherent probability as given by the leading-log pivture.
+This ansatz of representing a correlation function using information at $t$ and $t'$ of an ensemble of particles follows the same spirit in the Monte-Carlo solver of the traditional Boltzmann equation, where the distribution function is represented by an ensemble of particles at time $t$.
+This is indeed a crude approximation of $F(t', t)$, and its validity has to be examined by comparing its prediction with the theoretical calculations.
+Finally, $a$ and $b$ are dimensionless factors whose forms shall be determined later and will be tuned to achieve an optimal level of agreement to theoretical calculations.
+
 With such an ansatz, the medium-induced splitting probability reduces to,
 \begin{eqnarray}
 \nonumber
-\frac{dP^{a}_{bc}}{d\omega} &=& \int_0^\infty dt \frac{g^2 P_{bc}^{a(0)}}{\pi E\tilde{\lambda}(t)} \int_t^\infty dt'  \Theta(t'-t-a\tau_f) \frac{b \tilde{\lambda}(t)}{\tau_f^2} \\
-&=& \int_0^\infty dt \frac{dR_{\textrm{incoh}}(t)}{d\omega} \times \left.\frac{ab\tilde{\lambda}(t)}{\tau_f(t',t)}\right|_{t'=t+a\tau_f}
+\frac{dP^{a}_{bc}}{d\omega} &=& \int_0^\infty dt \frac{g^2 P_{bc}^{a(0)}}{\pi E\tilde{\lambda}(t)} \int_t^\infty dt' \frac{\tilde{\lambda}(t)}{N}\sum_{i=1}^N \frac{b}{\tau_i(t)} \delta(t-t'- a \tau_i(t)) \\
+&=& \frac{1}{N}\sum_{i=1}^N\int_0^\infty dt \frac{dR_{\textrm{incoh}}(t)}{d\omega} \times \left.\frac{ab\tilde{\lambda}(t)}{\tau_f(t',t)}\right|_{t'=t+a\tau_f}
 \end{eqnarray}
 where we have divided and multiplied back an effective mean-free-path $\tilde{\lambda} = m_D^2/\hat{q}_g$ so that we may interpret the quantity immediately after the $dt$ integral as an incoherent splitting rate $R_{\textrm{incoh}}$.
-Now it becomes clear how one can modify the standard Botlzmann transport to approximately include the LPM effect:
+Now it is clear how we can modify the standard Botlzmann transport to approximately include the LPM effect,
 \begin{enumerate}
 \item Evolve each parton by solving the collision rate equation with incoherent rate from $t$ to $t+\Delta t$.
 \item The daughter partons from splittings are not immediately treated as independent (``preformed"). They are evolved together with the mother parton. Preformed partons only undergoes elastic collisions (the mother parton can keep splitting).
@@ -218,11 +224,12 @@ p = \frac{ab\tilde{\lambda}(t)}{\tau_f}
 Accepted splittings will be treated as independent objects from time $t'$. and will interact through both elastic and inelastic channels.
 Rejected splittings are dropped and do not cause physical effect.
 \end{enumerate} 
-The key in such a procedure is a self-consistent determination of the formation time as described in step 4, which results in a scaling of the average formation time $\left\langle\tau_f\right\rangle \propto \sqrt{\omega/\hat{q}}$ and generalizes to medium with more complex temperature profile.
+A key step is a self-consistent determination of the formation time as described in step 4, which in a static medium, results in an averaged formation time scaling like $\left\langle\tau_f\right\rangle \propto \sqrt{\omega/\hat{q}}$.
+This procedure also generalizes to medium with evolving temperature profile.
 This iterative procedure was first developed and implemented by \cite{Zapp:2011ya}.
 
 Such an ansatz only captures the qualitative behavior of the LPM effect in a large medium. 
-To make it more useful, we benchmark it to theory calculations in an infinite medium in the following subsection.
+To make it more useful, we compare it to theory calculations in an infinite medium in the following subsection and determine the forms of $a$ and $b$.
 
 \subsection{Matching the ansatz to semi-analytic calculation}
 The equation \ref{eq:full-theory} in an infinite medium limit is known as the AMY formalisim \cite{Arnold:2002ja,Arnold:2002zm,Arnold:2003zc},
@@ -484,6 +491,7 @@ WK would like to thank Florian Senzel, Jean-Francois Paquet and Yacine Mehtar-Ta
 
 \begin{appendices}
 \section{Approximation of the $2\rightarrow 3$ matrix-elements}
+\label{app:23}
 Regarding the $2\rightarrow 3$ matrix-element, in previous study \cite{Ke:2018tsh}, we used to employ an improved version of the original Gunion-Bertsch cross-section that works under the limits $k_\perp, q_\perp \ll \sqrt{s}$ and $x q_\perp \ll k_\perp$ \cite{PhysRevD.25.746,Fochler:2013epa,Uphoff:2014hza}.
 The original Gunion-Bertsch cross-section \cite{PhysRevD.25} only works for soft emissions $x=k^+/p^+ \ll 1$. 
 With the improvements made in \cite{Fochler:2013epa,Uphoff:2014hza}, the agreement with the exact matrix-elements is extended to large-$x$, but still the splitting function is only reproduced to $O(x)$.
@@ -544,7 +552,7 @@ The horizontal dashed lines denote $\pm 10\%$ deviation from unity. }
 \label{fig:g2qqbar}
 \end{figure}
 
-\section{Energy and coupling constant dependence of the splitting rate}\label{app:tune-spectrum}
+\section{Energy and coupling constant dependence of the splitting rate}
 In this appendix, we provide comparisons of splitting rate at different values of energy and coupling constant for the reader's references.
 Fig. \ref{fig:q2qg}, Fig. \ref{fig:g2gg} and Fig. \ref{fig:g2qqbar} shows the comparison for channels $q\rightarrow q+g$, $g\rightarrow g+g$ and $g\rightarrow q+\bar{q}$ respectively.
 The results are shown as the ratio between the simulations and the NLL solution.
@@ -552,6 +560,7 @@ Within in each figure, the mother parton energy are 10 GeV, 100 GeV and 1000 GeV
 We have used two coupling constants at $\alpha_s = 0.1$ (red solid lines) and $\alpha_s = 0.3$ (blue dashed lines).
 
 \section{Comparison of energy loss with other Monte-Carlo methods}
+\label{app:tune-spectrum}
 In this appendix, we compare the ``parton energy loss" from the modified Botlzmann approach to two other approaches that has been presented in the literature.
 Here we have defined the so called energy loss fraction of a parton in an infinite medium as,
 \begin{eqnarray}
