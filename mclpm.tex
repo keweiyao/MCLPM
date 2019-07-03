@@ -26,11 +26,11 @@
 \begin{abstract}
 Hard probes created in perturbative processes are excellent probes for the study of the hot and dense QCD matter created in relativistic heavy-ion collisions.
 Transport approach, allowing for a coupling to an evolving medium with a fluctuating initial condition, has become a powerful tool in this endeavor. 
-However, the implementation of the Landau-Pomeranchuk-Migdal (LPM) effect for medium-induced parton branching processes, poses a challenge to semi-classical models: the widely used Boltzmann-type transport equations.  
-In this work, we investigated a possible solution, termed the ``modified Boltzmann transport" approach, including a prescription for the running coupling constant.
-By fixing two numerical parameters, this approach quantitatively reproduces the medium-induced splitting rates predicted by the next-to-lead-log solution of the AMY equation which is valid in the deep-LPM regime of an infinite medium.
+However, the implementation of the Landau-Pomeranchuk-Migdal (LPM) effect for medium-induced parton bremsstrahlung and pair production, poses a challenge to semi-classical models: the widely used Boltzmann-type transport equations.  
+In this work, we investigated a possible solution to approximate the LPM effect in a ``modified Boltzmann transport" approach, including a prescription for the running coupling constant.
+By fixing a numerical parameter, this approach quantitatively reproduces the rates of medium-induced parton splitting predicted by the next-to-lead-log solution of the AMY equation which is valid in the deep-LPM regime of an infinite medium.
 We also found a qualitative agreement of our implementation with calculations in a finite and expanding medium, but future improvements are needed for precision at small path length.
-This work will benefit transport model based studies and the usage of these models in the phenomenological extraction of the jet transport coefficient.
+This work benefits transport model based studies and the usage of these models in the phenomenological extraction of the jet transport coefficient.
 
 
 \end{abstract}
@@ -49,101 +49,137 @@ The study of hard probes in relativistic heavy-ion collisions is moving towards 
 
 Transport models are powerful tools where hard probes can be coupled to the realistic time evolution of the medium with an event-by-event fluctuating initial condition. 
 However, the numerical implementation of the QCD analog of the Landau-Pomeranchuk-Migdal (LPM) effect, poses a serious challenge to a class of widely used models: the Boltzmann-type transport equation, including the Langevin dynamics.
-In a dense medium, multiple scatterings act coherently within the formation time ($\tau_f$) of the medium-induced splitting \cite{PhysRev.103.1811,Wang:1994fx,Zakharov:1996fv,Zakharov:1997uu,Baier:1996kr,Baier:1996sk}, and the rate is significantly reduced compared to an incoherent estimation.
-The in-medium splitting becomes an effectively $n$-body to $(n+1)$-body process with a finite extend in space-time compare to the elastic mean-free-path $\lambda_{\textrm{el}} \sim 1/g^2T$.
-This feature is particularly difficult to accurately accounted for in a Boltzmann transport equation, where interactions are based on few-body processes whose time scale is much shorter than $\lambda_{\textrm{el}}$, which is true for elastic processes at weak coupling as its duration is proportional to the inverse of Debye mass $1/m_D \sim 1/gT$.
-To simplify the problem for splitting processes while still retaining essential qualitative features, different methods have been used in numerical studies \cite{Cao:2013ita,ColemanSmith:2012vr,Xu:2004mz,Zapp:2011ya,Gossiaux:2012cv,Park:thesis}.
+In a dense medium, multiple scatterings act coherently within the formation time ($\tau_f$) of the medium-induced parton splitting \cite{PhysRev.103.1811,Wang:1994fx,Zakharov:1996fv,Zakharov:1997uu,Baier:1996kr,Baier:1996sk}.
+The resultant bremsstrahlung rate differs from those estimated assuming independent incoherent) collisions.
+As a result, bremsstrahlung in a medium becomes an effectively $n$-body to $(n+1)$-body process with a finite extend $\tau_f$ in space-time compare. At high energy, $\tau_f$ can be much larger than collisional mean-free-path $\lambda_{\textrm{el}}$, and can be comparable to the typical inverse gradient of the macroscopic quantities of the medium created in heavy-ion collisions.
+These situations are particularly difficult to treat in a Boltzmann transport equation with local and few-body collision terms. 
+To simplify the parton bremsstrahlung while retaining essential qualitative features, different approximations and perscriptions are used to incoporate the LPM effect into transport models \cite{Cao:2013ita,ColemanSmith:2012vr,Xu:2004mz,Zapp:2011ya,Gossiaux:2012cv,Park:thesis}.
+These models are then applied to phenomenological studies and used for physical parameter extraction such as $\hat{q}$.
+However, there has not been sufficient attention to the quantitative comparisons of these approximate implementations to the theoretical calculations.
+Such a step is essential for a reliable extraction of the jet transport properties.
 
-In this work we try to identify what approximation we need to make in order to include the LPM effect approximately in a Boltzmann-type transport model, the resultant technique is termed as ``the modified Boltzmann transport" approach in this work. 
-As an overview of the method, we first setup a semi-classical transport model with elastic (with both scattering and diffusion) processes and incoherent splitting processes.
-The hard partons are transported under the effect of these ``local'' processes.
-Then, the LPM suppression and its ``non-locality'' is implemented as a modification to the incoherent splitting processes with both an elastic broadening and a suppression of the splitting probability $\propto \lambda_{\textrm{el}}/\tau_f$ in the leading-logarithmic (LL) picture.
-Moreover, we also find a prescription to correct for the logarithmic ambiguity of the LL suppression probability to have the uncertainty of this implementation under a better control.
-There is one numerical constant introduced in this approach, but it can be tuned to semi-analytic calculations in an infinite medium limit in the deep LPM regime where the daughter parton's energy is much greater than the temperature \cite{Arnold:2008zu}.
-It reasonably describes the medium induced splitting rate for different channels $q\rightarrow q+g$, $g\rightarrow g+g$ and $g\rightarrow q+\bar{q}$, for a wide range of parton energies and at different coupling strengths.
-Therefore, the performance of our method is calibrated to theoretical calculations in the deep LPM region.
-A tentaive prescription for implementing running coupling is also proposed and has a reasonable agreements with theoretical expectations \cite{Arnold:2009mr}.
-This ``calibration to theory'' practice is important for the future application of this transport model to a phenomenological extraction of the jet transport properties from systematic model-to-data comparison, as it is an essential step to reduce the theoretical uncertainty introduced by an approximated modeling of the underlying theory.
+In this work, we have developed an approximation scheme for the inclusion of LPM effect into the transport model, aiming for quantitative comparison between the model and the theory.
+The resultant technique is hereafter termed as ``the modified Boltzmann transport" approach.
+Here we give a short overview of the approach. 
+The semi-classical transport model propagates the hard partons inside a quark-gluon plasma, under the influence of both elastic collisions with the medium, as well as incoherent parton bremsstrahlung (inelastic processes) from independent collisions.
+We first focus on the simplest scenario of hard parton propagating in an infinite medium with a constant temperature.
+The LPM effect is implemented as a modification to the incoherent inelastic rates, where elastic collisions broaden the transverse momentum between the outgoing hard partons and the incoherent rate is reduced by a factor $P$.
+The suppression probability $P$ is obtained from the leading-log (LL) approximation of parton splitting when the number of coherent collisions is large $N_{\textrm{coh}} = \tau_f/\lambda_{el} \gg 1$ (the deep-LPM region), and $P \propto \lambda_{el}/\tau_f$.
+Moreover, a quantitative agreement with the theory can be achieved by introducing a next-to-lead-log (NLL) correction to $P$.
+The modified transport model describes the rates for in-medium bremsstrahlung $q\rightarrow q+g$, $g\rightarrow g+g$, and pair production $g\rightarrow q+\bar{q}$ surprisingly well in the deep-LPM region.
+Next, we apply the model to cases beyond an infinite and static medium, because the realistic medium created in heavy-ion collisions is finite, fluctuating, with a fast dropping temperature profile due to the violent expansion. 
+It is true that the current approach is developed by matching to theoretical calculations in the deep LPM region assuming many coherent collisions, but for a thin medium, the role of the interference pattern between only a few coherent collisions becomes important.
+In principle, one should resort to other techniques such as the opacity expansion \cite{Wiedemann:2000za,Gyulassy:1999zd} for computation a thin medium. 
+Nevertheless, we do find the current method qualitatively reproduces the theroretical calcualtions of path-length dependence \cite{CaronHuot:2010bp} and the medium expansion rate depedence \cite{Baier:1998yf} of the radiation rates.
 
-The realistic medium that is created heavy-ion collisions is finite with a fast-dropping temperature profile due to longitudinal expansion. 
-Therefore, we must investigate if our approach also captures the finite size effect  for branchings with a large formation time compared to the finiteness of the medium.
-The interference at the boundary is certainly very complicated and is not built-in in our implementation, however, our approach does display a finite-size effect that qualitatively reproduce the theoretical calculation as function of the path-length and the expansion rate \cite{CaronHuot:2010bp, Baier:1998yf}.
-Of course, to achieve a precision level of agreement with the theory as it is in the deep-LPM region, future improvements are definitely needed at small path-length.
+Finally, we find it instructive to compare the current method to two other Monte Carlo implementations of the medium-induced radiation processes that have been used in previous studies.
+We found subtle differences in the construction of these models can lead to incorrect implementation of the LPM effect or introduce correlations between sequential bremsstrahlung partons that is beyond the leading-order theory used for the model.
+We want to draw attention on the phenomenological consequences of these differences. 
+Especially, these differences affect the interpretation of the extracted physical parameters such as in-medium coupling and $\hat{q}$.
+This also demonstrates the importance of making direct comparison between the transport model and theoretical calculations as practiced in this work.
 
-This paper is organized as follows. Section \ref{section:Boltzmann} introduces the Linearized Boltzmann plus Langevin transport model using incoherent calculation of parton splitting.
-In Section \ref{section:modified-Boltzmann}, we propose an ansatz to modify the aforementioned model in Section \ref{section:Boltzmann} to include the LPM effect.
-A next-to-leading-log (NLL) solution in the deep LPM region is used as guidance to determine the form of the ansatz.
-Detailed comparisons between the simulation and the NLL solution is found in section \ref{section:results} and appendix \ref{app:tune-spectrum}.
-The behavior of this approach in finite and expanding media is investigated in \ref{section:more}.
-In section \ref{section:compare}, the current method is compared to two other Monte Carlo methods for radiative processes that has been used in phenomenology studies.
-Finally, \ref{section:summary} is a short summary and outlook.
+This paper is organized as follows. 
+Section \ref{section:Boltzmann} introduces the ingredients of the semi-classical transport model that is to be modified.
+In section \ref{section:modified-Boltzmann}, we propose the modifications to the aforementioned model in Section \ref{section:Boltzmann} to include the LPM effect.
+In section \ref{section:results} and appendix \ref{app:tune-spectrum}, we provide detailed comparisons between the simulation and the NLL solution in the deep-LPM regime.
+Effects of a finite and expanding medium are investigated in section \ref{section:more}.
+In section \ref{section:compare}, we compare this work to two previously used Monte-Carlo implementations of the LPM effect in transport models.
+Finally, section \ref{section:summary} summarizes and discusses the future applications of the model.
 
 
 
 \section{Semi-classical transport approach with incoherent rates}\label{section:Boltzmann}
-In this section, we first build the transport model in the incoherent limit. 
-The partonic processes are categorized into elastic (particle number conserving) and inelastic processes (particle number non-conserving). 
-The inelastic processes are further divided into parton-splitting and parton-jointing contribution. 
-In this section, we shall first proceed using local and incoherent calculation of such processes and will discuss in great detail in the next section on  the inclusion of the LPM effect.
-
-First, we define $Q$ as the momentum transfer between the hard parton and the medium of a process.
-To be able to handle both large-$Q$ processes where the medium screening effect is weak, as well as small-$Q$ interactions where medium effect is important,
-we separate the interactions into a large-$Q$ (hard mode) section and a small-$Q$ (soft-mode) section.
-The former is solved by collision rates calculated with matrix-element computed in the vacuum, and later is solved by diffusion dynamics and diffusion-induced splitting / jointing rates.
-The switching scale of the hard/soft modes are chosen to be proportional to the Debye mass square $Q_{\textrm{cut}} = c m_D$, with $c=2$ as default.
-One of the many advantages of this separation is avoiding the use of the complicated in-medium propagators, while still achieve an leading order accuracy with a reasonable choice of $Q_{\textrm{cut}}$ \cite{Ghiglieri:2015ala}.
-
-For the diffusion sector, the transverse and longitudinal diffusion constants $\hat{q}_S, \hat{q}_{S,L}$ in a weakly coupled theory with the $Q_{\textrm{cut}}$ dependence have been calculated in \cite{Ghiglieri:2015ala} at leading order,
+In this section, we construct the transport model assuming collisions are independent and will discuss in great detail in the next section on the inclusion of the LPM effect.
+Focusing on hard partons, the collisions are categorized into elastic (hard particle number conserving) and inelastic processes (hard particle number non-conserving). 
+The inelastic processes are further divided into parton-splitting and parton-merging contribution. 
+The Boltzmann equation relates evolution of the hard parton distribution function $f_H$ to these collision processes,
 \begin{eqnarray}
-\hat{q}_S = \int_0^{Q_{\textrm{cut}}^2} dq^2 \frac{\alpha_s m_D^2 T}{q^2 (q^2+m_D^2)},
-\label{eq:qS} \\
-\hat{q}_{S,L} = \int_0^{Q_{\textrm{cut}}^2} dq^2 \frac{\alpha_s m_\infty^2 T}{q^2 (q^2+m_\infty^2)}
-\label{eq:qSL}, 
+\frac{df_H}{dt} = \mathcal{C}_{\textrm{el}}[f_H] + \mathcal{C}_{\textrm{inel}}[f_H].
 \end{eqnarray}
-where the ``$S$'' subscripts reminds us that it only contains soft contributions below $Q_{\textrm{cut}}$.
-The drag coefficient determined by the Einstein relation given the transport coefficients,
+As a remark, we have suppressed writing the dependence of the collision term on the light parton distribution functions, because we assume them to be the thermal equilibrium ones with Boltzmann statistics $f_0(p) = e^{-p\cdot u/T}$. 
+And $T$ and $u$ are the medium temperature and four-velocity that can be obtained from a medium evolution model. 
+We also neglects the collisions between two or more hard partons and the back reaction from hard parton to the medium due to their small population  in actual high energy nuclear collisions.
+As a result, the above Boltzmann equation is linearized with respect to $f_H$.
+
+A linearized Boltzmann equation can be solved using a collision rate approach.
+First, hard partons are represented by $\delta$-functions in the phase space $f_H(t,\mathbf{x},\mathbf{p}) \approx \sum \delta^{(3)}(\mathbf{p}-\mathbf{p}(t))\delta^{(3)}(\mathbf{x}-\mathbf{x}(t))$.
+Each particle travels in a straight line and occasionally its momentum changes drastically due to collisions.
+This way, one obtains a stochastic solution of the time evolution of $f_H$.
+The collision probability per unit time (i.e., the collision rate) is 
 \begin{eqnarray}
-\eta_D = \frac{\hat{q}_{S,L}}{2ET} - \frac{d\hat{q}_{S,L}}{dp^2} - \frac{\hat{q}_{S,L} - \hat{q}_S/2}{p^2}.
-\end{eqnarray}
-For the large-$Q$ collision sector, the collision rates $R$ for  $2\leftrightarrow2$ and $2\leftrightarrow3$ scatterings are obtained by integrating the vacuum matrix-element over the thermal distribution function $f_0$ of the medium partons, with restriction $Q > Q_{\textrm{cut}}$
-\begin{eqnarray}
-R_{2\rightarrow n} = \frac{g_i}{2E_1}\int  \frac{d^3p_2}{2E_2(2\pi)^3} f_0(p_2)2\hat{s} \int_{-\hat{s}}^{Q_{\textrm{cut}^2}}\frac{d\sigma}{d\hat{t}}d\hat{t}
+R = \frac{g_i}{2E_1}\int  \frac{d^3p_2}{2E_2(2\pi)^3} f_0(p_2)2\hat{s} \sum_i \int_{-\hat{s}}^{0}\frac{d\sigma_i}{d\hat{t}}d\hat{t}.
 \label{eq:incoh_rate}
 \end{eqnarray}
-Here $\frac{d\sigma}{d\hat{t}}$ is the differential cross-sections. 
-For two-body collisions, we used the standard results but with only $\hat{t}$-channel contribution \cite{RevModPhys.59.465}.
-The matrix-elements for the $2\rightarrow 3$ processes are more complicated and we derive them in the limit $k_\perp^2, q_\perp^2 \ll x(1-x)\sqrt{s}$, where $q_\perp$ is the transverse component of $Q$ in the center-of-mass frame, and $k_\perp$ is the transverse momentum of the radiated parton in the final state. 
-A list of these matrix-elements can be found in appendix \ref{app:23}.
-For the incoherent diffusion-induced splitting rate, we use the expression from \cite{Cao:2017hhk} without the time-dependent coherence factor,
-\begin{eqnarray}
-R_{1\rightarrow 2} = \int d k_\perp^2 dx \frac{\alpha_s P(x) \hat{q}_S}{2\pi (k_\perp^2 + m_\infty^2)^2}
-\end{eqnarray}
-where a gluon thermal mass $m_\infty$ is added to screen the divergence.
-For the reverse processes $3\rightarrow 2$  and $2\rightarrow 1$ processes, similar reaction rate can be written down.
+For simplicity, we have only shown the case that the hard parton with momentum $p_1$ collides with one medium parton with momentum $p_2$.
+$\hat{s}, \hat{t}$ are the Mandelstam variables of the two-body collisions. 
+$d\sigma_i/d\hat{t}$ is the differential cross-sections of channel $i$, including both elastic and inelastic contributions.
 
-Combining all these processes, we summarize this hybrid linearized Diffusion plus Boltzmann dyanmics into,
+The in-medium cross-sections $d\sigma_i$ are dominated by $\hat{t}$ channel processes which diverges like $1/\hat{t}^2$ in the vacuum.
+In a medium, screening effects regulates the cross-section and make finite the physical quantities; however, the cross-section becomes complicated and its form depends the choice of reference frame.
+Here, we borrow an elegant solution from \cite{Ghiglieri:2015ala} to separate the in-medium collisions depending on the momentum transfer-$q$ between the hard parton and the medium.
+The large-$q$ transfer (hard) scattering rate uses cross-sections computed in the vacuum, because the medium modification to these hard modes is small.
+The associated rates are obtained from equation \ref{eq:incoh_rate} while restricting $q$ to be larger than a switching scale $Q_{\textrm{cut}}$.
+The small-$q$ transfer processes are frequent and soft, which allows a diffusion approximation of its effect on the trajectory of the hard parton,
 \begin{eqnarray}
-\frac{df}{dt} = \mathcal{D}[f] + \mathcal{C}_{1\leftrightarrow 2}[f] + \mathcal{C}_{2\leftrightarrow 2}[f] + \mathcal{C}_{2\leftrightarrow 3}[f].
+\mathbf{x}(t+\Delta t) &=& \frac{\mathbf{p}}{E}\Delta t\\
+\mathbf{p}(t+\Delta t) &=& \mathbf{p} - \eta_{D,S} \mathbf{p} \Delta t + \mathbf{\xi}(t) \Delta t
 \end{eqnarray}
-The distribution function of the hard parton under goes soft diffusion and diffusion induced-radiation. 
-Hard collision with the medium are included as $2\leftrightarrow 2$ and $2\leftrightarrow 3$ collision terms.
-This is solved in a particle-based approach where each test particle is updated by,
-\begin{eqnarray}
-\vec{x}(t+\Delta t) &=& \frac{\vec{p}}{E}\Delta t\\
-\vec{p}' &=& \vec{p} - \eta_D \vec{p} \Delta t + \vec{\xi}(t) \Delta t\\
-\Delta t\frac{dR(T, \vec{v}, \vec{p}')}{d\vec{p}^3} &\xrightarrow{\textrm{sampling}}& \vec{p}(t+\Delta t).
-\end{eqnarray}
-Within time step $\Delta t$, the particle first does free transport.
-Then, its momentum is updated by the Langevin dynamics with a drag force and a thermal random force to an intermediate state $\vec{p}'$. 
-The temporal correlation of the thermal random forces is related to the transport coefficients by,
+The effect of the soft-interaction are absorbed into the drag coefficients $\eta_d$, and the covariance of the thermal random force $\mathbf{\xi}$,
 \begin{eqnarray}
 \left\langle\xi_i(t)\xi_j(0)\right\rangle = \delta(t) \left(
-\frac{p_i p_j}{p^2}\hat{q}_{S, L} + \left(
+\frac{p_i p_j}{p^2}\hat{q}_{L,S} + \left(
 \delta_{ij}-\frac{p_i p_j}{p^2}
 \right)\frac{\hat{q}_S}{2} 
 \right)
 \end{eqnarray}
-Finally, the particle under goes varies collision channels with the reaction probability $R\Delta t$, and the final states are obtained by sampling the differential collision rate $dR/d\vec{p}^3$.
+Here, the subscript ``$S$'' reminds us that these numbers should only contain soft contributions with $q<Q_{\textrm{cut}}$.
+The switching scale $Q_{\textrm{cut}}$ is chosen to be greater than the Debye screening mass $m_D$,
+\begin{eqnarray}
+m_D^2 = \frac{4\pi \alpha_s}{3}\left(N_c+\frac{N_f}{2}\right) T^2.
+\end{eqnarray}
+One of the many advantages of this separation is avoiding the complicated in-medium propagators, while still achieve an leading order accuracy with a reasonable choice of $Q_{\textrm{cut}}$ at weak coupling as shown in \cite{Ghiglieri:2015ala}.
+
+\paragraph{Elastic processes} The two-body matrix-elements in vacuum that enters the large-$q$ collisions rates can be found in standard literature \cite{RevModPhys.59.465}.
+For small-$q$ diffusion sector, the transverse and longitudinal momentum diffusion coefficients $\hat{q}_S, \hat{q}_{S,L}$ in a weakly coupled theory have been calculated in \cite{Ghiglieri:2015ala} at leading order,
+\begin{eqnarray}
+\hat{q}_S = \int_0^{Q_{\textrm{cut}}^2} dq^2 \frac{\alpha_s m_D^2 T}{q^2 (q^2+m_D^2)},
+\label{eq:qS} \\
+\hat{q}_{S,L} = \int_0^{Q_{\textrm{cut}}^2} dq^2 \frac{\alpha_s m_\infty^2 T}{q^2 (q^2+m_\infty^2)}.
+\label{eq:qSL}
+\end{eqnarray}
+$m_{\infty}$ is the asymptotic gluon thermal mass $m_{\infty}^2 = m_D^2/2$.
+Finally, the drag coefficient is determined by the Einstein relation between the transport coefficients,
+\begin{eqnarray}
+\eta_{D,S} = \frac{\hat{q}_{L,S}}{2ET} - \frac{d\hat{q}_{L,S}}{dp^2} - \frac{\hat{q}_{L,S} - \hat{q}_S/2}{p^2}.
+\end{eqnarray}
+
+\paragraph{Inelastic processes} The inelastic collision term is also separated into a large-$q$ $2\leftrightarrow 3$ body inelastic collision rate plus an effective $1\leftrightarrow 2$ body diffusion-induced parton splitting / jointing rate.
+The matrix-elements of $2\leftrightarrow 3$ body collisions are derived under the limit $k_\perp^2, q_\perp^2 \ll x(1-x)\sqrt{\hat{s}}$.
+Here, $x$ is the light-cone energy fraction of the initial state hard parton carried by one of the final state hard parton, $q_\perp$ is the transverse component of $q$ in the center-of-mass frame of the collision, and $k_\perp$ is the transverse momentum of between the two split hard partons in the final state. 
+A list of these matrix-elements can be found in appendix \ref{app:23}.
+Again, the rates are obtained from equation \ref{eq:incoh_rate} imposing $q>Q_{\textrm{cut}}$.
+
+The diffusion-induced splitting rate uses the restriction $q<Q_{\textrm{cut}}$ in equation \ref{eq:incoh_rate}, and uses the limit $q_\perp \ll k_\perp$ of the $2\rightarrow 3$  matrix-elements listed in appendix \ref{app:23},
+\begin{eqnarray}
+R_{1\rightarrow 2} &=& \frac{g_i}{2E_1}\int  \frac{d^3p_2f_0(p_2)}{2E_2(2\pi)^3} 2\hat{s} \int_{0}^{Q_{\textrm{cut}}^2} q_\perp^2 \frac{d\sigma_{\textrm{el}}}{q^2} dq^2\\\nonumber
+&& \times \int d k_\perp^2 dx \frac{\alpha_s P(x) }{2\pi (k_\perp^2 + m_\infty^2)^2} \label{eq:rate12-1}
+\end{eqnarray}
+where $m_\infty$ is added to screen the divergence and $P(x)$ is the vacuum splitting function listed in appendix \ref{app:23}.
+Now, one may notice that the first line in \ref{eq:rate12}, upon summing over all channels, simply computes the average transverse momentum received by the hard parton per unit time from soft interactions below the momentum cut-off $Q_{\textrm{cut}}$.
+So we can rewrite $R_{1\rightarrow 2}$ using the soft transport coefficients $\hat{q}_{S}$,
+\begin{eqnarray}
+R_{1\rightarrow 2} &=& \hat{q}_S\int d k_\perp^2 dx \frac{\alpha_s P(x) }{2\pi (k_\perp^2 + m_\infty^2)^2} \label{eq:rate12-2},
+\end{eqnarray}
+which is our final expression for the diffusion induced inelastic collision rate for the incoherent transport equation.
+Finally, the collision rates of the reverse processes $3\rightarrow 2$ and $2\rightarrow 1$ processes can be written down by the requirement of detailed balance.
+
+\paragraph{The transport equation in the incoherent limit}
+Combining all these processes, we summarize the transport equation with independent collisions into
+\begin{eqnarray}
+\frac{df}{dt} = \mathcal{D}[f] + \mathcal{C}_{1\leftrightarrow 2}[f] + \mathcal{C}_{2\leftrightarrow 2}[f] + \mathcal{C}_{2\leftrightarrow 3}[f].
+\end{eqnarray}
+The distribution function of the hard parton evolves under the effect of diffusion $\mathcal{D}$, large-$q$ elastic collision $\mathcal{C}_{2\leftrightarrow 2}$,  diffusion induced parton splitting / merging $\mathcal{C}_{1\leftrightarrow 2}$, and large-$q$ inelastic collisions $\mathcal{C}_{2\leftrightarrow 3}$. 
+
 
 \section{Modeling LPM effect by a modified transport simulation}\label{section:modified-Boltzmann}
 The incoherent transport equation only works for a small window of phase-space where the formation time of the splitting processes is small compared to elastic-mean-free path, which is not the case for energetic splittings and we expect a modification to the above transport approach in this region.
