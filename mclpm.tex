@@ -177,7 +177,7 @@ Finally, the collision rates of the reverse processes $3\rightarrow 2$ and $2\ri
 
 \paragraph{The transport equation in the incoherent limit}
 Combining all these processes, we summarize the transport equation with independent collisions into
-\begin{eqnarray}
+\begin{eqnarray}\label{eq:incoh_transport}
 \frac{df}{dt} = \mathcal{D}[f] + \mathcal{C}_{1\leftrightarrow 2}[f] + \mathcal{C}_{2\leftrightarrow 2}[f] + \mathcal{C}_{2\leftrightarrow 3}[f].
 \end{eqnarray}
 The distribution function of the hard parton evolves under the effect of diffusion $\mathcal{D}$, large-$q$ elastic collision $\mathcal{C}_{2\leftrightarrow 2}$,  diffusion induced parton splitting / merging $\mathcal{C}_{1\leftrightarrow 2}$, and large-$q$ inelastic collisions $\mathcal{C}_{2\leftrightarrow 3}$. 
@@ -206,10 +206,10 @@ In an infinite medium, when the number of multiple scatterings $N$ is large (the
 where $\hat{q} = d \left\langle k_\perp^2 \right\rangle / dt$ is the transverse momentum broaden coefficient with contributions from all types of interactions.
 Combining Eq. \ref{eq:tauf} and Eq. \ref{eq:broaden}, an estimation of the averaged formation time in an infinite medium is $\left\langle \tau_f \right\rangle \sim \sqrt{2x(1-x)E/\hat{q}}$.
 One also sees that the region where the incoherent transport model is valid is limited to $\lambda \gg \tau_f$, or $\omega, E-\omega \ll T$.
-Multiple collisions contribute coherently to the calculation of in-medium parton splitting and their effects need to be resummed and the result is qualitatively changed compared to the rate induced by independent scattering center. 
+Multiple collisions contribute coherently to the calculation of in-medium parton splitting and their effects need to be resummed and the result is qualitatively changed compared to the rate induced by independent scattering center.
+Not only the transverse momentum of the splitting is broadened, but also the splitting rate is reduced. 
+A splitting is induced every coherent length $\alpha_s/\tau_f$ instead of every collision $\alpha_s/\lambda$ as in the incoherent picture.
 Therefore, quite fundamental modification has to be made to the Boltzmann equation to include splitting processes properly which we shall refer as the so-called ``modified Boltzmann transport" approach.
-
-
 
 \subsection{An ansatz for the modified transport}
 We start by investigating the leading-order calculation of medium-induced parton splitting in a ``brick'' medium of constant temperature to identify the modification we need.
@@ -228,7 +228,8 @@ The $\mathcal{C}(t')$ operator is a Boltzmann-type collision operator in the mom
  +&&    \frac{C_a+C_c-C_b}{2}\left(f_{\bf p}-f_{{\bf p}+x{\bf q}}\right) \\\nonumber
 +&&  \left. \frac{C_a+C_b-C_c}{2}\left(f_{\bf p}-f_{{\bf p}+(1-x){\bf q}}\right)\right\},
 \end{eqnarray}
-where $C_i$ is the color factor of each parton and $\int_{\mathbf{q}} = \int d\mathbf{q}_\perp/(2\pi)^2$.
+where $\omega$ is energy of daugther parton ``$b$''.
+$C_i$ is the color factor of each parton and $\int_{\mathbf{q}}$ represents an integration over transverse momentum $\int d\mathbf{q}_\perp^2/(2\pi)^2$.
 The collision kernel is given by \cite{Aurenche:2002pd},
 \begin{eqnarray}
 \mathcal{A}(q_\perp^2) = \frac{m_D^2 T}{q^2\left(m_D^2+q^2\right)}.
@@ -244,55 +245,58 @@ F(t', t) \rightarrow \frac{1}{N}\sum_{i=1}^N \frac{b}{\tau_i(t)} \delta(t-t'- a 
 \end{eqnarray}
 Here the function $F(t', t)$ is approximated by an ensemble of $N$ independent copies of the system $a\rightarrow b+c$.
 These copies are generated according to the incoherent $1\rightarrow 2$ and $2\rightarrow 3$ rates as hard parton $a$ propagates.
-Each copy ``$i$" evolves with the influence of the elastic broadening, and there is certain probability for this copy to have a formation time $\tau_i$ at time $t$ during the evolution.
+Each copy ``$i$" evolves with the influence of the elastic broadening. 
+Its formation time $\tau_i(t)$ at time $t$ during the evolution can be computed by equation \ref{eq:tauf}.
 The delta function imposes that the branching that starts at time $t'$  is thought to be formed at time $t+a\tau_f$.
-The additional factor $b/\tau_f$ corrects for that the probability for the actually branching is suppressed compared to the incoherent probability, as guided by the leading-log picture.
-This ansatz of representing the function $F(t', t)$ with information at $t$ and $t'$ of an ensemble of particles follows the same spirit of the Monte-Carlo solver of the traditional Boltzmann equation, where the distribution function is represented by an ensemble of particles at time $t$.
-Of course, this is only a crude ansatz for the overall effect of $F(t', t)$ as the latter is actually highly oscillating, and the validity has to be examined by comparing its prediction with the theoretical calculations.
-Finally, $a$ and $b$ are dimensionless factors whose forms shall be determined later and will be tuned to achieve an optimal level of agreement to theoretical calculations.
+The additional factor $b/\tau_f$ accounts for that the branching probability is suppressed compared to the incoherent case.
+This ansatz of representing the function $F(t', t)$ with information at $t$ and $t'$ of an ensemble of particles follows the same spirit of representing the distribution function by an ensemble of particle states.
+Of course, this is only a crude ansatz for $F(t', t)$, as the latter is actually highly oscillating, and the validity has to be examined by comparing its prediction with the theoretical calculations.
+Finally, $a$ and $b$ are dimensionless factors whose forms shall be determined in later comparison with theory and will be tuned to achieve an optimal level of agreement to theoretical calculations.
 
 With such an ansatz, the medium-induced splitting probability reduces to,
 \begin{eqnarray}
 \nonumber
-\frac{dP^{a}_{bc}}{d\omega} &=& \int_0^\infty dt \frac{g^2 P_{bc}^{a(0)}}{\pi E\tilde{\lambda}(t)} \frac{1}{N}\sum_{i=1}^N\\\nonumber
-&&\times \int_t^\infty dt' \frac{b \tilde{\lambda}(t)}{\tau_i(t)} \delta(t-t'- a \tau_i(t)) \\
+\frac{dP^{a}_{bc}}{d\omega} &=& \int_0^\infty dt \frac{g^2 P_{bc}^{a(0)}}{\pi E\tilde{\lambda}(t)} \frac{1}{N}\sum_{i=1}^N \int_t^\infty dt' \frac{b \tilde{\lambda}(t)}{\tau_i(t)} \delta(t-t'- a \tau_i(t)) \\
 &=& \frac{1}{N}\sum_{i=1}^N\int_0^\infty dt \frac{dR_{\textrm{incoh}}(t)}{d\omega} \times \left.\frac{ab\tilde{\lambda}(t)}{\tau_f(t',t)}\right|_{t'=t+a\tau_f}
 \label{eq:procedure}
 \end{eqnarray}
 where we have divided and multiplied back an effective mean-free-path $\tilde{\lambda}(t) = m_D^2/\hat{q}_g$ so that we may interpret the quantity immediately after the $dt$ integral as the incoherent splitting rate $R_{\textrm{incoh}}$.
-The reason of using an effective $\tilde{\lambda}$ is because it can be defined for both scattering and diffusion process, provided only screening mass and the transverse transport parameter of that process.
-From equation \ref{eq:procedure}, it is clear how we can modify the standard Boltzmann transport to approximately include the LPM effect in the leading-log picture,
+The reason of using an effective $\tilde{\lambda}$ is that it can be defined for both scattering and diffusion processes, provided only the screening mass and the transverse momentum diffusion coefficient.
+From equation \ref{eq:procedure}, it is clear how we can modify the standard Boltzmann transport to approximately include the LPM effect in the deep-LPM region.
+During the simulation of the incoherent transport  (equation \ref{eq:incoh_transport}) of each hard parton, we implement the following modification the parton bremsstrahlung and pair production processes.
+Suppose a parton splitting process ``$a\rightarrow b+c$'' happens at $t=t'$,
 \begin{enumerate}
-\item Evolve each parton by solving the collision rate equation with incoherent rate from $t$ to $t+\Delta t$.
-\item The daughter partons from splittings are not immediately treated as independent (``preformed"). They are evolved together with the mother parton. Preformed partons only undergoes elastic collisions (the mother parton can keep creating more copies of splittings through incoherent inelastic processes).
-\item Recalculate formation time $\tau_f$ after each time step.
-\item Repeat steps 1 to 3 until $t' > t + a\tau_f$ is satisfied. 
-\item Accept this splitting copy with probability 
+\item Final state partons $b$ and $c$ are not immediately treated as physical objects (``preformed'') to the system. A parton $a$ can carry arbitrary numbers of such ``preformed'' final-state copies.
+\item Evolve the ``preformed'' final state partons in each copy with only  elastic processes form $t$ to $t+\Delta t$ which includes the elastic broadening from multiple collisions.
+While the mother parton $a$ is evolved under the full collision term in equation \ref{eq:incoh_transport}.
+\item Recalculate formation time $\tau_f(t)$ after each time step.
+\item Repeat steps 1 to 3 until $t-t' > a\tau_f(t)$ is satisfied. 
+\item Then, the ``performed'' final state is considered to become the physical final state with probability $p$, 
 \begin{eqnarray}
 p = \min\left\{1, \frac{ab\tilde{\lambda}(t)}{\tau_f}\right\}
 \label{eq:rejection}
-\end{eqnarray}
-Daughter partons of accepted splittings will be treated as independent objects from time $t'$, and will interact through both elastic and inelastic channels.
-Rejected splittings are dropped and do not cause any physical effect.
-\end{enumerate} 
-A key step is a self-consistent determination of the formation time as described in step 4, which in a static medium, results in an averaged formation time  that scales like $\left\langle\tau_f\right\rangle \propto \sqrt{2x(1-x)E/\hat{q}}$.
-This procedure also generalizes to medium with evolving temperature profile, as the elastic broadening can be performed along with the time evolution of the medium.
+\end{eqnarray}.
+\end{enumerate}
+In the last step, daughter partons from accepted final state will be treated as independent objects thereafter and be propagated by the full transport equation.
+Rejected final states are dropped and do not cause any physical effect. 
+A key step is a self-consistent determination of the formation time as described in step 4, which in a static medium, results in an averaged formation time that scales like $\left\langle\tau_f^{-1}\right\rangle \propto 1/\sqrt{2x(1-x)E/\hat{q}}$.
+This procedure also generalizes to medium with evolving temperature and flow velocity profiles, as the elastic broadening is performed along the trajectory of the hard parton.
 This iterative procedure was first developed and implemented by \cite{Zapp:2011ya}.
 
-Such an ansatz only captures the qualitative behavior of the LPM effect in the leading-log picture. 
-To make it more useful, we compare it to an next-to-leading-log calculation in an infinite medium in the following subsection and determine the forms of $a$ and $b$.
+In the following subsection, we shall compare such a modification to the leading-log (LL) and the next-to-leading-log (NLL) approximation of splitting rates in an infinite medium. 
+We will show that this modification indeed reproduces the qualitative features given by the lead-log results once $a$ is related to the color factors, while the NLL results help to determine the form of $b$ to achieve a quantitative agreement with the theory.
 
 \subsection{Matching the ansatz to theoretical calculation in an infinite medium in the deep-LPM region}
 Going to an infinitely large medium with an uniform temperature, equation \ref{eq:full-theory} can be cast into its asympototic form known as the AMY formalisim \cite{Arnold:2002ja,Arnold:2002zm,Arnold:2003zc},
 \begin{eqnarray}\label{eq:AMY-1}
-\frac{dP^a_{bc}}{dt dx} &=& \frac{1}{2E\nu_a} \frac{\alpha_s d_a P^{a(0)}_{bc}(x)}{2x^2(1-x)^2}\int\frac{d^2\vec{h}}{(2\pi)^2}2\vec{h}\cdot \mathfrak{Re} \vec{F}
+\frac{dP^a_{bc}}{dt dx} &=& \frac{1}{2E\nu_a} \frac{\alpha_s d_a P^{a(0)}_{bc}(x)}{2x^2(1-x)^2}\int\frac{d^2\mathbf{h}}{(2\pi)^2}2\mathbf{h}\cdot \mathfrak{Re} \mathbf{F}
 \end{eqnarray}
 where we have dropped the Bose enhancement and the Pauli blocking factors from the original formula.
-The vector-valued function $\vec{F}(\vec{h}; p, x)$ satisfies the following static equation,
+The vector-valued function $\mathbf{F}(\mathbf{h}; p, x)$ satisfies the following static equation,
 \begin{eqnarray}\label{eq:AMY-2}
-2\vec{h} &=& i\frac{h^2 \vec{F}(\vec{h})}{p^3 2x(1-x)} + g^2 \mathcal{C}[\vec{F}]
+2\mathbf{h} &=& i\frac{h^2 \mathbf{F}(\mathbf{h})}{p^3 2x(1-x)} + g^2 \mathcal{C}[\mathbf{F}]
 \end{eqnarray} 
-The exact solution can be solved numerically and has already been applied to transport study \cite{Jeon:2003gi,Schenke:2009gb}, but we shall use an approximated semi-analytic solutions obtained by the author of \cite{Arnold:2008zu}.
+The exact solution can be solved numerically and has already been applied to transport study \cite{Jeon:2003gi,Schenke:2009gb}, but we shall use approximated semi-analytic solutions obtained in \cite{Arnold:2008zu}.
 These approximated solutions were obtained at the leading-log (LL) and next-to-leading-log (NLL)accuracy, and the NLL solution was shown to be a good approximation of the numerical results in the deep LPM regime $\omega \gg T$.
 
 At leading-log order, a small-$q$ expansion was performed to obtained a diffusion approximation to the operator $\mathcal{C}$ below a certain cut-off $q<Q_0$.
@@ -363,19 +367,19 @@ This is the large $Q^2 > Q_{\textrm{cut}}^2 \gg m_D^2$ region in the Bethe-Heitl
 One can see from the rejection probability \ref{eq:rejection} that the modified Boltzmann method goes back to the original Boltzmann equation when $\lambda_{\textrm{el}}/\tau_f\gg 1$.
 We will briefly show that the incoherent $2\rightarrow 3$ rates used in our transport equation is the same as the rate $dR/d\omega$ obtained in the leading expansion of  $1/\tau_f$ of the AMY formalism.
 
-When the formation time is very short, one can treat $1/\tau_f = k_\perp^2/2x(1-x)E$ in equation \ref{eq:AMY-2} as a large number and solve for the real-part of $\vec{F}$ by one iteration,
+When the formation time is very short, one can treat $1/\tau_f = k_\perp^2/2x(1-x)E$ in equation \ref{eq:AMY-2} as a large number and solve for the real-part of $\mathbf{F}$ by one iteration,
 \begin{eqnarray}
-2\vec{k}\cdot\mathfrak{Re} \vec{F} &=& 4 g^2 \vec{\phi}_k\cdot \mathcal{C}[\vec{\phi}_k] \\
-\vec{\phi}_k &=& \vec{k}\tau_f(k)
+2\mathbf{k}\cdot\mathfrak{Re} \mathbf{F} &=& 4 g^2 \mathbf{\phi}_k\cdot \mathcal{C}[\mathbf{\phi}_k] \\
+\mathbf{\phi}_k &=& \mathbf{k}\tau_f(k)
 \end{eqnarray}
 On the other hand, the total $2\rightarrow 3$ rate in the Boltzmann equation is (taking $q\rightarrow q+g$ as an example),
 \begin{eqnarray}
 \frac{dR^{q}_{qg}}{d\omega} &\propto&  \int  \frac{f(p_2)dp_2^3}{(2\pi)^3}  \frac{g^4}{q^4} dq^2 d k^2\\\nonumber
 && \left\{
-C_F\left( \vec{\phi}_{k-q}-\vec{\phi}_{k-xq} \right)^2
-+ C_F\left( \vec{\phi}_{k-q}-\vec{\phi}_{k} \right)^2\right.\\\nonumber
+C_F\left( \mathbf{\phi}_{k-q}-\mathbf{\phi}_{k-xq} \right)^2
++ C_F\left( \mathbf{\phi}_{k-q}-\mathbf{\phi}_{k} \right)^2\right.\\\nonumber
 &&\left.
-- (2C_F-C_A)\left( \vec{\phi}_{k-q}-\vec{\phi}_{k-xq} \right)\cdot \left( \vec{\phi}_{k-q}-\vec{\phi}_{k} \right)
+- (2C_F-C_A)\left( \mathbf{\phi}_{k-q}-\mathbf{\phi}_{k-xq} \right)\cdot \left( \mathbf{\phi}_{k-q}-\mathbf{\phi}_{k} \right)
 \right\}
 \end{eqnarray}
 where we have used the cross-section from appendix \ref{app:23} and only written out the transverse integration part of the rate.
@@ -383,11 +387,11 @@ Expanding each squares and making a specific change of the integration variable 
 \begin{eqnarray}
 \frac{dR^{q}_{qg}}{d\omega} &\propto& \int  \frac{f(p_2)dp_2^3}{(2\pi)^3} \frac{g^4}{q^4} d q^2 dk^2\\\nonumber
 && \left\{
-C_A\vec{\phi}_{k}\cdot \left( \vec{\phi}_{k}-\vec{\phi}_{k+q} \right)
-+C_A\vec{\phi}_{k} \cdot \left( \vec{\phi}_k - \vec{\phi}_{k+(1-x)q}\right) \right.\\\nonumber
-&&\left.+(2C_F-C_A)\vec{\phi}_{k} \cdot \left(\vec{\phi}_k-\vec{\phi}_{k+xq} \right)
+C_A\mathbf{\phi}_{k}\cdot \left( \mathbf{\phi}_{k}-\mathbf{\phi}_{k+q} \right)
++C_A\mathbf{\phi}_{k} \cdot \left( \mathbf{\phi}_k - \mathbf{\phi}_{k+(1-x)q}\right) \right.\\\nonumber
+&&\left.+(2C_F-C_A)\mathbf{\phi}_{k} \cdot \left(\mathbf{\phi}_k-\mathbf{\phi}_{k+xq} \right)
 \right\} \\
-&=&  \vec{\phi}_k \cdot \mathcal{C}_{q^2\gg m_D^2}[\vec{\phi}_k]
+&=&  \mathbf{\phi}_k \cdot \mathcal{C}_{q^2\gg m_D^2}[\mathbf{\phi}_k]
 \end{eqnarray}
 which agrees with the large-$Q^2$ limit of of the AMY solution in equation. 
 
@@ -412,10 +416,10 @@ The transport coefficients $\hat{q}_S$ and $\hat{q}_{S, L}$ in Eq. \ref{eq:qS} a
 The $\alpha_s$ associated to the $2\rightarrow 2$ scattering matrix-elements (including the ones that appears in the $2\rightarrow 3$ matrix-elements) are evaluated at the $t$-channel momentum transfer squared.
 The scale $k_\perp^2$ for the splitting vertex coupling requires an additional treatment, because $k_\perp$ comes from the summation over multiple scatterings within the formation time,
 \begin{eqnarray}\label{eq:kTn}
-\vec{k}_{\perp, t_0+\tau_f}^2 = \left(\vec{k}_{\perp,t_0}+\vec{q}_1+\cdots+\vec{q}_n\right)^2.
+\mathbf{k}_{\perp, t_0+\tau_f}^2 = \left(\mathbf{k}_{\perp,t_0}+\mathbf{q}_1+\cdots+\mathbf{q}_n\right)^2.
 \end{eqnarray} 
-However, the initial splitting processes are generated using incoherent processes with the coupling evaluated at $\vec{k}_{\perp}^2(t_0)$.
-This is on average $\sqrt{\omega/T}$ times smaller than $\vec{k}_{\perp}^2(t_0+\tau_f)$ in the deep LPM region.
+However, the initial splitting processes are generated using incoherent processes with the coupling evaluated at $\mathbf{k}_{\perp}^2(t_0)$.
+This is on average $\sqrt{\omega/T}$ times smaller than $\mathbf{k}_{\perp}^2(t_0+\tau_f)$ in the deep LPM region.
 Therefore the effective coupling after multiple scattering is smaller than the one we used in incoherent calculation and allows for a rejection implementation by modifying the acceptance probability $p$ in Eq. \ref{eq:rejection} to
 \begin{eqnarray}
 p^{\textrm{running}} = p\times \frac{\alpha_s(k_{\perp,t_0+\tau_f}^2)}{\alpha_s(k_{\perp,t_0}^2)}.
@@ -683,22 +687,22 @@ P_{q\bar{q}}^{g(0)} &=& g^2  \frac{N_f}{2}\left(x^2+(1-x)^4\right).
 Finally, the $D_{bc}^{a}$ terms are,
 \begin{eqnarray}
 D_{qq}^{g} &=& 
-C_A(\vec{a}-\vec{b})^2 + C_A(\vec{a}-\vec{b})^2 \\\nonumber
-&-& C_A (\vec{a}-\vec{b})\cdot (\vec{a}-\vec{c}),
+C_A(\mathbf{a}-\mathbf{b})^2 + C_A(\mathbf{a}-\mathbf{b})^2 \\\nonumber
+&-& C_A (\mathbf{a}-\mathbf{b})\cdot (\mathbf{a}-\mathbf{c}),
 \\
 D_{q\bar{q}}^{g} &=& 
-C_F(\vec{a}-\vec{b})^2 + C_F(\vec{a}-\vec{b})^2 \\\nonumber
-&-& (2C_F-C_A) (\vec{a}-\vec{b})\cdot (\vec{a}-\vec{b}),
+C_F(\mathbf{a}-\mathbf{b})^2 + C_F(\mathbf{a}-\mathbf{b})^2 \\\nonumber
+&-& (2C_F-C_A) (\mathbf{a}-\mathbf{b})\cdot (\mathbf{a}-\mathbf{b}),
 \\
 D_{qg}^{q} &=& 
-C_F(\vec{c}-\vec{a})^2 + C_F(\vec{c}-\vec{b})^2 \\\nonumber
-&-& (2C_F-C_A) (\vec{c}-\vec{a})\cdot (\vec{c}-\vec{b}),
+C_F(\mathbf{c}-\mathbf{a})^2 + C_F(\mathbf{c}-\mathbf{b})^2 \\\nonumber
+&-& (2C_F-C_A) (\mathbf{c}-\mathbf{a})\cdot (\mathbf{c}-\mathbf{b}),
 \end{eqnarray}
 with the vectors given by
 \begin{eqnarray}
-\vec{a} = \frac{\vec{k}_\perp - x\vec{q}_\perp}{(\vec{k}_\perp - x\vec{q}_\perp)^2};
-\vec{b} = \frac{\vec{k}_\perp - \vec{q}_\perp}{(\vec{k}_\perp - \vec{q}_\perp)^2};
-\vec{c} =  \frac{\vec{k}_\perp}{\vec{k}_\perp^2}.
+\mathbf{a} = \frac{\mathbf{k}_\perp - x\mathbf{q}_\perp}{(\mathbf{k}_\perp - x\mathbf{q}_\perp)^2};
+\mathbf{b} = \frac{\mathbf{k}_\perp - \mathbf{q}_\perp}{(\mathbf{k}_\perp - \mathbf{q}_\perp)^2};
+\mathbf{c} =  \frac{\mathbf{k}_\perp}{\mathbf{k}_\perp^2}.
 \end{eqnarray}
 
 \begin{figure}
