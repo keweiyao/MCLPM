@@ -204,8 +204,12 @@ In an infinite medium, when the number of multiple scatterings $N$ is large (the
 \left\langle k_\perp^2 \right\rangle \approx \hat{q} \tau_f \label{eq:broaden}
 \end{eqnarray}
 where $\hat{q} = d \left\langle k_\perp^2 \right\rangle / dt$ is the transverse momentum broaden coefficient with contributions from all types of interactions.
-Combining Eq. \ref{eq:tauf} and Eq. \ref{eq:broaden}, an estimation of the averaged formation time in an infinite medium is $\left\langle \tau_f \right\rangle \sim \sqrt{2x(1-x)E/\hat{q}}$.
-One also sees that the region where the incoherent transport model is valid is limited to $\lambda \gg \tau_f$, or $\omega, E-\omega \ll T$.
+Combining Eq. \ref{eq:tauf} and Eq. \ref{eq:broaden}, an estimation of the averaged inverse formation time in an infinite medium is,
+\begin{eqnarray}
+\langle \tau_f^{-1} \rangle \sim \sqrt{\frac{2x(1-x)E}{\hat{q}}}.
+\label{eq:tauf-sf}
+\end{eqnarray}
+One sees that the region where the incoherent transport model is valid is limited to $\lambda \gg \tau_f$, or $\omega, E-\omega \ll T$.
 Multiple collisions contribute coherently to the calculation of in-medium parton splitting and their effects need to be resummed and the result is qualitatively changed compared to the rate induced by independent scattering center.
 Not only the transverse momentum of the splitting is broadened, but also the splitting rate is reduced. 
 A splitting is induced every coherent length $\alpha_s/\tau_f$ instead of every collision $\alpha_s/\lambda$ as in the incoherent picture.
@@ -233,6 +237,7 @@ $C_i$ is the color factor of each parton and $\int_{\mathbf{q}}$ represents an i
 The collision kernel is given by \cite{Aurenche:2002pd},
 \begin{eqnarray}
 \mathcal{A}(q_\perp^2) = \frac{m_D^2 T}{q^2\left(m_D^2+q^2\right)}.
+\label{eq:kernel}
 \end{eqnarray}
 Finally, $K(t', {\bf q}'; t, {\bf q})$ is the propagator of the transverse  Hamiltonian $\hat{H} = \delta E - i\mathcal{C}$ in the momentum representation.
 This rather compact result is actually hard to implement in a Boltzmann formulation, because of the double time integral that comes from the nature of a quantum transition.
@@ -267,9 +272,10 @@ During the simulation of the incoherent transport  (equation \ref{eq:incoh_trans
 Suppose a parton splitting process ``$a\rightarrow b+c$'' happens at $t=t'$,
 \begin{enumerate}
 \item Final state partons $b$ and $c$ are not immediately treated as physical objects (``preformed'') to the system. A parton $a$ can carry arbitrary numbers of such ``preformed'' final-state copies.
-\item Evolve the ``preformed'' final state partons in each copy with only  elastic processes form $t$ to $t+\Delta t$ which includes the elastic broadening from multiple collisions.
+\item Evolve form $t$ to $t+\Delta t$ the ``preformed'' final state partons in each copy with only elastic processes. 
 While the mother parton $a$ is evolved under the full collision term in equation \ref{eq:incoh_transport}.
-\item Recalculate formation time $\tau_f(t)$ after each time step.
+\item Recalculate formation time $\tau_f$ after each time step. 
+The elastic broadening from multiple collisions in step 2, on average, shortens the formation time.
 \item Repeat steps 1 to 3 until $t-t' > a\tau_f(t)$ is satisfied. 
 \item Then, the ``performed'' final state is considered to become the physical final state with probability $p$, 
 \begin{eqnarray}
@@ -279,7 +285,9 @@ p = \min\left\{1, \frac{ab\tilde{\lambda}(t)}{\tau_f}\right\}
 \end{enumerate}
 In the last step, daughter partons from accepted final state will be treated as independent objects thereafter and be propagated by the full transport equation.
 Rejected final states are dropped and do not cause any physical effect. 
-A key step is a self-consistent determination of the formation time as described in step 4, which in a static medium, results in an averaged formation time that scales like $\left\langle\tau_f^{-1}\right\rangle \propto 1/\sqrt{2x(1-x)E/\hat{q}}$.
+A key step is a self-consistent determination of the formation time as described in step 4. 
+In a static medium, this results in the expected scaling of the average inverse formation time in equation \ref{eq:tauf-sf}.
+And due to the stochastic nature of the diffusion dynamics and the elastic collisions that broadens the transverse momentum
 This procedure also generalizes to medium with evolving temperature and flow velocity profiles, as the elastic broadening is performed along the trajectory of the hard parton.
 This iterative procedure was first developed and implemented by \cite{Zapp:2011ya}.
 
@@ -289,12 +297,12 @@ We will show that this modification indeed reproduces the qualitative features g
 \subsection{Matching the ansatz to theoretical calculation in an infinite medium in the deep-LPM region}
 Going to an infinitely large medium with an uniform temperature, equation \ref{eq:full-theory} can be cast into its asympototic form known as the AMY formalisim \cite{Arnold:2002ja,Arnold:2002zm,Arnold:2003zc},
 \begin{eqnarray}\label{eq:AMY-1}
-\frac{dP^a_{bc}}{dt dx} &=& \frac{1}{2E\nu_a} \frac{\alpha_s d_a P^{a(0)}_{bc}(x)}{2x^2(1-x)^2}\int\frac{d^2\mathbf{h}}{(2\pi)^2}2\mathbf{h}\cdot \mathfrak{Re} \mathbf{F}
+\frac{dR^a_{bc}}{d\omega} &=& \frac{\alpha_s d_a P^{a(0)}_{bc}(x)}{E\nu_a} \int\frac{d^2\mathbf{k}}{(2\pi)^2} \frac{2\mathbf{k}\cdot \mathfrak{Re} \mathbf{F}}{4x^2(1-x)^2}
 \end{eqnarray}
 where we have dropped the Bose enhancement and the Pauli blocking factors from the original formula.
-The vector-valued function $\mathbf{F}(\mathbf{h}; p, x)$ satisfies the following static equation,
+The vector-valued function $\mathbf{F}(\mathbf{k}; E, x)$ satisfies the following static equation,
 \begin{eqnarray}\label{eq:AMY-2}
-2\mathbf{h} &=& i\frac{h^2 \mathbf{F}(\mathbf{h})}{p^3 2x(1-x)} + g^2 \mathcal{C}[\mathbf{F}]
+2\mathbf{k} &=& i\frac{\mathbf{k}^2 \mathbf{F}(\mathbf{k})}{2x(1-x)E} + g^2 \mathcal{C}[\mathbf{F}]
 \end{eqnarray} 
 The exact solution can be solved numerically and has already been applied to transport study \cite{Jeon:2003gi,Schenke:2009gb}, but we shall use approximated semi-analytic solutions obtained in \cite{Arnold:2008zu}.
 These approximated solutions were obtained at the leading-log (LL) and next-to-leading-log (NLL)accuracy, and the NLL solution was shown to be a good approximation of the numerical results in the deep LPM regime $\omega \gg T$.
@@ -302,29 +310,32 @@ These approximated solutions were obtained at the leading-log (LL) and next-to-l
 At leading-log order, a small-$q$ expansion was performed to obtained a diffusion approximation to the operator $\mathcal{C}$ below a certain cut-off $q<Q_0$.
 The resulting leading-log solution is \cite{Arnold:2008zu},
 \begin{eqnarray}\label{eq:AMY-LL}
-\frac{dP_{bc}^{a,\textrm{LL}}}{dt dx} &=& \frac{\alpha_s P_{bc}^{a(0)}}{\pi\sqrt{2}}
+\frac{dR_{bc}^{a,\textrm{LL}}}{d\omega} &=& \frac{\alpha_s P_{bc}^{a(0)}}{\pi E\sqrt{2}}
 \sqrt{\frac{\hat{q}_3(x, Q_0^2)}{2x(1-x)E}}
 \end{eqnarray}
-Where the $\hat{q}_3$ is defined as an effective transport parameter for conveniences,
+Where the $\hat{q}_3$ is defined as an effective transport parameter,
 \begin{eqnarray}
-\hat{q}_3(x, Q_0^2) &=& \alpha_s T m_D^2 \ln\left(1+\frac{Q_0^2}{m_D^2}\right) C_{abc}(x),\label{eq:qhat3}
+\hat{q}_3(x, Q_0^2) &=& C_{abc}(x) \int_{\mathbf{q}^2 < Q_0^2} g^2\mathcal{A}(\mathbf{q}^2) \mathbf{q}^2 \frac{d\mathbf{q}^2}{(2\pi)^2} \\
+&=& C_{abc}(x) \alpha_s T m_D^2 \ln\left(1+\frac{Q_0^2}{m_D^2}\right).\label{eq:qhat3}
 \end{eqnarray}
-depending on the colors of the partons,
+Note that $\hat{q}_3$ is logarithmically dependent on the cut-off $Q_0$.
+It comes from integrating the perturbative tail of the collision kernel in equation \ref{eq:kernel}.
+$C_{abc}(x)$ is a process- and $x$-dependent color factor,
 \begin{eqnarray}
 C_{abc}(x) &=&  \frac{C_b+C_c-C_a}{2} + x^2 \frac{C_a+C_c-C_b}{2} \\\nonumber
-&+& (1-x)^2\frac{C_a+C_b-C_c}{2}
-\end{eqnarray}
-Comparing the leading-log formula to the modified Boltzmann approach in equation \ref{eq:procedure} and the rejection probability of the incoherent branchings in equation \ref{eq:rejection}, there is indeed a piece in equation \ref{eq:AMY-LL} that plays the row of the inverse formation time $\langle\tau_f^{-1}\rangle \sim \sqrt{\hat{q}_3 / 2x(1-x)E}$.
-We can also insert an $1/\lambda \times \lambda$ into equation \ref{eq:rejection} so that it looks more familiar like equation \ref{eq:procedure}.
-However, the effective $\hat{q}_3$ is differed by an $x$-dependent color factor $C_{abc}$ from the elastic broadening expected from the rescattering of only one daughter parton that is implemented in our algorithm.
-This can be improved by defining a process- and $x$-dependent $a$ parameter in equation \ref{eq:ansatz},
-\begin{eqnarray}
-a \rightarrow a_{abc}(x) = \frac{C_A}{C_{abc}(x)}
+&+& (1-x)^2\frac{C_a+C_b-C_c}{2}.
 \end{eqnarray}
 
-From equation \ref{eq:AMY-LL}, the LL solution is still ambiguous upto an unknown cut-off $Q_0$ through $\hat{q}_3(x, Q_0^2)$.
-This logarithmic dependence on $Q_0$ of $\hat{q}_3$ in equation \ref{eq:qhat3} comes from integrating the perturbative tail of the collision kernel $\int \mathcal{A}(q^2) q^2 dq^2$ when the cut-off scale $Q_0^2 \gg m_D^2$.
-This $Q_0$ ambiguity can be improved by going to the NLL order, where the contribution of the collision kernel above $Q_0$ is treated as a pertrubation on top of the LL solution.
+Comparing the leading-log formula to the modified Boltzmann approach in equation \ref{eq:procedure}, the term $\sqrt{\hat{q}_3 / 2x(1-x)E}$ in equation \ref{eq:AMY-LL} plays the role of the inverse formation time.
+We can also insert $1/\tilde{\lambda} \times \tilde{\lambda}$ into equation \ref{eq:AMY-LL} so that it resembles the modified rate in equation \ref{eq:procedure}.
+However, the effective $\hat{q}_3$ differs from the $\hat{q}$ of a single particle, e.g. partilce ``$b$'' on which we performed the elastic broadening, by an $x$ and color dependent factor $C_{abc}$.
+This can be improved by using a process- and $x$-dependent $a$ parameter in equation \ref{eq:ansatz},
+\begin{eqnarray}
+a \rightarrow a_{abc}(x) = \frac{C_b}{C_{abc}(x)}
+\end{eqnarray}
+
+Another issue is that the LL solution in equation \ref{eq:AMY-LL} is still ambiguous upto an unknown cut-off $Q_0$ through $\hat{q}_3(x, Q_0^2)$.
+This $Q_0$ ambiguity can be improved by going to the NLL order, where the contribution of the collision kernel with $q>Q_0$ is treated as a pertrubation to the LL solution.
 This ``hard" correction to the ``multiple-soft" approximation is also recently studied in \cite{Mehtar-Tani:2019tvy} in the BDMPS framework.
 In both works, the NLL result is expressed as the LL solution with the unknown $Q_0$ replaced by $Q_1$,
 \begin{eqnarray}
@@ -340,41 +351,39 @@ Q_1^2 &=& \sqrt{2 x (1-x) E \alpha_s T m_D^2}\\\nonumber
 &+& \left.\frac{C_a+C_b-C_c}{2} (1-x)^2 \ln\frac{2\xi Q_1^2}{(1-x)^2 m_D^2} \right)^{1/2}
 \label{eq:Q1-sf}
 \end{eqnarray}
-Therefore, the reasonable choice of the scale in $\hat{q}_3$ is of similar order as the transverse momentum of the branching $k_\perp^2 \approx \sqrt{\omega \hat{q}}$.
-Now, checking what this scale is in the original transport approach: the large-$Q$ two-body matrix-element in equation \ref{eq:incoh_rate} is always integrated upto the maximum transfer bounded by the center-of-mass energy $\sqrt{\hat{s}}$ of each individual collision. 
-Ignore the slow $\hat{s}$-dependence of the elastic cross-section at high-energy and average over the medium parton momentum $p_2$ in $\hat{s} = (p+p_2)^2$ over the thermal distribution, then the average $Q_{0}^2 \sim \langle\hat{s}\rangle = 6ET$ in the incoherent simulation.
-
-We must correct of this difference in scale; otherwise, the ansatz with an native choice of upper limit of the matrix-element integration leads to systematically deviation from the NLL solution in a logarithmic manner.
-The correction can be achieved by using a scale-dependent $b$ parameter,
+Therefore, the reasonable choice of the scale in $\hat{q}_3$ is of similar order as the transverse momentum of the branching $k_\perp^2 \approx \sqrt{2x(1-x)E \hat{q}}$.
+Now, checking what this scale is in the original transport approach: the large-$Q$ two-body matrix-element in equation \ref{eq:incoh_rate} is always integrated upto the maximum transfer bounded by the center-of-mass energy $\sqrt{\hat{s}}$ of each independent collision. 
+Ignore the slow $\hat{s}$-dependence of the elastic cross-section at high-energy and average over the medium parton momentum $p_2$ in $\hat{s} = (p+p_2)^2$ over the thermal distribution, then the average $Q_{0}^2$ in the transport simulation is  $\langle\hat{s}\rangle = 6ET$.
+Therefore, we must correct of this difference in scale; otherwise, the ansatz with an native choice of upper limit of the matrix-element integration leads to systematically deviation from the NLL solution in a logarithmic manner.
+Noticing that the inverse formation time is proportional to $\sqrt{\ln(1+\hat{Q}^2/m_D^2)}$, a simple correction can be made using a scale-dependent $b$ parameter in the acceptance probability of the modified transport equation in equation \ref{eq:rejection},
 \begin{eqnarray}
-b &=& 0.75\sqrt{\frac{\ln(\hat{Q}_1^2 )}{\ln(\hat{Q}_0^2 )}}.
+b &=& 0.75\sqrt{\frac{\ln(\hat{Q}_1^2 )}{\ln(\hat{Q}_0^2 )}},
 \label{eq:NLL-b}
 \end{eqnarray}
-with $\hat{Q}_1^2$ and $\hat{Q}_0^2$ given by,
+with the NLL-improved scale $\hat{Q}_1^2$ and the native choice of scale in the transport equation $\hat{Q}_0^2$ given by,
 \begin{eqnarray}
-\hat{Q}_1^2 &=& 1 + \frac{\sqrt{2x(1-x)E\hat{q}}}{m_D^2} \approx 1 + \frac{\tau_{f,i}}{\tilde{\lambda}}, \\ 
+\hat{Q}_1^2 &=& 1 + \frac{k_\perp^2}{m_D^2} \approx 1 + \frac{\tau_{f,i}}{\tilde{\lambda}}, \\ 
 \hat{Q}_0^2 &=& 1 + \frac{6ET}{m_D^2}.
 \end{eqnarray}
-The prefactor $0.75$ is the only numerical constant that we have tuned when we compared the modified Boltzmann simulation to the NLL solutions in the next section, and it be the same throughout the rest of the paper.
-
-As a remark, this logarithmic correction comes from the $\mathcal{A}(q^2) q^2 dq^2 \sim dq^2 /q^2$ integration of the collision kernel at large-$q^2$.
+The prefactor $0.75$ in equation \ref{eq:NLL-b} is the only numerical constant that we have tuned when we compared the modified Boltzmann simulation to the NLL solutions in the next section, and it is the same throughout the rest of the paper.
+As a remark, this logarithmic correction comes from the integration of the pertrubative collision kernel at large-$q^2$.
 Therefore, if one assumes and implements certain collision kernel that vanishes sufficiently fast at large-$q$, this logarithm factor in $b$ should be dropped. 
 
-\subsection{Agreement in the the the Bethe-Heitler region when $Q^2$ is large}
+\subsection{Agreement in the the Bethe-Heitler region at large-$q$}
 In the previous subsection, we have shown how the modified Boltzmann transport approach can be matched to the NLL solution in the deep-LPM region where $\tau_f \gg \lambda_{\textrm{el}}$.
-There is actually another region of phase-space of the inelastic processes where the transport method agrees with the theoretical calculation.
-This is the large $Q^2 > Q_{\textrm{cut}}^2 \gg m_D^2$ region in the Bethe-Heitler regime $\tau_f \ll \lambda_{\textrm{el}}$.
-One can see from the rejection probability \ref{eq:rejection} that the modified Boltzmann method goes back to the original Boltzmann equation when $\lambda_{\textrm{el}}/\tau_f\gg 1$.
-We will briefly show that the incoherent $2\rightarrow 3$ rates used in our transport equation is the same as the rate $dR/d\omega$ obtained in the leading expansion of  $1/\tau_f$ of the AMY formalism.
+In this subsection, we demonstrate that the transport equation agrees with  with the theoretical calculation in another region of phase-space
+This is the large-$q$ ($q>Q_{\textrm{cut}}$) region in the Bethe-Heitler regime $\tau_f \ll \lambda_{\textrm{el}}$.
+The acceptance probability \ref{eq:rejection} goes back to unity for this region, and the transport equation is simply the original Boltzmann equation with incoherent rates.
+Here, we briefly show that the incoherent $2\rightarrow 3$ rates used in the equation \ref{eq:incoh_transport} is the same as the rate $dR/d\omega$ obtained as the leading term in the $1/\tau_f$ expansion of the AMY formalism in equations \label{eq:AMY-1} and \label{eq:AMY-2}.
 
-When the formation time is very short, one can treat $1/\tau_f = k_\perp^2/2x(1-x)E$ in equation \ref{eq:AMY-2} as a large number and solve for the real-part of $\mathbf{F}$ by one iteration,
+When the formation time is very short, one treats $1/\tau_f = k_\perp^2/2x(1-x)E$ in equation \ref{eq:AMY-2} as a large number and solve for the real-part of $\mathbf{F}$ by one iteration,
 \begin{eqnarray}
-2\mathbf{k}\cdot\mathfrak{Re} \mathbf{F} &=& 4 g^2 \mathbf{\phi}_k\cdot \mathcal{C}[\mathbf{\phi}_k] \\
-\mathbf{\phi}_k &=& \mathbf{k}\tau_f(k)
+\int\frac{d^2\mathbf{k}}{(2\pi)^2} \frac{2\mathbf{k}\cdot \mathfrak{Re} \mathbf{F}}{4x^2(1-x)^2E^2} &=& 2g^2 \mathbf{\phi}_k\cdot \mathcal{C}[\mathbf{\phi}_k] \label{eq:BH-solution},
 \end{eqnarray}
+where $\mathbf{\phi}_k = \mathbf{k}/\mathbf{k}^2$.
 On the other hand, the total $2\rightarrow 3$ rate in the Boltzmann equation is (taking $q\rightarrow q+g$ as an example),
 \begin{eqnarray}
-\frac{dR^{q}_{qg}}{d\omega} &\propto&  \int  \frac{f(p_2)dp_2^3}{(2\pi)^3}  \frac{g^4}{q^4} dq^2 d k^2\\\nonumber
+\frac{dR^{q}_{qg}}{d\omega} &\propto&  \int_{q^2 > Q_{\textrm{cut}}^2}   \frac{f(p_2)dp_2^3}{(2\pi)^3}  \frac{g^4}{q^4} dq^2 d k^2\\\nonumber
 && \left\{
 C_F\left( \mathbf{\phi}_{k-q}-\mathbf{\phi}_{k-xq} \right)^2
 + C_F\left( \mathbf{\phi}_{k-q}-\mathbf{\phi}_{k} \right)^2\right.\\\nonumber
@@ -383,17 +392,17 @@ C_F\left( \mathbf{\phi}_{k-q}-\mathbf{\phi}_{k-xq} \right)^2
 \right\}
 \end{eqnarray}
 where we have used the cross-section from appendix \ref{app:23} and only written out the transverse integration part of the rate.
-Expanding each squares and making a specific change of the integration variable from $k$ to one of $k-q, k-xq, k-(1-x)q$ for each term, one can show that the transverse part of $dR^{q}_{qg}/d\omega$ can be cast into,
+Expanding each squares and changing the integration variable from $k$ to one of $k-q, k-xq, k-(1-x)q$ for each term, one can show that the integration can be cast into,
 \begin{eqnarray}
-\frac{dR^{q}_{qg}}{d\omega} &\propto& \int  \frac{f(p_2)dp_2^3}{(2\pi)^3} \frac{g^4}{q^4} d q^2 dk^2\\\nonumber
+\frac{dR^{q}_{qg}}{d\omega} &\propto& \int_{q^2 > Q_{\textrm{cut}}^2}  \frac{f(p_2)dp_2^3}{(2\pi)^3} \frac{g^4}{q^4} d q^2 dk^2\\\nonumber
 && \left\{
 C_A\mathbf{\phi}_{k}\cdot \left( \mathbf{\phi}_{k}-\mathbf{\phi}_{k+q} \right)
 +C_A\mathbf{\phi}_{k} \cdot \left( \mathbf{\phi}_k - \mathbf{\phi}_{k+(1-x)q}\right) \right.\\\nonumber
 &&\left.+(2C_F-C_A)\mathbf{\phi}_{k} \cdot \left(\mathbf{\phi}_k-\mathbf{\phi}_{k+xq} \right)
 \right\} \\
-&=&  \mathbf{\phi}_k \cdot \mathcal{C}_{q^2\gg m_D^2}[\mathbf{\phi}_k]
+&=&  \int dk^2 \mathbf{\phi}_k \cdot \mathcal{C}[\mathbf{\phi}_k]
 \end{eqnarray}
-which agrees with the large-$Q^2$ limit of of the AMY solution in equation. 
+which agrees with the large-$q^2$ limit of of the AMY solution in equation \ref{eq:BH-solution}
 
 \subsection{Implement running of $\alpha_s$}\label{section:running}
 At the end of this section, we introduce the prescription for a running coupling constant in the modified Boltzmann approach.
@@ -412,7 +421,7 @@ Where the scale $Q_0$ is of order $m_D [E/T \ln(E/T)]^{1/4}$.
 And the scale of the $\alpha_s$ associated to the splitting  vertex in equation \ref{eq:AMY-LL} is chosen at the typical transverse momentum $k_\perp^2 \sim \sqrt{2x(1-x)E\hat{q}_3}$.
 
 In the modified Boltzmann approach, such a running coupling prescription is straightforward for the elastic part.
-The transport coefficients $\hat{q}_S$ and $\hat{q}_{S, L}$ in Eq. \ref{eq:qS} and Eq. \ref{eq:qSL} for the diffusion sector should be integrated with $\alpha_s(Q^2)$.
+The transport coefficients $\hat{q}_S$ and $\hat{q}_{S, L}$ in Eq. \ref{eq:qS} and equation \ref{eq:qSL} for the diffusion sector should be integrated with $\alpha_s(q^2)$.
 The $\alpha_s$ associated to the $2\rightarrow 2$ scattering matrix-elements (including the ones that appears in the $2\rightarrow 3$ matrix-elements) are evaluated at the $t$-channel momentum transfer squared.
 The scale $k_\perp^2$ for the splitting vertex coupling requires an additional treatment, because $k_\perp$ comes from the summation over multiple scatterings within the formation time,
 \begin{eqnarray}\label{eq:kTn}
@@ -420,7 +429,7 @@ The scale $k_\perp^2$ for the splitting vertex coupling requires an additional t
 \end{eqnarray} 
 However, the initial splitting processes are generated using incoherent processes with the coupling evaluated at $\mathbf{k}_{\perp}^2(t_0)$.
 This is on average $\sqrt{\omega/T}$ times smaller than $\mathbf{k}_{\perp}^2(t_0+\tau_f)$ in the deep LPM region.
-Therefore the effective coupling after multiple scattering is smaller than the one we used in incoherent calculation and allows for a rejection implementation by modifying the acceptance probability $p$ in Eq. \ref{eq:rejection} to
+Therefore the effective coupling after multiple scattering is smaller than the one we used in incoherent calculation and allows for a rejection implementation by modifying the acceptance probability $p$ in equation \ref{eq:rejection} to
 \begin{eqnarray}
 p^{\textrm{running}} = p\times \frac{\alpha_s(k_{\perp,t_0+\tau_f}^2)}{\alpha_s(k_{\perp,t_0}^2)}.
 \end{eqnarray}
@@ -447,10 +456,10 @@ The ratio between simulation and theory is shown in the bottom plot.}
 \label{fig:running}
 \end{figure}
 
-In this section, we compare the splitting rate $dR/d\omega$ that comes out of the modified Boltzmann approach simulation to the NLL approximation in the infinite medium limit.
+In this section, we compare the rate of in-medium bremsstrahlung and pair production from simulation of the modified Boltzmann approach to the NLL approximation of the AMY equation in an infinite medium.
 
-The differential rate in an infinite medium $dR/d\omega$ is shown in Figure \ref{fig:spectrum} for a 1 TeV quark splitting into a gluon and a quark.
-The temperature of the medium is $T=0.5$ GeV, and a rather small coupling constant $\alpha_s = 0.1$.
+The differential rate $dR/d\omega$ is shown in Figure \ref{fig:spectrum} for a 1 TeV quark splitting into a gluon and a quark.
+The temperature of the medium is $T=0.5$ GeV and we choose a relatively small coupling constant $\alpha_s = 0.1$.
 Please also refer to appendix \ref{app:tune-spectrum} for a full comparison varying both the parton energy and the coupling constant.
 The horizontal axis is the radiated gluon energy.
 In the upper plot, we divided the spectrum into different regions by the gluon thermal mass $m_\infty$ and an estimated Bethe-Heitler energy $\lambda_g m_D^2 \sim 2\pi T$.
@@ -458,7 +467,7 @@ The spectrum at $\omega < m_g$ is suppressed due the gluon thermal mass.
 In the Bethe-Heitler region $\omega < 2\pi T$, the spectrum scales like $\omega^{-1}$ as given by the incoherent radiation rate.
 In the deep LPM region $T \ll \omega < E$, the spectrum is dominated by coherent multiple scatterings and scales like $\omega^{-3/2}$.
 The power-law fits in each domain are very close to the expected scaling.
-In the middle plot, we compare the simulation to the NLL solution with self-consistent $Q_1^2$ from Eq. \ref{eq:Q1-sf}. 
+In the middle plot, we compare the simulation to the NLL solution with self-consistent $Q_1^2$ from equation \ref{eq:Q1-sf}. 
 The ratio between the two is shown in the bottom plot.
 There is a good agreement in the LPM region between the simulation and the theory calculation, which we have used as guidance in developing our Monte-Carlo approach.
 
@@ -468,7 +477,7 @@ Again, please also refer to appendix \ref{app:tune-spectrum} for comparison vary
 
 
 Finally, we compare the running coupling calculation with the theory curve in Fig. \ref{fig:running} for the $g\rightarrow g+g$ channel.
-The theory curves (black lines) are obtained combining Eq. \ref{eq:AMY-LL} and Eq. \ref{eq:q3running}.
+The theory curves (black lines) are obtained combining equation \ref{eq:AMY-LL} and equation \ref{eq:q3running}.
 Different line styles correspond to the variation of the $Q_0$ value around an initial guess $m_D (E/T \ln(E/T) )^{1/4}$ by a factor of $2$ above and below.
 For this 1 TeV parton, the scale $Q_0$ is actually very large and the running of $\alpha_s$ is rather slow, which explains the theory curve is not very sensitive to a factor of $4$ change in $Q_0$.
 The simulation was performed using the running coupling prescription described in Section \ref{section:running}.
@@ -481,11 +490,11 @@ Towards future phenomenological application, we would like to investigate a few 
 
 \subsection{A finite medium}
 For calculation in a finite medium, there is an intricate interference pattern near the boundary which requires solving the original equation using a finite medium temperature profile. 
-Or for the case of a thin medium, such effect can be analyzed order by order in the ``opacity ($L/\lambda$) expansion". 
-One important effect in a finite medium is the path-length dependent radiation rate for $L \lesssim \tau_f$, which is important for heavy-ion collisions phenomenology, considering the formation time of very energetic splitting can be comparable to the size of the QGP fireball.
-Though the modified Boltzmann approach has been constructed to mimic the rate $dR/d\omega$ in the infinite medium limit, and does not recover the exact form of spectrum for a finite medium, it still predicts an $L$-dependent rate and we would like to check whether it is significantly different from the theory expectation.
-The origination of the path-length dependence in the modified Boltzmann approach is that the gluons sampled at $t=t_0$ are not considered as independent objects until $t = t_0+\tau_f$, meaning the splittings at time $t$ is initiated by inelastic processes at $t-\tau_f$.
-As a result, in a semi-infinite medium with a step function like temperature profile, 
+Or for the case of a thin medium, such effect can be analyzed order by order in the ``opacity ($L/\lambda$) expansion" \cite{Wiedemann:2000za,Gyulassy:1999zd}. 
+One important effect in a finite medium is the path-length dependent radiation rate for $L \lesssim \tau_f$. Considering the formation time of very energetic splitting can be comparable to the size of the QGP fireball, the finite size effect is important for heavy-ion collision phenomenology,
+Though the modified Boltzmann approach has been constructed to mimic the case in an infinite medium, it does predicts an $L$-dependent results in a finite medium and we would like to check whether it is significantly different from the theory expectation.
+The origination of the path-length dependence in the modified Boltzmann approach is that the gluons sampled at $t=t_0$ are not considered as independent objects until $t = t_0+\tau_f$, meaning the splitting at time $t$ is initiated by an inelastic vertex at $t-\tau_f$.
+In a semi-infinite medium with a step function like temperature profile, 
 \begin{eqnarray}
 T = \begin{cases}
 0 , z<0\\
@@ -529,19 +538,18 @@ to be understood as the time scale over which the local $\hat{q}\propto T^3$ cha
 For simplicity, parametrize the temperature profile as a power law fall-off function of the proper time at mid-rapidity,
 \begin{eqnarray}
 T(\tau; \nu)^3 = T_0^3\left(\frac{\tau_0}{\tau}\right)^{2-1/\nu},
+\label{eq:temperature}
 \end{eqnarray}
 where the static case is recovered when $\nu=1/2$, and $\nu=1$ corresponds to the temperature profile of a Bjorken flow.
 The resultant expansion time scale is
 \begin{eqnarray}
 \tau_{\textrm{ex}} = \frac{\tau}{2-1/\nu}.
 \end{eqnarray}
-If this time scale is smaller than the formation time of the splitting, then the medium cannot be well approximated by having a constant temperature when we resumes the multiple scatterings.
+If $\tau_{\textrm{ex}} \lesssim \tau_f$, the resummation of multiple scatterings should be done with the full time-dependent medium.
 Fortunately, in the current modified Boltzmann approach, since we propagate the splitting process in real time, the fast changing of the medium temperature does affect the multiple scatterings that contribute to this specific splitting.
 
-We would like to compare the response of the modified Boltzmann approach to an expanding medium to theoretical calculations.
-The theoretical formula we used is obtained in the BDMPS framework 
-by the authors of \cite{Baier:1998yf} using the power law type temperature profile. 
-The total splitting probability is,
+To compare the response of the modified Boltzmann approach to an expanding medium to theoretical calculations, we use the results obtained in the BDMPS framework \cite{Baier:1998yf} using the power law type temperature profile in equation \ref{eq:temperature}. 
+The splitting probability is,
 \begin{eqnarray}
 \frac{dP}{d\omega} &=& \frac{\alpha_s}{2\pi E}P_{q\rightarrow qg}(x)\mathfrak{Re}\int_{\tau_0}^{\tau_0+L}\frac{dt_f}{t_f}\int_{\tau_0}^{t_f}\frac{dt_i}{t_i} \frac{1}{\nu^2}\\
 \nonumber
@@ -550,10 +558,9 @@ z_{i,f} &=& 2i\nu \sqrt{\frac{\hat{q}_g(1-x+C_F/C_A x^2)}{2(1-x)\omega}} \tau_0 
 \end{eqnarray}
 for the $q\rightarrow q+g$ splitting.
 For $\nu=1/2$, this expression reduces to the static BDMPS result \cite{Baier:1996kr}. 
-
 As a remark, the BDMPS calculation considers the multiple-soft limit of the collision kernel and therefore does not include the logarithm that comes from the perturbative tail $1/q_\perp^4$. 
 Accordingly, we turn off the large-$Q$ matrix-element scatterings and only retain diffusion plus diffusion-induced radiation components in our simulation.
-Besides, $b=0.75$ is used without the logarithmic correction factor in Eq. \ref{eq:NLL-b}, and the same $\hat{q}_g = m_D^2 C_A\alpha_s T$ are input to the theory and the simulation.
+Also, $b=0.75$ is used without the logarithmic correction factor in equation \ref{eq:NLL-b}, and the same $\hat{q}_g = m_D^2 C_A\alpha_s T$ are input to the theory and the simulation.
 To suppress other difference in the simulation and the theory, instead of making direct comparison of the spectrum $dP/d\omega$ to the BDMPS result, we compare the ratio of the splitting probability in an expanding medium to that of a static medium
 \begin{eqnarray}
 R_\nu = \frac{dP(T=T(\tau;\nu))/d\omega}{dP(T=T_0)/d\omega}
@@ -564,7 +571,7 @@ The medium expansion starts at $\tau_0=0.2$ fm/$c$ with $T_0=1$ GeV and stops at
 We take four choices of the expansion rate $\nu = 1/2, 3/4, 1, 3/2$, corresponding to a static medium, a slowly expanding medium, Bjorken flow, and a faster-than-Bjorken expansion respectively.
 The ratio $R_\nu$ from both theory and simulation are shown in Fig. \ref{fig:Bjorken-BDMPS} for a 100 GeV quark with $\alpha_s=0.3$.
 Again, for $\omega/T \gg 1$, the simulation displays the expected decreasing of medium-induced radiation due to the dropping of temperature.
-In the future, we are looking forward to making direct comparison to the solution of Eq. \ref{eq:full-theory} with both varying temperature and adding medium flow effects.
+In the future, we are looking forward to making direct comparison to the solution of equation \ref{eq:full-theory} with both varying temperature and adding medium flow effects.
 
 \section{Comparison with two other Monte-Carlo methods for medium-induced splittings}\label{section:compare}
 Before we conclude this work, it is beneficial to compare the current implementation of the medium-induced splittings with two other Monte-Carlo approaches.
