@@ -1,0 +1,19 @@
+Dear editor,
+
+Please note our title change from "Modeling of quantum-coherence effects in parton radiative energy loss" to "A modified-Boltzmann approach for modeling the hot QCD medium-induce splitting vertices in the deep LPM region."
+
+Dear referee,
+
+Thank you for your detailed comments. It does help very much in improving our manuscript. We have made substantial changes/improvements and rewrote the manuscript regarding the comments.
+
+1) We have devoted section II and III to describe the development of the model. Section II introduces the transport description in the incoherent limit, while section III develops the necessary modification to the transport equation to include the LPM effect in the deep-LPM region.
+
+2) In the current manuscript, we focus more on comparing the single-splitting rate from the model simulation to theory calculation and have moved the ``energy loss'' comparison to a separate section (section VI) at the end. Also, at the beginning of section VI, we added a paragraph stating that the ``energy loss'' defined here is only a simple way to compare different Monte-Carlo implementations and is not the actual jet energy loss.
+
+3) We have improved the Gunion-Bertsch cross-section to relax the soft condition x*q << k required in the derivation (arXiv:1302.5250). The updated 2->3 cross-section now contains the full LO splitting function. We also added the citation to the original Gunion-Bertsch work.
+
+4) We have included testing different splitting channels q --> q + g, g -> g + g, g--> q + qbar in the current manuscript.
+
+5) In comparison with the BDMPS results, we made more explicit in section V-B that it uses the multiple-soft approximation and what are the corresponding changes in the simulation so that only the soft part of the collision kernel is retained. Also, we try to compare the ratio of the calculated spectra between an expanding medium and a static medium to focus more on the effect of an expanding medium.
+
+6) As mentioned in number 2), we moved the comparison of ``energy loss'' between the three Monte-Carlo approaches to section VI. Here the ``energy loss'' is defined as the average energy carried away by the daughter gluon per q->g+g splitting, we try to be more explicit in section VI that this definition is only used for a easy comparison of different Monte-Carlo treatment of the in-medium gluon bremsstrahlung.
