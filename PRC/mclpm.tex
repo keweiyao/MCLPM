@@ -34,7 +34,7 @@ This work benefits transport model-based studies and the usage of these models i
 \end{abstract}
 
 \begin{document}
-\title{A modified-Boltzmann approach for modeling the hot QCD medium-induce splitting vertices in the deep LPM region}
+\title{A modified-Boltzmann approach for modeling the hot QCD medium-induced splitting vertices in the deep LPM region}
 \author{Weiyao Ke}
 \author{Yingru Xu}
 \author{Steffen A.\ Bass}
@@ -154,11 +154,17 @@ Finally, the drag coefficient is determined by the Einstein relation between the
 The matrix-elements of $2\leftrightarrow 3$ body collisions are derived under the limit $\mathbf{k}^2, \mathbf{q}^2 \ll x(1-x)\sqrt{\hat{s}}$.
 Here, $x$ is the light-cone energy fraction of the initial state hard parton carried by one of the final state hard parton, $\mathbf{q}$ is the transverse component of $q$ in the center-of-mass frame of the collision, and $\mathbf{k}$ is the transverse momentum between the two split hard partons in the final state. 
 These matrix-elements are listed in appendix \ref{app:23}.
-Again, the rates are obtained from equation \ref{eq:incoh_rate} imposing $q>Q_{\textrm{cut}}$.
-
-The diffusion-induced splitting rate uses the restriction $q<Q_{\textrm{cut}}$ in equation \ref{eq:incoh_rate}, and uses the limit $\mathbf{q} \ll \mathbf{k}$ of the $2\rightarrow 3$  matrix-elements listed in appendix \ref{app:23},
+Again, the rates are obtained from equation \ref{eq:incoh_rate} imposing $q>Q_{\textrm{cut}}$, or more explicitly as
 \begin{eqnarray}\nonumber
-R_{1\rightarrow 2} &=& \frac{g_i}{2E_1}\int  \frac{d^3p_2f_0(p_2)}{2E_2(2\pi)^3} 2\hat{s} \int_{0}^{Q_{\textrm{cut}}^2} \mathbf{q}^2 \frac{d\sigma_{\textrm{el}}}{q^2} dq^2 
+R_{2\rightarrow 3} &=& \frac{g_i}{2E_1}\int  \frac{d^3p_2f_0(p_2)}{2E_2(2\pi)^3} 2\hat{s} \int_{q^2 > Q_{\textrm{cut}}^2} \overline{|M^2|}_{2\rightarrow 3} d[\textrm{PS}_3]  \label{eq:rate23}.
+\end{eqnarray}
+$d[\textrm{PS}_3]$ stands for the invariant phase-space integration of the three body final state $(2\pi)^{-9}\int dp_3^3/2E_3 dp_4^3/2E_4 dk^3/2k \delta^{(4)}(p_1+p_2-p_3-p_4-k)$. $p_3$ and $p_4$ are the momenta of the two deflected in-coming particles, and $k$ is the momentum of new particle created in the parton branching.
+
+
+In the region $q<Q_{\textrm{cut}}$, we approximate the inelastic process by diffusion-induced splittings ($1 \rightarrow 2$). 
+The $1 \rightarrow 2$ rate is obtained using the limit $\mathbf{q} \ll \mathbf{k}$ of the matrix-elements in appendix \ref{app:23},
+\begin{eqnarray}\nonumber
+R_{1\rightarrow 2} &=& \frac{g_i}{2E_1}\int  \frac{d^3p_2f_0(p_2)}{2E_2(2\pi)^3} 2\hat{s} \int_{0}^{Q_{\textrm{cut}}^2} \mathbf{q}^2 \frac{d\sigma_{\textrm{el}}}{dq^2} dq^2 
 \\
 && \times \int d \mathbf{k}^2 dx \frac{\alpha_s P(x) }{2\pi (\mathbf{k}^2 + m_\infty^2)^2} \label{eq:rate12_1}
 \end{eqnarray}
@@ -168,7 +174,7 @@ So we rewrite $R_{1\rightarrow 2}$ using the soft transport coefficients $\hat{q
 \begin{eqnarray}
 R_{1\rightarrow 2} &=& \hat{q}_S\int d \mathbf{k}^2 dx \frac{\alpha_s P(x) }{2\pi (\mathbf{k}^2 + m_\infty^2)^2} \label{eq:rate12_2},
 \end{eqnarray}
-which is our final expression for the diffusion induced inelastic collision rate for the incoherent transport equation.
+which is our final expression for the diffusion-induced inelastic collision rate for the incoherent transport equation.
 Finally, the collision rates of the reverse processes $3\rightarrow 2$ and $2\rightarrow 1$ processes can be written down by the requirement of detailed balance.
 
 \paragraph{The transport equation in the incoherent limit}
@@ -224,13 +230,15 @@ F(t', t) &=& \mathfrak{Re} \int_{{\bf q}', {\bf q}} \frac{i {\bf q}'\cdot {\bf q
 $P_{bc}^{a(0)}$ is the vacuum splitting function and $\delta E$ is the light-cone energy difference between initial and final states. 
 The $\mathcal{C}(t')$ operator is a Boltzmann-type collision operator in the momentum space such that,
 \begin{eqnarray}
+\label{eq:Boltzmann-like-operator}
 \mathcal{C}\circ f_{\mathbf{p}} = \int_{\bf q} g^2\mathcal{A}(\mathbf{q}^2)
 &&\left\{  \frac{C_b+C_c-C_a}{2}\left(f_{\bf p}-f_{{\bf p}-{\bf q}}\right) \right.\\\nonumber
  +&&    \frac{C_a+C_c-C_b}{2}\left(f_{\bf p}-f_{{\bf p}+x{\bf q}}\right) \\\nonumber
 +&&  \left. \frac{C_a+C_b-C_c}{2}\left(f_{\bf p}-f_{{\bf p}+(1-x){\bf q}}\right)\right\},
 \end{eqnarray}
 where $\omega$ is energy of daugther parton ``$b$''.
-$C_i$ is the color factor of each parton and $\int_{\mathbf{q}}$ represents an integration over transverse momentum $\int d\mathbf{q}^2/(2\pi)^2$.
+$C_i$ is the color-factor (``Casimir'') of quark ($i=F$) and gluon ($i=A$): $C_F = (N_c^2-1)/(2N_c)$ and $C_A = N_c$. 
+$\int_{\mathbf{q}}$ represents an integration over transverse momentum $\int d\mathbf{q}^2/(2\pi)^2$.
 The collision kernel is given by \cite{Aurenche:2002pd},
 \begin{eqnarray}
 \mathcal{A}(\mathbf{q}^2) = \frac{m_D^2 T}{q^2\left(m_D^2+q^2\right)}.
@@ -304,7 +312,20 @@ The exact solution can be solved numerically and has already been applied to tra
 These approximated solutions have been obtained at the leading-log (LL) and next-to-leading-log (NLL) accuracy. 
 The NLL solution is shown to be a good approximation of the numerical results in the deep LPM regime $\omega \gg T$.
 
-At leading-log order, a small-$q$ expansion was performed to obtain a diffusion approximation to the operator $\mathcal{C}$ below a cut-off $q<Q_0$.
+At leading-log order, a small-$q$ expansion below a cut-off $q<Q_0$ is performed to the collision operator $\mathcal{C}$ in equation \ref{eq:Boltzmann-like-operator} to obtain a diffusion approximation,
+\begin{eqnarray}
+\label{eq:Diffusion-like-operator}
+\mathcal{C}\circ f_{\mathbf{p}} &\approx&  \int_{\mathbf{q}} g^2\mathcal{A}(\mathbf{q}^2)
+\left\{  \frac{C_b+C_c-C_a}{2} \frac{\mathbf{q}\cdot\nabla_{\mathbf{p}} \mathbf{q}\cdot \nabla_{\mathbf{p}}}{2} f_{\bf p} \right.\\\nonumber
+ &+&    \frac{C_a+C_c-C_b}{2}\frac{x\mathbf{q}\cdot \nabla_{\mathbf{p}}x\mathbf{q}\cdot \nabla_{\mathbf{p}}}{2} f_{\bf p} \\\nonumber
+&+&  \left. \frac{C_a+C_b-C_c}{2}\frac{(1-x)\mathbf{q}\cdot \nabla_{\mathbf{p}}(1-x)\mathbf{q}\cdot \nabla_{\mathbf{p}}}{2}f_{\bf p}\right\}\\
+&=& C_{abc}(x) \int_{\mathbf{q}} g^2\mathcal{A}(\mathbf{q}^2)\frac{1}{2}(\mathbf{q}\cdot \nabla_{\mathbf{p}})^2 f_{\mathbf{p}}
+\end{eqnarray}
+Note that terms linearly in $\mathbf{q}$ in the expansion vanish due to the symmetry of the $\mathbf{q}$ integration and $C_{abc}(x)$ is defined to be,
+\begin{eqnarray}
+C_{abc}(x) &=&  \frac{C_b+C_c-C_a}{2} + x^2 \frac{C_a+C_c-C_b}{2} \\\nonumber
+&+& (1-x)^2\frac{C_a+C_b-C_c}{2}.
+\end{eqnarray}
 The resulting leading-log solution is \cite{Arnold:2008zu},
 \begin{eqnarray}\label{eq:AMY-LL}
 \frac{dR_{bc}^{a,\textrm{LL}}}{d\omega} &=& \frac{\alpha_s P_{bc}^{a(0)}}{\pi E\sqrt{2}}
@@ -317,11 +338,6 @@ Where the $\hat{q}_3$ is defined as an effective transport parameter,
 \end{eqnarray}
 Note that $\hat{q}_3$ is logarithmically dependent on the cut-off $Q_0$.
 It comes from integrating the perturbative tail of the collision kernel in equation \ref{eq:kernel}.
-$C_{abc}(x)$ is a process- and $x$-dependent color factor,
-\begin{eqnarray}
-C_{abc}(x) &=&  \frac{C_b+C_c-C_a}{2} + x^2 \frac{C_a+C_c-C_b}{2} \\\nonumber
-&+& (1-x)^2\frac{C_a+C_b-C_c}{2}.
-\end{eqnarray}
 
 Comparing the leading-log formula to the modified Boltzmann approach in equation \ref{eq:procedure}, the term $\sqrt{\hat{q}_3 / 2x(1-x)E}$ in equation \ref{eq:AMY-LL} plays the role of the inverse formation time.
 We can also insert $1/\tilde{\lambda} \times \tilde{\lambda}$ into equation \ref{eq:AMY-LL} so that it resembles the modified rate in equation \ref{eq:procedure}.
